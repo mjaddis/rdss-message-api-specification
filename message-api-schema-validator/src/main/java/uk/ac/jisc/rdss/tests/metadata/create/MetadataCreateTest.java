@@ -1,8 +1,10 @@
-package uk.ac.jisc;
+package uk.ac.jisc.rdss.tests.metadata.create;
 
 import org.junit.Test;
 
-public class DatasetValidatorTest extends AbstractSchemaValidatorTest {
+import uk.ac.jisc.rdss.tests.AbstractSchemaValidatorTest;
+
+public class MetadataCreateTest extends AbstractSchemaValidatorTest {
 
     @Override
     protected String getSchemaFileName() {
@@ -10,7 +12,7 @@ public class DatasetValidatorTest extends AbstractSchemaValidatorTest {
     }
 
     @Test
-    public void validateExampleOne() throws Exception {
+    public void validateExample() throws Exception {
         validateJson("operations/metadata/create/example.json");
     }
 }

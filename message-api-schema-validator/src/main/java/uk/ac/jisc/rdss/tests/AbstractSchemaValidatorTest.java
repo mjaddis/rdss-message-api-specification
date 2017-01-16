@@ -1,4 +1,4 @@
-package uk.ac.jisc;
+package uk.ac.jisc.rdss.tests;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -25,6 +25,8 @@ import com.github.fge.jsonschema.main.JsonValidator;
 
 public abstract class AbstractSchemaValidatorTest {
 
+    private static final String BASE_PATH = System.getProperty("project.base.path");
+
     protected abstract String getSchemaFileName();
 
     private JsonSchemaFactory jsonSchemaFactory;
@@ -36,7 +38,6 @@ public abstract class AbstractSchemaValidatorTest {
         loadingConfigurationBuilder.preloadSchema("https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#", getJson("schemas/intellectual_asset.json"));
         loadingConfigurationBuilder.preloadSchema("https://www.jisc.ac.uk/rdss/schema/material_asset.json/#", getJson("schemas/material_asset.json"));
         loadingConfigurationBuilder.preloadSchema("https://www.jisc.ac.uk/rdss/schema/research_object.json/#", getJson("schemas/research_object.json"));
-
         this.jsonSchemaFactory = JsonSchemaFactory.newBuilder().setLoadingConfiguration(loadingConfigurationBuilder.freeze()).freeze();
     }
 
@@ -73,7 +74,6 @@ public abstract class AbstractSchemaValidatorTest {
     }
 
     private String prepareFileName(String fileName) {
-        String basePath = System.getProperty("project.base.path");
-        return String.format("%s/%s", basePath, fileName);
+        return String.format("%s/%s", BASE_PATH, fileName);
     }
 }
