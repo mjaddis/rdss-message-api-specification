@@ -17,5 +17,5 @@ The diagram can be edited using [StarUML](http://staruml.io/). The source is pro
 The following example operations are provided in the [`operations/`](operations/) folder:
 
 - Metadata Operations:
- - [`metadata_create.md`](operations/metadata/README.md)
- - [`metadata_update.md`](operations/metadata/README.md)
+ - [`Metadata Create`](operations/metadata/create/README.md)
+ - [`Metadata Update`](operations/metadata/update/README.md)
