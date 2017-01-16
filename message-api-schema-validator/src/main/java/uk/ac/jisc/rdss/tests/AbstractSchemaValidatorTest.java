@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.junit.Before;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,6 +26,18 @@ import com.github.fge.jsonschema.main.JsonValidator;
 
 public abstract class AbstractSchemaValidatorTest {
 
+    protected final Logger LOGGER = Logger.getLogger(getClass());
+
+    private static final String SCHEMA_ENUMERATION_ID = "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#";
+    private static final String SCHEMA_INTELLECTUAL_ASSET_ID = "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#";
+    private static final String SCHEMA_MATERIAL_ASSET_ID = "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#";
+    private static final String SCHEMA_RESEARCH_OBJECT_ID = "https://www.jisc.ac.uk/rdss/schema/research_object.json/#";
+
+    private static final String SCHEMA_ENUMERATION_PATH = "schemas/enumeration.json";
+    private static final String SCHEMA_INTELLECTUAL_ASSET_PATH = "schemas/intellectual_asset.json";
+    private static final String SCHEMA_MATERIAL_ASSET_PATH = "schemas/material_asset.json";
+    private static final String SCHEMA_RESEARCH_OBJECT_PATH = "schemas/research_object.json";
+
     private static final String BASE_PATH = System.getProperty("project.base.path");
 
     protected abstract String getSchemaFileName();
@@ -34,19 +47,29 @@ public abstract class AbstractSchemaValidatorTest {
     @Before
     public void before() throws IOException {
         LoadingConfigurationBuilder loadingConfigurationBuilder = LoadingConfiguration.newBuilder();
-        loadingConfigurationBuilder.preloadSchema("https://www.jisc.ac.uk/rdss/schema/enumeration.json/#", getJson("schemas/enumeration.json"));
-        loadingConfigurationBuilder.preloadSchema("https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#", getJson("schemas/intellectual_asset.json"));
-        loadingConfigurationBuilder.preloadSchema("https://www.jisc.ac.uk/rdss/schema/material_asset.json/#", getJson("schemas/material_asset.json"));
-        loadingConfigurationBuilder.preloadSchema("https://www.jisc.ac.uk/rdss/schema/research_object.json/#", getJson("schemas/research_object.json"));
+
+        preloadSchema(loadingConfigurationBuilder, SCHEMA_ENUMERATION_ID, SCHEMA_ENUMERATION_PATH);
+        preloadSchema(loadingConfigurationBuilder, SCHEMA_INTELLECTUAL_ASSET_ID, SCHEMA_INTELLECTUAL_ASSET_PATH);
+        preloadSchema(loadingConfigurationBuilder, SCHEMA_MATERIAL_ASSET_ID, SCHEMA_MATERIAL_ASSET_PATH);
+        preloadSchema(loadingConfigurationBuilder, SCHEMA_RESEARCH_OBJECT_ID, SCHEMA_RESEARCH_OBJECT_PATH);
+
+        LOGGER.info(String.format("Creating JsonSchemaFactory with LoadingConfigurationBuilder [%s]", loadingConfigurationBuilder));
         this.jsonSchemaFactory = JsonSchemaFactory.newBuilder().setLoadingConfiguration(loadingConfigurationBuilder.freeze()).freeze();
+    }
+
+    private void preloadSchema(LoadingConfigurationBuilder loadingConfigurationBuilder, String schemaId, String schemaPath) throws IOException {
+        LOGGER.info(String.format("Preloading schema [%s] with ID [%s]", schemaPath, schemaId));
+        loadingConfigurationBuilder.preloadSchema(schemaId, getJson(schemaPath));
     }
 
     protected void validateJson(String jsonFileName) throws IOException, ProcessingException {
 
         JsonNode schema = getJson(getSchemaFileName());
+        LOGGER.info(String.format("Got JSON Schema [%s] as [%s]", getSchemaFileName(), schema));
         assertNotNull(schema);
 
         JsonNode json = getJson(jsonFileName);
+        LOGGER.info(String.format("Got JSON [%s] as [%s]", jsonFileName, json));
         assertNotNull(json);
 
         JsonValidator jsonValidator = jsonSchemaFactory.getValidator();
