@@ -68,7 +68,7 @@ Describes the point in time in which the Message was dispatched.
 
 #### `expirationTimestamp`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
 <br />
 Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Timestamp`
 
