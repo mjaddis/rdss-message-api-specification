@@ -12,7 +12,7 @@ The following diagram describes the message structure (the diagram can be edited
 
 A Message is broken into two parts:
 - The [Message Header](#message-header)
-- The [Message Payload](#message-payload)
+- The [Message Body](#message-body)
 
 ## Message Header
 
