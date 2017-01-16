@@ -1,0 +1,117 @@
+{
+  "datasetUuid": "f4fe4ff2-d9a3-11e6-bf26-cec0c932ce01",
+  "datasetTitle": "A Sample Dataset",
+  "datasetSubject": [
+    "The first dataset subject",
+    "The second dataset subject",
+    "The third dataset subject"
+  ],
+  "datasetDescription": "This is an sample dataset.",
+  "datasetKeywords": [
+    "sample",
+    "dataset"
+  ],
+  "datasetRights": [
+    {
+      "rightsStatement": "Copyright 2017 JISC",
+      "rightsHolder": "JISC",
+      "licenseName": "",
+      "licenseIdentifier": "",
+      "access": "open"
+    }
+  ],
+  "datasetDate": {
+    "dateValue": "2017-01-13T112:34:56+00:00",
+    "dateType": "published"
+  },
+  "datasetLanguage": [
+    "en",
+    "fr",
+    "de"
+  ],
+  "datasetCoverage": {
+    "geospatialCoverage": [
+      {
+        "geolocationPoint": [
+          123.45,
+          123.45
+        ],
+        "geolocationBox": [
+          123.45,
+          123.45,
+          123.45,
+          123.45
+        ],
+        "geolocationPlace": [
+          "abc",
+          "abc",
+          "abc"
+        ]
+      },
+      {
+        "geolocationPoint": [
+          123.45,
+          123.45
+        ],
+        "geolocationBox": [
+          123.45,
+          123.45,
+          123.45,
+          123.45
+        ],
+        "geolocationPlace": [
+          "abc",
+          "abc",
+          "abc"
+        ]
+      }
+    ],
+    "temporalCoverage": []
+  },
+  "datasetResourceType": [
+    "dataset",
+    "image",
+    "text"
+  ],
+  "datasetVersion": "1.0.0",
+  "datasetIdentifier": [
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": "arXiv",
+      "relationType": "hasPart"
+    },
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": "LISSN",
+      "relationType": "isReviewedBy"
+    }
+  ],
+  "datasetYear": 2017,
+  "datasetRelatedIdentifier": [
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": "ISBN",
+      "relationType": "isCitedBy"
+    },
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": "URL",
+      "relationType": "isPartOf"
+    }
+  ],
+  "datasetSoftwareLinkage": [
+    "",
+    "",
+    ""
+  ],
+  "datasetPublicationLinkage": [
+    "",
+    "",
+    ""
+  ],
+  "datasetPersonLinkage": [
+    "",
+    "",
+    ""
+  ]
+}
