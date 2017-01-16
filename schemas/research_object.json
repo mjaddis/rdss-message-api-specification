@@ -1,0 +1,398 @@
+{
+  "id": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "dataset": {
+      "type": "object",
+      "properties": {
+        "datasetUuid": {
+          "type": "string"
+        },
+        "datasetTitle": {
+          "type": "string"
+        },
+        "datasetSubject": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "datasetDescription": {
+          "type": "string"
+        },
+        "datasetKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "datasetRights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rights"
+          }
+        },
+        "datasetDate": {
+          "$ref": "#/definitions/date"
+        },
+        "datasetLanguage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "datasetCoverage": {
+          "$ref": "#/definitions/coverage"
+        },
+        "datasetResourceType": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/datasetResourceType"
+          }
+        },
+        "datasetVersion": {
+          "type": "string"
+        },
+        "datasetIdentifier": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/objectIdentifier"
+          }
+        },
+        "datasetYear": {
+          "type": "number"
+        },
+        "datasetRelatedIdentifier": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/objectIdentifier"
+          }
+        },
+        "datasetSoftwareLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "datasetPublicationLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "datasetPersonLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "datasetUuid",
+        "datasetTitle",
+        "datasetDescription",
+        "datasetRights",
+        "datasetDate",
+        "datasetLanguage",
+        "datasetResourceType",
+        "datasetIdentifier",
+        "datasetYear",
+        "datasetPersonLinkage"
+      ]
+    },
+    "date": {
+      "type": "object",
+      "properties": {
+        "dateValue": {
+          "type": "string"
+        },
+        "dateType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/dateType"
+        }
+      },
+      "required": [
+        "dateValue",
+        "dateType"
+      ]
+    },
+    "rights": {
+      "type": "object",
+      "properties": {
+        "rightsStatement": {
+          "type": "string"
+        },
+        "rightsHolder": {
+          "type": "string"
+        },
+        "licenseName": {
+          "type": "string"
+        },
+        "licenseIdentifier": {
+          "type": "string"
+        },
+        "access": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+        }
+      },
+      "required": [
+        "rightsStatement",
+        "rightsHolder",
+        "licenseName",
+        "licenseIdentifier",
+        "access"
+      ]
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "geospatialCoverage": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/geospatialCoverage"
+          }
+        },
+        "temporalCoverage": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/temporalCoverage"
+          }
+        }
+      }
+    },
+    "geospatialCoverage": {
+      "type": "object",
+      "properties": {
+        "geolocationPoint": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "geolocationBox": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "geolocationPlace": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "temporalCoverage": {
+      "type": "string"
+    },
+    "objectIdentifier": {
+      "type": "object",
+      "properties": {
+        "objectIdentifierValue": {
+          "type": "string"
+        },
+        "objectIdentifierType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/objectIdentifierType"
+        },
+        "relationType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/relationType"
+        }
+      },
+      "required": [
+        "objectIdentifierValue",
+        "objectIdentifierType"
+      ]
+    },
+    "collectiveObject": {
+      "type": "object",
+      "properties": {
+        "collectiveObjectUuid": {
+          "type": "string"
+        },
+        "collectiveObjectName": {
+          "type": "string"
+        },
+        "collectiveObjectIdentifier": {
+          "$ref": "#/definitions/objectIdentifier"
+        },
+        "collectiveObjectDataset": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/dataset"
+          }
+        },
+        "collectiveObjectPublication": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/publication"
+          }
+        },
+        "collectiveObjectSoftware": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/software"
+          }
+        }
+      },
+      "required": [
+        "collectiveObjectUuid",
+        "collectiveObjectName",
+        "collectiveObjectIdentifier",
+        "collectiveObjectDataset",
+        "collectiveObjectPublication",
+        "collectiveObjectSoftware"
+      ]
+    },
+    "publication": {
+      "type": "object",
+      "properties": {
+        "publicationUuid": {
+          "type": "string"
+        },
+        "publicationFreeToRead": {
+          "type": "boolean"
+        },
+        "publicationLicenseRef": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicationIdentifier": {
+          "$ref": "#/definitions/objectIdentifier"
+        },
+        "publicationCoverage": {
+          "$ref": "#/definitions/coverage"
+        },
+        "publicationDescription": {
+          "type": "string"
+        },
+        "publicationFile": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/file"
+        },
+        "publicationLanguage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicationResourceType": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/publicationResourceType"
+          }
+        },
+        "publicationTitle": {
+          "type": "string"
+        },
+        "publicationSubject": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicationDate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/date"
+          }
+        },
+        "publicationApc": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/apc"
+        },
+        "publicationRelatedIdentifier": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/objectIdentifier"
+          }
+        },
+        "publicationVersion": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/publicationVersion"
+        },
+        "publicationPersonLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "publicationOrganisationLinkage": {
+          "type": "string"
+        },
+        "publicationProjectLinkage": {
+          "type": "string"
+        },
+        "publicationDatasetLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rights": {
+          "$ref": "#/definitions/rights"
+        }
+      },
+      "required": [
+        "publicationUuid",
+        "publicationLicenseRef",
+        "publicationIdentifier",
+        "publicationDescription",
+        "publicationFile",
+        "publicationLanguage",
+        "publicationResourceType",
+        "publicationTitle",
+        "publicationDate",
+        "publicationVersion",
+        "publicationPersonLinkage",
+        "publicationOrganisationLinkage",
+        "publicationRights"
+      ]
+    },
+    "software": {
+      "type": "object",
+      "properties": {
+        "softwareUuid": {
+          "type": "string"
+        },
+        "softwareName": {
+          "type": "string"
+        },
+        "softwareDescription": {
+          "type": "string"
+        },
+        "softwareVersion": {
+          "type": "string"
+        },
+        "softwareRights": {
+          "$ref": "#/definitions/rights"
+        },
+        "softwarePublicationLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "softwareDatasetLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "softwarePersonLinkage": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "softwareUuid",
+        "softwareName",
+        "softwareIdentifier",
+        "softwareDescription",
+        "softwareVersion",
+        "softwareRights",
+        "softwarePersonLinkage"
+      ]
+    }
+  }
+}

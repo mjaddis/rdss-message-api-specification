@@ -1,0 +1,266 @@
+{
+  "id": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "access": {
+      "enum": [
+        "open",
+        "restricted",
+        "controlled",
+        "closed"
+      ]
+    },
+    "apc": {
+      "enum": [
+        "paid",
+        "partiallyWaived",
+        "fullyWaived",
+        "notCharged",
+        "notRequired",
+        "unknown"
+      ]
+    },
+    "checksumType": {
+      "enum": [
+        "md5",
+        "sha256"
+      ]
+    },
+    "datasetResourceType": {
+      "enum": [
+        "dataset",
+        "image",
+        "movingImage",
+        "model",
+        "software",
+        "audio",
+        "other",
+        "interactiveResource",
+        "event",
+        "service",
+        "text",
+        "workflow"
+      ]
+    },
+    "dateType": {
+      "enum": [
+        "accepted",
+        "approved",
+        "available",
+        "copyrighted",
+        "collected",
+        "created",
+        "issued",
+        "posted",
+        "published"
+      ]
+    },
+    "fileUse": {
+      "enum": [
+        "originalFile",
+        "thumbnailImage",
+        "extractedText",
+        "preservationMasterFile",
+        "intermediateFile",
+        "serviceFile",
+        "transcript"
+      ]
+    },
+    "objectIdentifierType": {
+      "enum": [
+        "ARK",
+        "arXiv",
+        "bibcode",
+        "DOI",
+        "EAN13",
+        "EISSN",
+        "Handle",
+        "ISBN",
+        "ISSN",
+        "ISTC",
+        "LISSN",
+        "LSID",
+        "PMID",
+        "PURL",
+        "UPC",
+        "URL",
+        "URN"
+      ]
+    },
+    "organisationIdentifierType": {
+      "enum": [
+        "HESA",
+        "OrgID",
+        "Ringgold",
+        "GRID",
+        "UKPRN"
+      ]
+    },
+    "organisationRole": {
+      "enum": [
+        "funder",
+        "hostingInstitution",
+        "rightsHolder",
+        "sponsor",
+        "publisher",
+        "registrationAgency",
+        "registrationAuthority",
+        "distributor",
+        "advocacy"
+      ]
+    },
+    "organisationType": {
+      "enum": [
+        "charity",
+        "commercial",
+        "funder",
+        "furtherEducation",
+        "government",
+        "health",
+        "heritage",
+        "higherEducation",
+        "other",
+        "professionalBody",
+        "research",
+        "school",
+        "skills"
+      ]
+    },
+    "personIdentifierType": {
+      "enum": [
+        "ORCID",
+        "FOAF",
+        "Twitter"
+      ]
+    },
+    "personRole": {
+      "enum": [
+        "administrator",
+        "contactPerson",
+        "dataAnalyser",
+        "dataCollector",
+        "dataCreator",
+        "dataManager",
+        "editor",
+        "investigator",
+        "producer",
+        "projectLeader",
+        "publicationAuthor",
+        "publisher",
+        "projectMember",
+        "relatedPerson",
+        "researcher",
+        "researcherGroup",
+        "rightsHolder",
+        "sponsor",
+        "supervisor",
+        "other"
+      ]
+    },
+    "preservationEventType": {
+      "enum": [
+        "capture",
+        "compression",
+        "creation",
+        "deaccession",
+        "decompression",
+        "decryption",
+        "deletion",
+        "digitalSignatureValidation",
+        "download",
+        "fixityCheck",
+        "ingestion",
+        "messageDigestCalculation",
+        "migration",
+        "normalisation",
+        "replication",
+        "update",
+        "validation",
+        "virusCheck"
+      ]
+    },
+    "publicationResourceType": {
+      "enum": [
+        "artOrDesignItem",
+        "article",
+        "audio",
+        "book",
+        "bookSection",
+        "conferenceOrWorkshopItem",
+        "examPaper",
+        "image",
+        "journal",
+        "learningObject",
+        "movingImage",
+        "musicOrMusicalComposition",
+        "other",
+        "patent",
+        "performance",
+        "preprint",
+        "report",
+        "review",
+        "showExhibition",
+        "text",
+        "thesisOrDissertation",
+        "unknown",
+        "website",
+        "workingPaper"
+      ]
+    },
+    "publicationVersion": {
+      "enum": [
+        "AO",
+        "SMUR",
+        "AM",
+        "P",
+        "VoR",
+        "CVoR",
+        "EVoR",
+        "NA"
+      ]
+    },
+    "relationType": {
+      "enum": [
+        "isCitedBy",
+        "cites",
+        "isSupplementTo",
+        "isSupplementedBy",
+        "isContinuedBy",
+        "continues",
+        "hasMetadata",
+        "isMetadataFor",
+        "isNewVersionOf",
+        "isPreviousVersionOf",
+        "isPartOf",
+        "hasPart",
+        "isReferencedBy",
+        "references",
+        "isDocumentedBy",
+        "documents",
+        "isCompiledBy",
+        "compiles",
+        "isVariantFormOf",
+        "isOriginalFormOf",
+        "isIdenticalTo",
+        "isReviewedBy",
+        "reviews",
+        "isDerivedFrom",
+        "isSourceOf"
+      ]
+    },
+    "storageStatus": {
+      "enum": [
+        "online",
+        "nearline",
+        "offline"
+      ]
+    },
+    "transportStatus": {
+      "enum": [
+        "uploadStarted",
+        "uploadComplete",
+        "uploadAborted"
+      ]
+    }
+  }
+}

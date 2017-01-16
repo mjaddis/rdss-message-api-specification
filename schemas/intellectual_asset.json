@@ -1,0 +1,255 @@
+{
+  "id": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "file": {
+      "type": "object",
+      "properties": {
+        "fileUuid": {
+          "type": "string"
+        },
+        "fileIdentifier": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/objectIdentifier"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "fileSize": {
+          "type": "number"
+        },
+        "fileLabel": {
+          "type": "string"
+        },
+        "fileDateCreated": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
+        },
+        "fileRights": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/rights"
+        },
+        "fileChecksum": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/checksum"
+          }
+        },
+        "fileFormatType": {
+          "type": "string"
+        },
+        "fileCompositionLevel": {
+          "type": "string"
+        },
+        "fileHasMimeType": {
+          "type": "string"
+        },
+        "fileDateModified": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
+        },
+        "filePuid": {
+          "type": "string"
+        },
+        "fileUse": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/fileUse"
+        },
+        "preservationEvent": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/preservationEvent"
+          }
+        },
+        "transportStatus": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/transportStatus"
+        },
+        "storageStatus": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/storageStatus"
+        }
+      },
+      "required": [
+        "fileUuid",
+        "fileIdentifier",
+        "fileName",
+        "fileSize",
+        "fileChecksum",
+        "fileCompositionLevel",
+        "fileUse",
+        "preservationEvent",
+        "transportStatus",
+        "storageStatus"
+      ]
+    },
+    "checksum": {
+      "type": "object",
+      "properties": {
+        "checksumUuid": {
+          "type": "string"
+        },
+        "checksumType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/checksumType"
+        },
+        "checksumValue": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "checksumUuid",
+        "checksumType",
+        "checksumValue"
+      ]
+    },
+    "preservationEvent": {
+      "type": "object",
+      "properties": {
+        "preservationEventValue": {
+          "type": "string"
+        },
+        "preservationEventType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/preservationEventType"
+        },
+        "preservationEventDetails": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "preservationEventValue",
+        "preservationEventType"
+      ]
+    },
+    "access": {
+      "type": "object",
+      "properties": {
+        "read": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+        },
+        "write": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+        },
+        "control": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+        },
+        "append": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+        }
+      },
+      "required": [
+        "read",
+        "write",
+        "control",
+        "access"
+      ]
+    },
+    "group": {
+      "type": "object",
+      "properties": {
+        "groupUuid": {
+          "type": "string"
+        },
+        "groupName": {
+          "type": "string"
+        },
+        "groupIdentifier": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/objectIdentifier"
+        },
+        "groupType": {
+          "type": "string"
+        },
+        "groupAccess": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/access"
+          }
+        }
+      },
+      "required": [
+        "groupUuid",
+        "groupName",
+        "groupIdentifier",
+        "groupType",
+        "groupAccess"
+      ]
+    },
+    "grant": {
+      "type": "object",
+      "properties": {
+        "grantUuid": {
+          "type": "string"
+        },
+        "grantIdentifier": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/objectIdentifier"
+        },
+        "grantFunder": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/organisation"
+        },
+        "grantStart": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
+        },
+        "grantEnd": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
+        }
+      },
+      "required": [
+        "grantUuid",
+        "grantIdentifier",
+        "grantFunder",
+        "grantStart",
+        "grantEnd"
+      ]
+    },
+    "project": {
+      "type": "object",
+      "properties": {
+        "projectUuid": {
+          "type": "string"
+        },
+        "projectIdentifier": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/objectIdentifier"
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "projectDescription": {
+          "type": "string"
+        },
+        "projectCollection": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "projectContact": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/contact"
+          }
+        },
+        "projectGroup": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/group"
+          }
+        },
+        "projectGrant": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/grant"
+          }
+        },
+        "projectStart": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
+        },
+        "projectEnd": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
+        }
+      },
+      "required": [
+        "projectUuid",
+        "projectIdentifier",
+        "projectName",
+        "projectDescription",
+        "projectCollection",
+        "projectContact",
+        "projectGroup",
+        "projectStart",
+        "projectEnd"
+      ]
+    }
+  }
+}

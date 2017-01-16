@@ -1,0 +1,124 @@
+{
+  "id": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "organisation": {
+      "type": "object",
+      "properties": {
+        "organisationUuid": {
+          "type": "string"
+        },
+        "organisationName": {
+          "type": "string"
+        },
+        "organisationIdentifier": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/organisationIdentifier"
+          }
+        },
+        "organisationContact": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/contact"
+          }
+        },
+        "organisationType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/organisationType"
+        },
+        "organisationRole": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/organisationRole"
+          }
+        }
+      },
+      "required": [
+        "organisationUuid",
+        "organisationName",
+        "organisationIdentifier",
+        "organisationType",
+        "organisationRole"
+      ]
+    },
+    "organisationIdentifier": {
+      "type": "object",
+      "properties": {
+        "organisationIdentifierValue": {
+          "type": "string"
+        },
+        "organisationIdentifierType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/organisationIdentifierType"
+        }
+      },
+      "required": [
+        "organisationIdentifierValue",
+        "organisationIdentifierType"
+      ]
+    },
+    "contact": {
+      "type": "object",
+      "properties": {
+        "contactName": {
+          "type": "string"
+        },
+        "contactEmail": {
+          "type": "string"
+        },
+        "contactAddress": {
+          "type": "string"
+        },
+        "contactTelephone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "contactName",
+        "contactEmail",
+        "contactAddress",
+        "contactTelephone"
+      ]
+    },
+    "person": {
+      "type": "object",
+      "properties": {
+        "personUuid": {
+          "type": "string"
+        },
+        "personName": {
+          "type": "string"
+        },
+        "personIdentifier": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/personIdentifier"
+          }
+        },
+        "personRole": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/personRole"
+        },
+        "personAffiliationGroup": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/group"
+        },
+        "personContact": {
+          "$ref": "#/definitions/contact"
+        }
+      }
+    },
+    "personIdentifier": {
+      "type": "object",
+      "properties": {
+        "personIdentifierValue": {
+          "type": "string"
+        },
+        "personIdentifierType": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/personIdentifierType"
+        }
+      },
+      "required": [
+        "personIdentifierValue",
+        "personIdentifierType"
+      ]
+    }
+  }
+}
