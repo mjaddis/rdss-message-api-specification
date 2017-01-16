@@ -8,9 +8,9 @@ The API, format and structure draws on patterns from [Enterprise Integration Pat
 
 The following diagram describes the message structure:
 
-![Message Structure](model.png)
+![Message Structure](model/model.png)
 
-The diagram can be edited using [StarUML](http://staruml.io/). The source is provided in the [`model.mdj`](model.mdj) file.
+The diagram can be edited using [StarUML](http://staruml.io/). The source is provided in the [`model.mdj`](model/model.mdj) file.
 
 ## Message Paylods
 
