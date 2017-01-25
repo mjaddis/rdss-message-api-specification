@@ -1,8 +1,28 @@
 # RDSS Message API
 
+## Introduction
+
 This repository documents the RDSS Message API and describes the format and structure of messages sent within the RDSS project.
 
 The API, format and structure draws on patterns from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
+
+### Audience
+
+The RDSS Message API is inteded for the following audience:
+
+- Engineering
+- Operations
+- Quality Assurance
+
+### Versioning
+
+Current version:&nbsp;&nbsp;&nbsp;&nbsp;`0.0.1-SNAPSHOT`
+
+Versioning for the RDSS Message API follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
+
+### Comformance
+
+The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2219](https://tools.ietf.org/html/rfc2119).
 
 ## Message Structure
 
