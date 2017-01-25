@@ -117,14 +117,14 @@ The following JSON schemas are provided as part of this project, which fully des
 - [`schemas/intellectual_asset.json`](schemas/intellectual_asset.json)
 - [`schemas/enumeration.json`](schemas/enumeration.json)
 
-The schemas can be used to assist in development and validation of JSON objects that represent payloads, which are described in this API. Additionally, they are also used within the [`message-api-schema-validator/`](message-api-schema-validator/) tool, which validates the example payload JSON objects described in the [`operations/`](operations/) folder.
+The schemas can be used to assist in development and validation of JSON objects that represent payloads, which are described in this API. Additionally, they are also used within the [`message-api-schema-validator/`](message-api-schema-validator/) tool, which validates the example payload JSON objects described in the [`messages/`](messages/) folder.
 
 Currently, all JSON schemas IDs (including `$ref` declarations within the schemas) are namespaced under `https://www.jisc.ac.uk/rdss/schema/`. However, consumers of the schemas should not expect the schemas to be available at the URLs represented by these IDs.
 
-### Operations
+### Messages
 
-The following example operations are provided in the [`operations/`](operations/) folder:
+The following example messages are provided in the [`messages/`](messages/) folder:
 
-- Metadata Operations:
- - [Metadata Create](operations/metadata/create/)
- - [Metadata Update](operations/metadata/update/)
+- Metadata Messages:
+ - [Metadata Create](messages/metadata/create/)
+ - [Metadata Update](messages/metadata/update/)
