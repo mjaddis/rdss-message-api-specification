@@ -24,12 +24,12 @@
           }
         },
         "organisationType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/organisationType"
+          "type": "number"
         },
         "organisationRole": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/organisationRole"
+            "type": "number"
           }
         }
       },
@@ -48,7 +48,7 @@
           "type": "string"
         },
         "organisationIdentifierType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/organisationIdentifierType"
+          "type": "number"
         }
       },
       "required": [
@@ -95,7 +95,7 @@
           }
         },
         "personRole": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/personRole"
+          "type": "number"
         },
         "personAffiliationGroup": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/group"
@@ -112,7 +112,7 @@
           "type": "string"
         },
         "personIdentifierType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/personIdentifierType"
+          "type": "number"
         }
       },
       "required": [

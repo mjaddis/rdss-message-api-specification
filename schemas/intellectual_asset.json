@@ -48,7 +48,7 @@
           "type": "string"
         },
         "fileUse": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/fileUse"
+          "type": "number"
         },
         "preservationEvent": {
           "type": "array",
@@ -57,10 +57,10 @@
           }
         },
         "transportStatus": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/transportStatus"
+          "type": "number"
         },
         "storageStatus": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/storageStatus"
+          "type": "number"
         }
       },
       "required": [
@@ -83,7 +83,7 @@
           "type": "string"
         },
         "checksumType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/checksumType"
+          "type": "number"
         },
         "checksumValue": {
           "type": "string"
@@ -102,7 +102,7 @@
           "type": "string"
         },
         "preservationEventType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/preservationEventType"
+          "type": "number"
         },
         "preservationEventDetails": {
           "type": "string"
@@ -117,16 +117,16 @@
       "type": "object",
       "properties": {
         "read": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+          "type": "number"
         },
         "write": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+          "type": "number"
         },
         "control": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+          "type": "number"
         },
         "append": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+          "type": "number"
         }
       },
       "required": [

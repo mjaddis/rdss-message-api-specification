@@ -135,7 +135,7 @@ The following JSON schemas are provided as part of this project, which fully des
 - [`schemas/research_object.json`](schemas/research_object.json)
 - [`schemas/material_asset.json`](schemas/material_asset.json)
 - [`schemas/intellectual_asset.json`](schemas/intellectual_asset.json)
-- [`schemas/enumeration.json`](schemas/enumeration.json)
+- [`schemas/enumeration.json`](schemas/enumeration.json) - *Note that enumeration values are provided for reference only. Enumerations **MUST** be referenced using their respective ID values.*
 
 The schemas can be used to assist in development and validation of JSON objects that represent payloads, which are described in this API. Additionally, they are also used within the [`message-api-schema-validator/`](message-api-schema-validator/) tool, which validates the example payload JSON objects described in the [`messages/`](messages/) folder.
 

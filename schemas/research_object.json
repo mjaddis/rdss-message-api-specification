@@ -47,7 +47,7 @@
         "datasetResourceType": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/datasetResourceType"
+            "type": "number"
           }
         },
         "datasetVersion": {
@@ -107,7 +107,7 @@
           "type": "string"
         },
         "dateType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/dateType"
+          "type": "number"
         }
       },
       "required": [
@@ -131,7 +131,7 @@
           "type": "string"
         },
         "access": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/access"
+          "type": "number"
         }
       },
       "required": [
@@ -192,10 +192,10 @@
           "type": "string"
         },
         "objectIdentifierType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/objectIdentifierType"
+          "type": "number"
         },
         "relationType": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/relationType"
+          "type": "number"
         }
       },
       "required": [
@@ -279,7 +279,7 @@
         "publicationResourceType": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/publicationResourceType"
+            "type": "number"
           }
         },
         "publicationTitle": {
@@ -298,7 +298,7 @@
           }
         },
         "publicationApc": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/apc"
+          "type": "number"
         },
         "publicationRelatedIdentifier": {
           "type": "array",
@@ -307,7 +307,7 @@
           }
         },
         "publicationVersion": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#/definitions/publicationVersion"
+          "type": "number"
         },
         "publicationPersonLinkage": {
           "type": "array",

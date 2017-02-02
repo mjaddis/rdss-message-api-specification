@@ -22,7 +22,7 @@
   ],
   "datasetDate": {
     "dateValue": "2017-01-13T112:34:56+00:00",
-    "dateType": "published"
+    "dateType": 1
   },
   "datasetLanguage": [
     "en",
@@ -69,34 +69,34 @@
     "temporalCoverage": []
   },
   "datasetResourceType": [
-    "dataset",
-    "image",
-    "text"
+    1,
+    2,
+    3
   ],
   "datasetVersion": "1.0.0",
   "datasetIdentifier": [
     {
       "objectIdentifierValue": "",
-      "objectIdentifierType": "arXiv",
-      "relationType": "hasPart"
+      "objectIdentifierType": 1,
+      "relationType": 2
     },
     {
       "objectIdentifierValue": "",
-      "objectIdentifierType": "LISSN",
-      "relationType": "isReviewedBy"
+      "objectIdentifierType": 3,
+      "relationType": 4
     }
   ],
   "datasetYear": 2017,
   "datasetRelatedIdentifier": [
     {
       "objectIdentifierValue": "",
-      "objectIdentifierType": "ISBN",
-      "relationType": "isCitedBy"
+      "objectIdentifierType": 5,
+      "relationType": 6
     },
     {
       "objectIdentifierValue": "",
-      "objectIdentifierType": "URL",
-      "relationType": "isPartOf"
+      "objectIdentifierType": 7,
+      "relationType": 8
     }
   ],
   "datasetSoftwareLinkage": [
