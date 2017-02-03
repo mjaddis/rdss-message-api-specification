@@ -145,6 +145,11 @@ Currently, all JSON schemas IDs (including `$ref` declarations within the schema
 
 The following example messages are provided in the [`messages/`](messages/) folder:
 
+- Vocabulary & Term Messages:
+ - [Vocabulary Create](messages/vocabulary/create/)
+ - [Vocabulary Update](messages/vocabulary/update/)
+ - [Term Create](messages/term/create/)
+ - [Term Update](messages/term/update/)
 - Metadata Messages:
  - [Metadata Create](messages/metadata/create/)
  - [Metadata Update](messages/metadata/update/)
