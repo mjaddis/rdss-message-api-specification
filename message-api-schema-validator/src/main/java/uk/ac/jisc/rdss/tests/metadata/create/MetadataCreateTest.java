@@ -8,11 +8,11 @@ public class MetadataCreateTest extends AbstractSchemaValidatorTest {
 
     @Override
     protected String getSchemaFileName() {
-        return "operations/metadata/create/schema.json";
+        return "messages/metadata/create/schema.json";
     }
 
     @Test
     public void validateExample() throws Exception {
-        validateJson("operations/metadata/create/example.json");
+        validateJson("messages/metadata/create/example.json");
     }
 }

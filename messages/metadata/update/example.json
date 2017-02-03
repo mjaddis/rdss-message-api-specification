@@ -15,9 +15,14 @@
     {
       "rightsStatement": "Copyright 2017 JISC",
       "rightsHolder": "JISC",
-      "licenseName": "",
-      "licenseIdentifier": "",
-      "access": "open"
+      "licence": {
+        "licenceName": "",
+        "licenceIdentifier": ""
+      },
+      "access": {
+          "accessType": 1,
+          "accessStatement": ""
+      }
     }
   ],
   "datasetDate": {

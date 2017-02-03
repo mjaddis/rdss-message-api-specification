@@ -1,0 +1,18 @@
+{
+  "id": "https://www.jisc.ac.uk/rdss/schema/term/update/schema.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "vocabularyId": {
+    "type": "number"
+  },
+  "termId": {
+    "type": "number"
+  },
+  "termName": {
+    "type": "string"
+  },
+  "required": [
+    "vocabularyId",
+    "termId",
+    "termName"
+  ]
+}

@@ -124,22 +124,47 @@
         "rightsHolder": {
           "type": "string"
         },
-        "licenseName": {
-          "type": "string"
-        },
-        "licenseIdentifier": {
-          "type": "string"
+        "licence": {
+          "$ref": "#/definitions/licence"
         },
         "access": {
-          "type": "number"
+          "$ref": "#/definitions/access"
         }
       },
       "required": [
         "rightsStatement",
         "rightsHolder",
-        "licenseName",
-        "licenseIdentifier",
+        "licence",
         "access"
+      ]
+    },
+    "licence": {
+      "type": "object",
+      "properties": {
+        "licenceName": {
+          "type": "string"
+        },
+        "licenceIdentifier": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "licenceName",
+        "licenceIdentifier"
+      ]
+    },
+    "access": {
+      "type": "object",
+      "properties": {
+        "accessType": {
+          "type": "number"
+        },
+        "accessStatement": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "accessType"
       ]
     },
     "coverage": {
