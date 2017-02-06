@@ -146,10 +146,45 @@ Currently, all JSON schemas IDs (including `$ref` declarations within the schema
 The following example messages are provided in the [`messages/`](messages/) folder:
 
 - Vocabulary & Term Messages:
- - [Vocabulary Create](messages/vocabulary/create/)
- - [Vocabulary Update](messages/vocabulary/update/)
- - [Term Create](messages/term/create/)
- - [Term Update](messages/term/update/)
+  - [Vocabulary Create](messages/vocabulary/create/)
+  - [Vocabulary Update](messages/vocabulary/update/)
+  - [Term Create](messages/term/create/)
+  - [Term Update](messages/term/update/)
 - Metadata Messages:
- - [Metadata Create](messages/metadata/create/)
- - [Metadata Update](messages/metadata/update/)
+  - [Metadata Create](messages/metadata/create/)
+  - [Metadata Update](messages/metadata/update/)
+
+## Error Queues
+
+### Invalid Message Queue
+
+If a receiver receives a message it cannot process, it **SHOULD** move the invalid message to an Invalid Message Queue.
+
+Each machine that is capable of receiving messages **MUST** also maintain a local Invalid Message Queue. The receiver is responsible for processing the message and determining its validity, and as a result of this, moving the message to the Invalid Message Queue should it be determined that the message is invalid.
+
+#### Invalid Message Error Codes
+
+The following tables describes the exhaustive list of error codes for invalid messages:
+
+| Error Code | Description |
+| --- | --- |
+| INVL001 | The [`Message Body`](#message-body) is not in the expected format. |
+| INVL002 | The provided [`messageType`](#messagetype) is not supported. |
+
+### Dead Message Queue
+
+If the messaging systems fails to deliver a message, it **SHOULD** move the failed message to a Dead Message Queue.
+
+Each machine that is capable of receiving messages **MUST** also maintain a local Dead Message Queue. The sender of the message is responsible for moving the message to the Dead Message Queue on the machine on which delivery failed.
+
+#### Dead Message Error Codes
+
+The following table describes the exhaustive list of errors codes for dead messages:
+
+| Error Code | Description |
+| --- | --- |
+| DEAD001 | Target channel does not exist at the point at which delivery was attempted. |
+| DEAD002 | The expiration date of the message had passed at the point at which delivery was attempted. |
+| DEAD003 | The timeout period had expired before the message could be delivered. |
+| DEAD004 | The delivery retry limit has been exceeded. |
+| DEAD005 | Invalid or corrupt headers were detected on the message. |
