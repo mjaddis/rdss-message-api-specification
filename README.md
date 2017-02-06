@@ -151,8 +151,12 @@ The following example messages are provided in the [`messages/`](messages/) fold
   - [Term Create](messages/term/create/)
   - [Term Update](messages/term/update/)
 - Metadata Messages:
+  - [Metadata Read](messages/metadata/read/)
   - [Metadata Create](messages/metadata/create/)
   - [Metadata Update](messages/metadata/update/)
+  - [Metadata Delete](messages/metadata/delete/)
+
+In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
 ## Error Queues
 

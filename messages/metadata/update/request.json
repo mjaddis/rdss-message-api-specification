@@ -1,0 +1,122 @@
+{
+  "datasetUuid": "f4fe4ff2-d9a3-11e6-bf26-cec0c932ce01",
+  "datasetTitle": "A Sample Dataset",
+  "datasetSubject": [
+    "The first dataset subject",
+    "The second dataset subject",
+    "The third dataset subject"
+  ],
+  "datasetDescription": "This is an sample dataset.",
+  "datasetKeywords": [
+    "sample",
+    "dataset"
+  ],
+  "datasetRights": [
+    {
+      "rightsStatement": "Copyright 2017 JISC",
+      "rightsHolder": "JISC",
+      "licence": {
+        "licenceName": "",
+        "licenceIdentifier": ""
+      },
+      "access": {
+          "accessType": 1,
+          "accessStatement": ""
+      }
+    }
+  ],
+  "datasetDate": {
+    "dateValue": "2017-01-13T112:34:56+00:00",
+    "dateType": 1
+  },
+  "datasetLanguage": [
+    "en",
+    "fr",
+    "de"
+  ],
+  "datasetCoverage": {
+    "geospatialCoverage": [
+      {
+        "geolocationPoint": [
+          123.45,
+          123.45
+        ],
+        "geolocationBox": [
+          123.45,
+          123.45,
+          123.45,
+          123.45
+        ],
+        "geolocationPlace": [
+          "abc",
+          "abc",
+          "abc"
+        ]
+      },
+      {
+        "geolocationPoint": [
+          123.45,
+          123.45
+        ],
+        "geolocationBox": [
+          123.45,
+          123.45,
+          123.45,
+          123.45
+        ],
+        "geolocationPlace": [
+          "abc",
+          "abc",
+          "abc"
+        ]
+      }
+    ],
+    "temporalCoverage": []
+  },
+  "datasetResourceType": [
+    1,
+    2,
+    3
+  ],
+  "datasetVersion": "1.0.0",
+  "datasetIdentifier": [
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": 1,
+      "relationType": 2
+    },
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": 3,
+      "relationType": 4
+    }
+  ],
+  "datasetYear": 2017,
+  "datasetRelatedIdentifier": [
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": 5,
+      "relationType": 6
+    },
+    {
+      "objectIdentifierValue": "",
+      "objectIdentifierType": 7,
+      "relationType": 8
+    }
+  ],
+  "datasetSoftwareLinkage": [
+    "",
+    "",
+    ""
+  ],
+  "datasetPublicationLinkage": [
+    "",
+    "",
+    ""
+  ],
+  "datasetPersonLinkage": [
+    "",
+    "",
+    ""
+  ]
+}
