@@ -1,5 +1,5 @@
 {
-  "id": "https://www.jisc.ac.uk/rdss/schema/vocabulary/create/schema.json/#",
+  "id": "https://www.jisc.ac.uk/rdss/schema/vocabulary/create/request_schema.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "vocabularyName": {
     "type": "string"

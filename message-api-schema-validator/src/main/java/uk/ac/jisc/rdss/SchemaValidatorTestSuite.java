@@ -5,21 +5,27 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import uk.ac.jisc.rdss.tests.metadata.create.MetadataCreateTest;
-import uk.ac.jisc.rdss.tests.metadata.update.MetadataUpdateTest;
-import uk.ac.jisc.rdss.tests.term.create.TermCreateTest;
-import uk.ac.jisc.rdss.tests.term.update.TermUpdateTest;
-import uk.ac.jisc.rdss.tests.vocabulary.create.VocabularyCreateTest;
-import uk.ac.jisc.rdss.tests.vocabulary.update.VocabularyUpdateTest;
+import uk.ac.jisc.rdss.tests.metadata.create.MetadataCreateRequestTest;
+import uk.ac.jisc.rdss.tests.metadata.delete.MetadataDeleteRequestTest;
+import uk.ac.jisc.rdss.tests.metadata.read.MetadataReadRequestTest;
+import uk.ac.jisc.rdss.tests.metadata.read.MetadataReadResponseTest;
+import uk.ac.jisc.rdss.tests.metadata.update.MetadataUpdateRequestTest;
+import uk.ac.jisc.rdss.tests.term.create.TermCreateRequestTest;
+import uk.ac.jisc.rdss.tests.term.update.TermUpdateRequestTest;
+import uk.ac.jisc.rdss.tests.vocabulary.create.VocabularyCreateRequestTest;
+import uk.ac.jisc.rdss.tests.vocabulary.update.VocabularyUpdateRequestTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({
-    MetadataCreateTest.class,
-    MetadataUpdateTest.class,
-    TermCreateTest.class,
-    TermUpdateTest.class,
-    VocabularyCreateTest.class,
-    VocabularyUpdateTest.class
+    MetadataCreateRequestTest.class,
+    MetadataUpdateRequestTest.class,
+    MetadataDeleteRequestTest.class,
+    MetadataReadRequestTest.class,
+    MetadataReadResponseTest.class,
+    TermCreateRequestTest.class,
+    TermUpdateRequestTest.class,
+    VocabularyCreateRequestTest.class,
+    VocabularyUpdateRequestTest.class
 })
 public class SchemaValidatorTestSuite {
 
