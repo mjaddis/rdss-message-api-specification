@@ -40,91 +40,108 @@ The Message Header contains important metadata descirbing the Message itself, in
 
 ### `messageId`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
 System wide unique identifier describing the Message. It is expected that this will be a 128-bit [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
 
 ### `correlationId`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
 Provided on a return message, containing the [`messageId`](#messageid) of the originally received message.
 
 ### `messageType`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageType`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageType`
 
 One of `Command`, `Event` or `Document`.
 
 ### `returnAddress`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
 Describes the address to which the receiver should dispatch their return message.
 
 ### `messageTimings`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageTimings`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageTimings`
 
-The `MessageTimings` object contains any temporal information related to the Message.
+Contains any temporal information related to the Message.
 
 #### `publishedTimestamp`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Timestamp`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Timestamp`
 
 Describes the point in time in which the Message was dispatched.
 
 #### `expirationTimestamp`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Timestamp`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Timestamp`
 
 Describes the point in time when the Message expires.
 
 ### `messageSequence`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageSequence`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageSequence`
 
 Describes whether or not this Message is part of a larger sequence of Messages and, if so, where in that sequence it belongs.
 
 #### `sequence`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
 System wide unique identifier that distinguishes this sequence of Messages from others. It is expected that this will be a 128-bit [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
 
 #### `position`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Integer`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Integer`
 
 Position in the sequence of Messages where this Message belongs.
 
 #### `total`
 
-Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
-<br />
-Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Integer`
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Integer`
 
 Total number of Messages in this sequence.
+
+### `messageHistory`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..*`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageHistory`
+
+Describes the route that this message has taken, up to and including this point in time.
+
+#### `machineId`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+The ID of the machine that generated the history entry.
+
+#### `machineAddress`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+The hostname, IP address, or other identifying network address of the machine that generated the history entry.
+
+#### `timestamp`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Timestamp`
+
+The timestamp at which the history entry was generated.
 
 ## Message Body
 
