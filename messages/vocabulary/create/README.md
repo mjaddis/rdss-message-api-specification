@@ -4,7 +4,7 @@ Describes a JSON payload for a Vocabulary that is generated during a `CREATE` op
 
 ## Scenarios
 
-- Sent to the Data Mart when a subscriber creates a new Vocabulary.
+- Sent to subscribers to notify that a Vocabulary has been created.
 
 ## Request
 

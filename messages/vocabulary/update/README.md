@@ -4,7 +4,7 @@ Describes a JSON payload for a Vocabulary that is generated during an `UPDATE` o
 
 ## Scenarios
 
-- Sent to the Data Mart when a subscriber updates an existing Vocabulary.
+- Sent to subscribers to notify that a Vocabulary has been updated.
 
 ## Request
 

@@ -4,7 +4,7 @@ Describes a JSON payload of metadata of a [Dataset](https://github.com/JiscRDSS/
 
 ## Scenarios
 
-- Sent to subscribers when a [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) is deleted from the Data Mart.
+- Sent to subscribers to notify that metadata for a [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) has been deleted.
 
 ## Request
 

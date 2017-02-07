@@ -4,7 +4,7 @@ Describes a JSON payload of metadata of a [Dataset](https://github.com/JiscRDSS/
 
 ## Scenarios
 
-- Sent to the Data Mart when a subscriber requires the metadata for an existing [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset).
+- Sent by subscribers when the metadata for an existing [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) is required.
 
 ## Request
 

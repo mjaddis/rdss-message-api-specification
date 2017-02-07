@@ -4,7 +4,7 @@ Describes a JSON payload for a Term that is generated during an `UPDATE` option.
 
 ## Scenarios
 
-- Sent to the Data Mart when a subscriber updates an existing Term.
+- Sent to subscribers to notify that a Term has been updated.
 
 ## Request
 
