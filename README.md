@@ -26,7 +26,7 @@ The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED
 
 ## Message Structure
 
-The following diagram describes the message structure (the diagram can be edited using [StarUML](http://staruml.io/). The source is provided in the [`model/model.mdj`](model/model.mdj) file):
+The following diagram describes the Message structure (the diagram can be edited using [StarUML](http://staruml.io/). The source is provided in the [`model/model.mdj`](model/model.mdj) file):
 
 ![Message Structure](model/model.png)
 
@@ -34,9 +34,11 @@ A Message is broken into two parts:
 - The [Message Header](#message-header)
 - The [Message Body](#message-body)
 
+The standard encoding for a Message is [JSON](http://www.json.org/), and the example provided in this API are given in this format. The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
+
 ## Message Header
 
-The Message Header contains important metadata descirbing the Message itself, including the type of message, routing information, timings, sequencing, and so forth.
+The Message Header contains important metadata descirbing the Message itself, including the type of Message, routing information, timings, sequencing, and so forth.
 
 ### `messageId`
 
@@ -50,7 +52,7 @@ System wide unique identifier describing the Message. It is expected that this w
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
-Provided on a return message, containing the [`messageId`](#messageid) of the originally received message.
+Provided on a return Message, containing the [`messageId`](#messageid) of the originally received Message.
 
 ### `messageType`
 
@@ -64,7 +66,7 @@ One of `Command`, `Event` or `Document`.
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
-Describes the address to which the receiver should dispatch their return message.
+Describes the address to which the receiver should dispatch their return Message.
 
 ### `messageTimings`
 
@@ -120,7 +122,7 @@ Total number of Messages in this sequence.
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..*`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageHistory`
 
-Describes the route that this message has taken, up to and including this point in time.
+Describes the route that this Message has taken, up to and including this point in time.
 
 #### `machineId`
 
@@ -160,7 +162,7 @@ Currently, all JSON schemas IDs (including `$ref` declarations within the schema
 
 ### Messages
 
-The following example messages are provided in the [`messages/`](messages/) folder:
+The following example Messages are provided in the [`messages/`](messages/) folder:
 
 - Vocabulary Messages:
   - [Vocabulary Create](messages/vocabulary/create/)
@@ -174,39 +176,47 @@ The following example messages are provided in the [`messages/`](messages/) fold
   - [Metadata Update](messages/metadata/update/)
   - [Metadata Delete](messages/metadata/delete/)
 
-In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the message and **MUST** match the [`messageId`](#messageid) provided in the original request.
+In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
 ## Error Queues
 
 ### Invalid Message Queue
 
-If a receiver receives a message it cannot process, it **SHOULD** move the invalid message to an Invalid Message Queue.
+If a receiver receives a Message it cannot process, it **SHOULD** move the invalid Message to an Invalid Message Queue.
 
-Each machine that is capable of receiving messages **MUST** also maintain a local Invalid Message Queue. The receiver is responsible for processing the message and determining its validity, and as a result of this, moving the message to the Invalid Message Queue should it be determined that the message is invalid.
+Each machine that is capable of receiving Messages **MUST** also maintain a local Invalid Message Queue. The receiver is responsible for processing the Message and determining its validity, and as a result of this, moving the Message to the Invalid Message Queue should it be determined that the Message is invalid.
 
 #### Invalid Message Error Codes
 
-The following tables describes the exhaustive list of error codes for invalid messages:
+The following tables describes the exhaustive list of error codes for invalid Messages:
 
-| Error Code | Description |
-| --- | --- |
-| INVL001 | The [`Message Body`](#message-body) is not in the expected format. |
-| INVL002 | The provided [`messageType`](#messagetype) is not supported. |
+| Error Code | Description                                                        |
+|------------|--------------------------------------------------------------------|
+| INVL001    | The [`Message Body`](#message-body) is not in the expected format. |
+| INVL002    | The provided [`messageType`](#messagetype) is not supported.       |
 
 ### Dead Message Queue
 
-If the messaging systems fails to deliver a message, it **SHOULD** move the failed message to a Dead Message Queue.
+If the messaging systems fails to deliver a Message, it **SHOULD** move the failed Message to a Dead Message Queue.
 
-Each machine that is capable of receiving messages **MUST** also maintain a local Dead Message Queue. The sender of the message is responsible for moving the message to the Dead Message Queue on the machine on which delivery failed.
+Each machine that is capable of receiving Messages **MUST** also maintain a local Dead Message Queue. The sender of the Message is responsible for moving the Message to the Dead Message Queue on the machine on which delivery failed.
 
 #### Dead Message Error Codes
 
-The following table describes the exhaustive list of errors codes for dead messages:
+The following table describes the exhaustive list of errors codes for dead Messages:
 
-| Error Code | Description |
-| --- | --- |
-| DEAD001 | Target channel does not exist at the point at which delivery was attempted. |
-| DEAD002 | The expiration date of the message had passed at the point at which delivery was attempted. |
-| DEAD003 | The timeout period had expired before the message could be delivered. |
-| DEAD004 | The delivery retry limit has been exceeded. |
-| DEAD005 | Invalid or corrupt headers were detected on the message. |
+| Error Code | Description                                                                                 |
+|------------|---------------------------------------------------------------------------------------------|
+| DEAD001    | Target channel does not exist at the point at which delivery was attempted.                 |
+| DEAD002    | The expiration date of the Message had passed at the point at which delivery was attempted. |
+| DEAD003    | The timeout period had expired before the Message could be delivered.                       |
+| DEAD004    | The delivery retry limit has been exceeded.                                                 |
+| DEAD005    | Invalid or corrupt headers were detected on the Message.                                    |
+
+## Audit Log
+
+The Audit Log is a destination for Messages that every Message sent through the system will arrive at.
+
+It is delivered in the form of an [AWS Kinesis Firehose](https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html), which in turn loads the data into an [Aamzon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html). The data is then made available for consumption and processing by other systems (e.g reporting).
+
+When pushed into the firehose, Messages **MUST** be in serialised JSON format and **MUST NOT** exceed 1000KB.
