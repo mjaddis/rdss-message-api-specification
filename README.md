@@ -219,4 +219,4 @@ The Audit Log is a destination for Messages that every Message sent through the 
 
 It is delivered in the form of an [AWS Kinesis Firehose](https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html), which in turn loads the data into an [Aamzon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html). The data is then made available for consumption and processing by other systems (e.g reporting).
 
-When pushed into the firehose, Messages **MUST** be in serialised JSON format and **MUST NOT** exceed 1000KB.
+In order for a Message to be consumed by the Audit Log, Messages **MUST** be in serialised JSON format and **MUST NOT** exceed 1000KB.
