@@ -34,7 +34,9 @@ A Message is broken into two parts:
 - The [Message Header](#message-header)
 - The [Message Body](#message-body)
 
-The standard encoding for a Message is [JSON](http://www.json.org/), and the example provided in this API are given in this format. The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
+The standard encoding for a Message is [JSON](http://www.json.org/), and the examples provided in this documentation are given in this format.
+
+The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 
 ## Message Header
 
