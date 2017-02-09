@@ -219,6 +219,22 @@ The following table describes the exhaustive list of errors codes for dead Messa
 
 The Audit Log is a destination for Messages that every Message sent through the system will arrive at.
 
-It is delivered in the form of an [AWS Kinesis Firehose](https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html), which in turn loads the data into an [Aamzon S3](https://docs.aws.amazon.com/AmazonS3/latest/dev/Welcome.html). The data is then made available for consumption and processing by other systems (e.g reporting).
+It is delivered in the form of an [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/), which in turn loads the data into an [Aamzon S3](https://aws.amazon.com/s3/). The data is then made available for consumption and processing by other systems (e.g reporting).
 
 In order for a Message to be consumed by the Audit Log, Messages **MUST** be in serialised JSON format and **MUST NOT** exceed 1000KB.
+
+## Topology
+
+The following diagram describes the topology of the Messaging system (the diagram can be edited using [Microsoft Visio](https://products.office.com/en-gb/visio/flowchart-software). The source is provided in the [`topology/topology.vsdx`](topology/topology.vsdx) file.)
+
+The following stencils are used in the creation of the diagram:
+
+- [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html)
+- [Amazon AWS Stencils](https://aws.amazon.com/architecture/icons/)
+
+![Topology](topology/topology.png)
+
+- In order to achieve a microservice architecture, components such as [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
+- [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
+- The Firehose is implemented using [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/).
+- The [Audit Log](#audit-log) is implemented using [Amazon S3](https://aws.amazon.com/s3/).
