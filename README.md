@@ -234,7 +234,7 @@ The following stencils are used in the creation of the diagram:
 
 ![Topology](topology/topology.png)
 
-- In order to achieve a microservice architecture, components such as [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
+- [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
 - [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
-- The Firehose is implemented using [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/).
-- The [Audit Log](#audit-log) is implemented using [Amazon S3](https://aws.amazon.com/s3/).
+- Firehoses are implemented using [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/).
+- Logs are implemented using [Amazon S3](https://aws.amazon.com/s3/).
