@@ -1,4 +1,4 @@
-# Vocabulary Create
+# Vocabulary Delete
 
 Describes a JSON payload for a Vocabulary that is generated during a `DELETE` option.
 
