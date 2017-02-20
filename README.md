@@ -169,9 +169,11 @@ The following example Messages are provided in the [`messages/`](messages/) fold
 - Vocabulary Messages:
   - [Vocabulary Create](messages/vocabulary/create/)
   - [Vocabulary Update](messages/vocabulary/update/)
+  - [Vocabulary Delete](messages/vocabulary/delete/)
 - Term Messages:
   - [Term Create](messages/term/create/)
   - [Term Update](messages/term/update/)
+  - [Term Delete](messages/term/delete/)
 - Metadata Messages:
   - [Metadata Read](messages/metadata/read/)
   - [Metadata Create](messages/metadata/create/)
