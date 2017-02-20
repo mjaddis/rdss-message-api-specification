@@ -166,19 +166,11 @@ Currently, all JSON schemas IDs (including `$ref` declarations within the schema
 
 The following example Messages are provided in the [`messages/`](messages/) folder:
 
-- Vocabulary Messages:
-  - [Vocabulary Create](messages/vocabulary/create/)
-  - [Vocabulary Update](messages/vocabulary/update/)
-  - [Vocabulary Delete](messages/vocabulary/delete/)
-- Term Messages:
-  - [Term Create](messages/term/create/)
-  - [Term Update](messages/term/update/)
-  - [Term Delete](messages/term/delete/)
-- Metadata Messages:
-  - [Metadata Read](messages/metadata/read/)
-  - [Metadata Create](messages/metadata/create/)
-  - [Metadata Update](messages/metadata/update/)
-  - [Metadata Delete](messages/metadata/delete/)
+| Message    | Read                                                     | Create                                                       | Update                                                       | Delete                                                       |
+|------------|----------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|
+| Vocabulary | [`messages/vocabulary/read/`](messages/vocabulary/read/) | [`messages/vocabulary/create/`](messages/vocabulary/create/) | [`messages/vocabulary/update/`](messages/vocabulary/update/) | [`messages/vocabulary/delete/`](messages/vocabulary/delete/) |
+| Term       | [`messages/term/read/`](messages/term/read/)             | [`messages/term/create/`](messages/term/create/)             | [`messages/term/update/`](messages/term/update/)             | [`messages/term/delete/`](messages/term/delete/)             |
+| Metadata   | [`messages/metadata/read/`](messages/metadata/read/)     | [`messages/metadata/create/`](messages/metadata/create/)     | [`messages/metadata/update/`](messages/metadata/update/)     | [`messages/metadata/delete/`](messages/metadata/delete/)     |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
