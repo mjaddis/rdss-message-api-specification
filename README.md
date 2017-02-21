@@ -186,28 +186,12 @@ Each machine that is capable of receiving Messages **MUST** also maintain a loca
 
 The following tables describes the exhaustive list of error codes for invalid Messages:
 
-| Error Code | Description                                                        |
-|------------|--------------------------------------------------------------------|
-| INVL001    | The [`Message Body`](#message-body) is not in the expected format. |
-| INVL002    | The provided [`messageType`](#messagetype) is not supported.       |
-
-### Dead Message Queue
-
-If the messaging systems fails to deliver a Message, it **SHOULD** move the failed Message to a Dead Message Queue.
-
-Each machine that is capable of receiving Messages **MUST** also maintain a local Dead Message Queue. The sender of the Message is responsible for moving the Message to the Dead Message Queue on the machine on which delivery failed.
-
-#### Dead Message Error Codes
-
-The following table describes the exhaustive list of errors codes for dead Messages:
-
 | Error Code | Description                                                                                 |
 |------------|---------------------------------------------------------------------------------------------|
-| DEAD001    | Target channel does not exist at the point at which delivery was attempted.                 |
-| DEAD002    | The expiration date of the Message had passed at the point at which delivery was attempted. |
-| DEAD003    | The timeout period had expired before the Message could be delivered.                       |
-| DEAD004    | The delivery retry limit has been exceeded.                                                 |
-| DEAD005    | Invalid or corrupt headers were detected on the Message.                                    |
+| INVL001    | The [`Message Body`](#message-body) is not in the expected format.                          |
+| INVL002    | The provided [`messageType`](#messagetype) is not supported.                                |
+| DEAD003    | The expiration date of the Message had passed at the point at which delivery was attempted. |
+| DEAD004    | Invalid or corrupt headers were detected on the Message.                                    |
 
 ## Audit Log
 
