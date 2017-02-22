@@ -222,3 +222,11 @@ The following stencils are used in the creation of the diagram:
 All clients **MUST** implement transactional behaviour, such that any message consumed by a receiver will not be regarded as consumed until the client commits receipt of that message back to the sender / queue.
 
 For example, a client can consume a message without actually removing it from the channel. Should the client crash or fail to process the message, the message still exists on the queue after the client recovers. Once the receiver processes the message and is certain that it wants to consume the message, the client will commit the transaction and the message will be removed the queue.
+
+## Message Gateway
+
+The Message Gateway encapsulates code specific to the messaging system and thus hides it from the application code.
+
+Using this design, the application does not need to know or care about the underlying messaging system. The Message Gateway handles serialisation and deserialisation of application specific models, and interaction with the messaging system.
+
+![Message Gateway](message-gateway/message-gateway.png)

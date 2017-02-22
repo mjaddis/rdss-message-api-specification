@@ -1,13 +1,27 @@
 {
   "id": "https://www.jisc.ac.uk/rdss/schema/vocabulary/read/response_schema.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "vocabularies": {
+  "vocabularyId": {
+    "type": "number"
+  },
+  "terms": {
     "type": "array",
     "items": {
-      "type": "string"
+      "type": "object",
+      "id": {
+        "type": "number"
+      },
+      "name": {
+        "type": "string"
+      },
+      "required": [
+        "id",
+        "name"
+      ]
     }
   },
   "required": [
-    "vocabularies"
+    "vocabularyId",
+    "terms"
   ]
 }

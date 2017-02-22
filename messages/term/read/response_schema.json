@@ -1,17 +1,14 @@
 {
   "id": "https://www.jisc.ac.uk/rdss/schema/term/read/response_schema.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "vocabularyId": {
+  "termId": {
     "type": "number"
   },
-  "terms": {
-    "type": "array",
-    "items": {
-      "type": "string"
-    }
+  "name": {
+    "type": "string"
   },
   "required": [
-    "vocabularyId",
-    "terms"
+    "termId",
+    "name"
   ]
 }

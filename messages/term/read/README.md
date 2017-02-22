@@ -4,7 +4,7 @@ Describes a JSON payload for a Term that is generated during an `READ` option.
 
 ## Scenarios
 
-- Sent by subscribers when all the Terms for an existing Vocabulary is required.
+- Sent by subscribers when the name of an existing Term is required.
 
 ## Request
 

@@ -1,9 +1,4 @@
 {
-  "vocabularyId": 1,
-  "terms": [
-    "termOne",
-    "termTwo",
-    "termThree",
-    "termFour"
-  ]
+  "termId": 1,
+  "name": "termOne"
 }

@@ -4,7 +4,11 @@
   "vocabularyId": {
     "type": "number"
   },
+  "termId": {
+    "type": "number"
+  },
   "required": [
-    "vocabularyId"
+    "vocabularyId",
+    "termId"
   ]
 }
