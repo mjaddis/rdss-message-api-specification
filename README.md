@@ -225,7 +225,7 @@ For example, a client can consume a message without actually removing it from th
 
 ## Message Gateway
 
-The Message Gateway encapsulates code specific to the messaging system and thus hides it from the application code.
+The [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) encapsulates code specific to the messaging system and thus hides it from the application code.
 
 Using this design, the application does not need to know or care about the underlying messaging system. The Message Gateway handles serialisation and deserialisation of application specific models, and interaction with the messaging system.
 
