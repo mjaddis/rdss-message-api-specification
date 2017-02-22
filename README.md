@@ -190,8 +190,8 @@ The following tables describes the exhaustive list of error codes for invalid Me
 |------------|---------------------------------------------------------------------------------------------|
 | INVL001    | The [`Message Body`](#message-body) is not in the expected format.                          |
 | INVL002    | The provided [`messageType`](#messagetype) is not supported.                                |
-| DEAD003    | The expiration date of the Message had passed at the point at which delivery was attempted. |
-| DEAD004    | Invalid or corrupt headers were detected on the Message.                                    |
+| INVL003    | The expiration date of the Message had passed at the point at which delivery was attempted. |
+| INVL004    | Invalid or corrupt headers were detected on the Message.                                    |
 
 ## Audit Log
 
