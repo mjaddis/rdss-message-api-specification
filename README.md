@@ -223,10 +223,14 @@ All clients **MUST** implement transactional behaviour, such that any message co
 
 For example, a client can consume a message without actually removing it from the channel. Should the client crash or fail to process the message, the message still exists on the queue after the client recovers. Once the receiver processes the message and is certain that it wants to consume the message, the client will commit the transaction and the message will be removed the queue.
 
-## Message Gateway
+## Message Gateway & Channel Adapter
 
-The [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) encapsulates code specific to the messaging system and thus hides it from the application code.
+The messaging system offers applications who wish to send and receive messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adapter](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html).
 
-Using this design, the application does not need to know or care about the underlying messaging system. The Message Gateway handles serialisation and deserialisation of application specific models, and interaction with the messaging system.
+The Message Gateway offers the preferred interface to the messaging system. It exists within the application itself and encapsulates the code specific to the messaging system whilst exposing APIs for interaction.
 
 ![Message Gateway](message-gateway/message-gateway.png)
+
+The alternative interface to the messaging system is the Channel Adapter, which does not require code implementation as part of the application. Instead, the Channel Adapter exists as a separate component and exposes a REST API to applications
+
+![Channel Adapter](channel-adapter/channel-adapter.png)
