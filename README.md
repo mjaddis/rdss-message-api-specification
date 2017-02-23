@@ -1,5 +1,16 @@
 # RDSS Message API
 
+- [Introduction](#introduction)
+- [Message Structure](#message-structure)
+- [Message Header](#message-header)
+- [Message Body](#message-body)
+- [Error Queues](#error-queues)
+- [Audit Log](#audit-log)
+- [Topology](#topology)
+- [Transactional Behaviour](#transactional-behaviour)
+- [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
+- [Logging](#logging)
+
 ## Introduction
 
 This repository documents the RDSS Message API and describes the format and structure of messages sent within the RDSS project.
@@ -234,3 +245,25 @@ The Message Gateway offers the preferred interface to the messaging system. It e
 The alternative interface to the messaging system is the Channel Adapter, which does not require code implementation as part of the application. Instead, the Channel Adapter exists as a separate component and exposes a REST API to applications
 
 ![Channel Adapter](channel-adapter/channel-adapter.png)
+
+## Logging
+
+All applications which interact with the messaging system **MUST** implement a logging mechanism that, at a minimum, conforms with the following requirements:
+
+| Log Level | Description |
+| --------- | ----------- |
+| `DEBUG`   | Information that is useful to developers, engineers and system support staff, and can provide additional context and information on the flow of execution through the code leading up to a higher log level.
+| `INFO`    | Information that is significant / important, but is expected under normal operating conditions, such as services starting, stopping and initialising, or completion of significant transactions.
+| `WARN`    | Events that may present a problem but have generally been accounted for in the execution of code. These do not directly impact the operation of the application and thus do not require immediate attention.
+| `ERROR`   | A situation that should never have occurred and represents a signficant problem within the application. It is expected that such situations would require the immediate attention of an engineer or system support staff.
+| `FATAL`   | An overall application failure has occurred, which has resulted in the unexpected termination of one or services.
+
+All Messages sent and received by the application **MUST** be logged and **MUST** have the following details logged:
+- The name of the channel that the message was sent to, or received from.
+ The date and time at which the message was sent or received by the application.
+- All Message Headers, in the format of `key : value`.
+- The entire Message Body, in JSON format. This **MAY** be minified, but **SHOULD** be pretty-printed for the purposes of easier consumption by a human.
+
+All log entries **MUST** have a corresponding timestamp that describes the date and time in which the log entry was created, and **MUST** have millisecond precision.
+
+Applications **MUST** retain log entries for a minimum of 365 days from the date that the log file was generated, but **SHOULD** retain them for as long as is feasible, given storage and maintenance constraints.
