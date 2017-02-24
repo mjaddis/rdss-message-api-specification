@@ -201,10 +201,10 @@ The following tables describes the exhaustive list of error codes for invalid Me
 
 | Error Code   | Description                                                                                 |
 |--------------|---------------------------------------------------------------------------------------------|
-| QUEUEINVL001 | The [`Message Body`](#message-body) is not in the expected format.                          |
-| QUEUEINVL002 | The provided [`messageType`](#messagetype) is not supported.                                |
-| QUEUEINVL003 | The expiration date of the Message had passed at the point at which delivery was attempted. |
-| QUEUEINVL004 | Invalid or corrupt headers were detected on the Message.                                    |
+| `QUEUEINVL001` | The [`Message Body`](#message-body) is not in the expected format.                          |
+| `QUEUEINVL002` | The provided [`messageType`](#messagetype) is not supported.                                |
+| `QUEUEINVL003` | The expiration date of the Message had passed at the point at which delivery was attempted. |
+| `QUEUEINVL004` | Invalid or corrupt headers were detected on the Message.                                    |
 
 ## Audit Log
 
