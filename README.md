@@ -197,12 +197,12 @@ Each machine that is capable of receiving Messages **MUST** also maintain a loca
 
 The following tables describes the exhaustive list of error codes for invalid Messages:
 
-| Error Code | Description                                                                                 |
-|------------|---------------------------------------------------------------------------------------------|
-| INVL001    | The [`Message Body`](#message-body) is not in the expected format.                          |
-| INVL002    | The provided [`messageType`](#messagetype) is not supported.                                |
-| INVL003    | The expiration date of the Message had passed at the point at which delivery was attempted. |
-| INVL004    | Invalid or corrupt headers were detected on the Message.                                    |
+| Error Code   | Description                                                                                 |
+|--------------|---------------------------------------------------------------------------------------------|
+| QUEUEINVL001 | The [`Message Body`](#message-body) is not in the expected format.                          |
+| QUEUEINVL002 | The provided [`messageType`](#messagetype) is not supported.                                |
+| QUEUEINVL003 | The expiration date of the Message had passed at the point at which delivery was attempted. |
+| QUEUEINVL004 | Invalid or corrupt headers were detected on the Message.                                    |
 
 ## Audit Log
 
@@ -267,3 +267,39 @@ All Messages sent and received by the application **MUST** be logged and **MUST*
 All log entries **MUST** have a corresponding timestamp that describes the date and time in which the log entry was created, and **MUST** have millisecond precision.
 
 Applications **MUST** retain log entries for a minimum of 365 days from the date that the log file was generated, but **SHOULD** retain them for as long as is feasible, given storage and maintenance constraints.
+
+## Application Error Codes
+
+The following sections describe the error codes that an application may raise in relation to the Messages it receives. These are separate from [Invalid Message Error Codes](#invalid-message-error-codes), which represent errors that may occur with the delivery of a Message.
+
+### Generic Error Codes
+
+| Error Code | Description                                              |
+|------------|----------------------------------------------------------|
+| APPERR001  | An error occurred interacting with the repository.       |
+| APPERR002  | Invalid JSON structure detected in the Message Body.     |
+| APPERR003  | A required header was not present in the Message Header. |
+| APPERR004  | A required field was not present in the Message Body.    |
+| APPERR005  | Failed to roll back transaction.                         |
+| APPERR006  | An unexpected error occurred.                            |
+
+### Metadata Error Codes
+
+| Error Code   | Description                                                            |
+|--------------|------------------------------------------------------------------------|
+| APPERRMET001 | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
+| APPERRMET002 | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
+
+### Vocabulary Error Codes
+
+| Error Code   | Description                                                               |
+|--------------|---------------------------------------------------------------------------|
+| APPERRVOC001 | Received a Vocabulary `UPDATE` with a `vocabularyId` that does not exist. |
+| APPERRVOC002 | Received a Vocabulary `DELETE` with a `vocabularyId` that does not exist. |
+
+### Term Error Codes
+
+| Error Code   | Description                                                   |
+|--------------|---------------------------------------------------------------|
+| APPERRTER001 | Received a Term `UPDATE` with a `termId` that does not exist. |
+| APPERRTER002 | Received a Term `DELETE` with a `termId` that does not exist. |
