@@ -10,6 +10,8 @@
 - [Transactional Behaviour](#transactional-behaviour)
 - [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
 - [Logging](#logging)
+- [Application Error Codes](#application-error-codes)
+- [Non-Functional Requirements](#non-functional-requirements)
 
 ## Introduction
 
@@ -299,7 +301,34 @@ The following sections describe the error codes that an application may raise in
 
 ### Term Error Codes
 
-| Error Code   | Description                                                   |
-|--------------|---------------------------------------------------------------|
-| APPERRTER001 | Received a Term `UPDATE` with a `termId` that does not exist. |
-| APPERRTER002 | Received a Term `DELETE` with a `termId` that does not exist. |
+| Error Code   | Description                                                                               |
+|--------------|-------------------------------------------------------------------------------------------|
+| APPERRTER001 | Received a Term `UPDATE` with a `vocabularyId` that does not exist.                       |
+| APPERRTER002 | Received a Term `UPDATE` with a `termId` that does not exist in the given `vocabularyId`. |
+| APPERRTER003 | Received a Term `DELETE` with a `vocabularyId` that does not exist.                       |
+| APPERRTER004 | Received a Term `DELETE` with a `termId` that does not exist in the given `voabularyId`.  |
+
+## Non-Functional Requirements
+
+### Messages
+
+| Requirement  | Value  | Description                                                                                |
+|--------------|--------|--------------------------------------------------------------------------------------------|
+| Message Size | 1000KB | AWS Kinesis Firehose and AWS Kinesis Streams imposes a maximum size of 1000KB per message. |
+
+### Message Channels
+
+| Requirement  | Value                             | Description                                                                                                                                                                          |
+|--------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Time To Live | 168 hours                         | AWS Kinesis Stream has a maximum retention period of 168 hours, thereby giving our Message Channels a TTL of 168 hours.                                                              |
+| Throughput   | Per shard: 1MB/s in and 4MB/s out | Each AWS Kinesis Stream can by default support up to 50 shards in US East, ES West and EU Ireland, and 25 shards in other regions. These values can be increased with justification. |
+
+### Audit Logs & Invalid Message Channels
+
+| Requirement   | Value                                                  | Description                                                                                                                                                       |
+|---------------|--------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Account Limit | 20 per region                                          | A single AWS account can have a maximum of 20 AWS Kinesis Firehose delivery streams per region.                                                                   |
+| Time To Live  | 24 hours with a retry of 0 to 7200 seconds             | Should the delivery destination be unavailable, AWS Kinesis Firehose will retain records for a maximum of 24 hours and can retry delivery from 0 to 7200 seconds. |
+| Throughput    | 200 transactions/second, 5000 records/second and 5MB/s | These values can be increased with justification.                                                                                                                 |
+| Buffer        | 1MB to 128MB and 60 to 900 seconds                     | Buffer sizes can range from 1MB to 128MB with intervals of 60 to 900 seconds.                                                                                     |
+| Compression   | GZIP, ZIP and SNAPPY                                   | Data provided to the AWS Kinesis Firehose can be compressed using GZIP, ZIP and SNAPPY. However, the uncompressed size cannot exceeed 1000KB.                     |
