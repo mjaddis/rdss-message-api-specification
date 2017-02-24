@@ -276,37 +276,37 @@ The following sections describe the error codes that an application may raise in
 
 ### Generic Error Codes
 
-| Error Code | Description                                              |
-|------------|----------------------------------------------------------|
-| APPERR001  | An error occurred interacting with the repository.       |
-| APPERR002  | Invalid JSON structure detected in the Message Body.     |
-| APPERR003  | A required header was not present in the Message Header. |
-| APPERR004  | A required field was not present in the Message Body.    |
-| APPERR005  | Failed to roll back transaction.                         |
-| APPERR006  | An unexpected error occurred.                            |
+| Error Code  | Description                                              |
+|-------------|----------------------------------------------------------|
+| `APPERR001` | An error occurred interacting with the repository.       |
+| `APPERR002` | Invalid JSON structure detected in the Message Body.     |
+| `APPERR003` | A required header was not present in the Message Header. |
+| `APPERR004` | A required field was not present in the Message Body.    |
+| `APPERR005` | Failed to roll back transaction.                         |
+| `APPERR006` | An unexpected error occurred.                            |
 
 ### Metadata Error Codes
 
-| Error Code   | Description                                                            |
-|--------------|------------------------------------------------------------------------|
-| APPERRMET001 | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
-| APPERRMET002 | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
+| Error Code     | Description                                                            |
+|----------------|------------------------------------------------------------------------|
+| `APPERRMET001` | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
+| `APPERRMET002` | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
 
 ### Vocabulary Error Codes
 
-| Error Code   | Description                                                               |
-|--------------|---------------------------------------------------------------------------|
-| APPERRVOC001 | Received a Vocabulary `UPDATE` with a `vocabularyId` that does not exist. |
-| APPERRVOC002 | Received a Vocabulary `DELETE` with a `vocabularyId` that does not exist. |
+| Error Code     | Description                                                               |
+|----------------|---------------------------------------------------------------------------|
+| `APPERRVOC001` | Received a Vocabulary `UPDATE` with a `vocabularyId` that does not exist. |
+| `APPERRVOC002` | Received a Vocabulary `DELETE` with a `vocabularyId` that does not exist. |
 
 ### Term Error Codes
 
-| Error Code   | Description                                                                               |
-|--------------|-------------------------------------------------------------------------------------------|
-| APPERRTER001 | Received a Term `UPDATE` with a `vocabularyId` that does not exist.                       |
-| APPERRTER002 | Received a Term `UPDATE` with a `termId` that does not exist in the given `vocabularyId`. |
-| APPERRTER003 | Received a Term `DELETE` with a `vocabularyId` that does not exist.                       |
-| APPERRTER004 | Received a Term `DELETE` with a `termId` that does not exist in the given `voabularyId`.  |
+| Error Code     | Description                                                                               |
+|----------------|-------------------------------------------------------------------------------------------|
+| `APPERRTER001` | Received a Term `UPDATE` with a `vocabularyId` that does not exist.                       |
+| `APPERRTER002` | Received a Term `UPDATE` with a `termId` that does not exist in the given `vocabularyId`. |
+| `APPERRTER003` | Received a Term `DELETE` with a `vocabularyId` that does not exist.                       |
+| `APPERRTER004` | Received a Term `DELETE` with a `termId` that does not exist in the given `voabularyId`.  |
 
 ## Non-Functional Requirements
 
