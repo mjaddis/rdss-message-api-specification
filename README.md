@@ -223,7 +223,9 @@ The following stencils are used in the creation of the diagram:
 - [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html)
 - [Amazon AWS Stencils](https://aws.amazon.com/architecture/icons/)
 
-**Key**&nbsp;&nbsp;&nbsp;&nbsp;![Key](topology/key.png)
+| Key                      |
+|--------------------------|
+| ![Key](topology/key.png) |
 
 ![Topology](topology/topology.png)
 
