@@ -223,6 +223,8 @@ The following stencils are used in the creation of the diagram:
 - [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html)
 - [Amazon AWS Stencils](https://aws.amazon.com/architecture/icons/)
 
+**Key**&nbsp;&nbsp;&nbsp;&nbsp;![Key](topology/key.png)
+
 ![Topology](topology/topology.png)
 
 - [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
