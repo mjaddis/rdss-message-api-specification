@@ -273,11 +273,11 @@ Examples:
 <134>1 2017-03-01T15:16:17.000Z machine.jisc.ac.uk msgreceiver-1.3.1 810038 MSGIN [messageId@12345 value="9c4c31d7-710e-4994-ac07-b9d914015500"][correlationId@12345 value="eacd20bd-408f-4a1e-b4a6-64eec9d6624e"][messageType@12345 value="EVENT"][returnAddress@12345 value="192.168.0.1"][messageTimingsPublishedTimestamp@12345 value="2017-03-01T12:10:15.00Z"][messageTimingsExpirationTimestamp@12345 value="2017-03-02T12:10:15.00Z"][sequenceSequence@12345 value="7e58ed3b-36a2-413a-b70f-8a774b4ea2f3"][sequencePosition@12345 value="1"][sequenceTotal@12345 value="5"][messageHistoryMachineAddresses@12345 value="192.168.0.2,192.168.0.3"][messageHistoryTimestamps@12345 value="2017-03-01T12:10:18.00Z,2017-03-01T12:10:21.00Z"] Message received.
 ```
 
-In this example, the [Log Message Header](#log-message-header)'s of the log message begin with a priority value of `134`, followed by a version of `1`. The hostname of the originating machine is `machine.jisc.ac.uk`, the applications are `msgsender` and `msgreceiver` with versions `1.2.0` and `1.3.1` respectively. The process IDs are `848221` and `810038`, and the message IDs are `MSGOUT` (for logging the outbound Message) and `MSGIN` (for logging the inbound Message). The [Log Message Structured Data](#log-message-structured-data) then follows, followed by the freeform [Log Message](#log-message) text itself.
+In this example, the [Log Message Header](#log-message-header) begins with a priority of `134`, followed by a syslog protocol version of `1`. The hostname of the originating machine is `machine.jisc.ac.uk` and the applications are `msgsender` and `msgreceiver` with versions `1.2.0` and `1.3.1` respectively. The process IDs are `848221` and `810038`, and the message IDs are `MSGOUT` (for logging the outbound Message) and `MSGIN` (for logging the inbound Message). The [Log Message Structured Data](#log-message-structured-data) then follows, followed by the freeform [Log Message](#log-message) text itself.
 
 #### Log Message Header
 
-The header component of a syslog log message is takes the following format:
+The header of a syslog log message takes the following format:
 
 ```
 <PRI>VERSION TIMESTAMP HOSTNAME APP-NAME PROCID MSGID
@@ -287,7 +287,7 @@ The header component of a syslog log message is takes the following format:
 
 Describes the priority of the log message. It is derived from the numerical codes of the facility and the severity of the log message as `(FACILITY * 8) + SEVERITY`. These values are described in more detail in section [6.2.1](https://tools.ietf.org/html/rfc5424#section-6.2.1) of RFC5424.
 
-Log messages **MUST** use a facility value of between `16 local0` and `23 local7` inclusive (other facilities are reserved for system processes and services), and are free to use any severity value deemed appropriate for the content of the log message.
+Log messages **MUST** use a facility value of between `16 - local0` and `23 - local7` inclusive (other facilities are reserved for system processes and services), and are free to use any severity value deemed appropriate for the purposes of the log message.
 
 ##### `VERSION`
 
