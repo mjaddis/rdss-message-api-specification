@@ -254,25 +254,86 @@ The alternative interface to the messaging system is the Channel Adapter, which 
 
 ## Logging
 
-All applications which interact with the messaging system **MUST** implement a logging mechanism that, at a minimum, conforms with the following requirements:
+All applications that interact with the messaging system, whether as a sender or receiver, **MUST** register as an originator of logs to the centralised logging system.
 
-| Log Level | Description |
-| --------- | ----------- |
-| `DEBUG`   | Information that is useful to developers, engineers and system support staff, and can provide additional context and information on the flow of execution through the code leading up to a higher log level.
-| `INFO`    | Information that is significant / important, but is expected under normal operating conditions, such as services starting, stopping and initialising, or completion of significant transactions.
-| `WARN`    | Events that may present a problem but have generally been accounted for in the execution of code. These do not directly impact the operation of the application and thus do not require immediate attention.
-| `ERROR`   | A situation that should never have occurred and represents a signficant problem within the application. It is expected that such situations would require the immediate attention of an engineer or system support staff.
-| `FATAL`   | An overall application failure has occurred, which has resulted in the unexpected termination of one or services.
+The logging system is implemented using the syslog protocol defined in [RFC5424](https://tools.ietf.org/html/rfc5424). Therefore, all originators of log messages **MUST** deliver log entries to the centralised logging system in the format defined within RFC5424.
+
+### Log Message Format
+
+Log messages delivered in syslog format consist of three parts:
+
+- Header
+- Structured Data
+- Message
+
+Examples:
+
+```
+<134>1 2017-03-01T13:14:15.000Z machine.jisc.ac.uk msgsender-1.2.0 848221 MSGOUT Message with ID 123 was sent.
+<134>1 2017-03-01T15:16:17.000Z machine.jisc.ac.uk msgreceiver-1.3.1 810038 MSGIN Message with ID 456 was received.
+```
+
+#### Header
+
+The header component of a syslog log message is takes the following format:
+
+```
+<PRI>VERSION TIMESTAMP HOSTNAME APP-NAME PROCID MSGID
+```
+
+##### `PRI`
+
+Describes the priority of the log message. It is derived from the numerical codes of the facility and the severity of the log message as `(FACILITY * 8) + SEVERITY`. These values are described in more detail in section [6.2.1](https://tools.ietf.org/html/rfc5424#section-6.2.1) of RFC5424.
+
+Log messages **MUST** use a facility value of between `16 local0` and `23 local7` inclusive (other facilities are reserved for system processes and services), and are free to use any severity value deemed appropriate for the content of the log message.
+
+##### `VERSION`
+
+Describes the version of the syslog protocol specification utilised by the originator. The current version is `1`.
+
+##### `TIMESTAMP`
+
+Describes the originator system time at which the log message was generated. It is given in the format of [RFC3339](https://tools.ietf.org/html/rfc3339) with the following further restrictions imposed:
+
+- The `T` and `Z` characters in this syntax **MUST** be uppercase.
+- Usage of the `T` character is **REQUIRED**.
+- Leap seconds **MUST NOT** be used.
+
+##### `HOSTNAME`
+
+Identifies the fully qualified hostname of the machine that originated the log message.
+
+##### `APP-NAME`
+
+Identifies the application that originated the message. This value **MUST** be unique to the application and **MUST** contain the version of the application.
+
+##### `PROCID`
+
+Contains the process identifier of the application on the operating system of the machine that originated the log message.
+
+##### `MSGID`
+
+Identifies the type of log message. The following tables describes the values that are valid for this field:
+
+| `MSGID`  | Description                                                                                   |
+|----------|-----------------------------------------------------------------------------------------------|
+| `MSGIN`  | Used when the application is generating a log message related to thee receiving of a message. |
+| `MSGOUT` | Used when the application is generating a log message related to the sending of a message.    |
+
+#### Structed Data
+
+Not currently used within the logging system.
+
+#### Message
+
+The message itself that contains free-form text that provides information about the event that is being logged.
 
 All Messages sent and received by the application **MUST** be logged and **MUST** have the following details logged:
+
 - The name of the channel that the message was sent to, or received from.
- The date and time at which the message was sent or received by the application.
 - All Message Headers, in the format of `key : value`.
-- The entire Message Body, in JSON format. This **MAY** be minified, but **SHOULD** be pretty-printed for the purposes of easier consumption by a human.
 
-All log entries **MUST** have a corresponding timestamp that describes the date and time in which the log entry was created, and **MUST** have millisecond precision.
-
-Applications **MUST** retain log entries for a minimum of 365 days from the date that the log file was generated, but **SHOULD** retain them for as long as is feasible, given storage and maintenance constraints.
+Log message originators **MUST** also provide additional useful information relevant to the granularity of the severity against which the log message is being generated.
 
 ## Application Error Codes
 
@@ -336,3 +397,10 @@ The following sections describe the error codes that an application may raise in
 | Throughput    | 200 transactions/second, 5000 records/second and 5MB/s | These values can be increased with justification.                                                                                                                 |
 | Buffer        | 1MB to 128MB and 60 to 900 seconds                     | Buffer sizes can range from 1MB to 128MB with intervals of 60 to 900 seconds.                                                                                     |
 | Compression   | GZIP, ZIP and SNAPPY                                   | Data provided to the AWS Kinesis Firehose can be compressed using GZIP, ZIP and SNAPPY. However, the uncompressed size cannot exceeed 1000KB.                     |
+
+### Log Messages
+
+| Requirement    | Value      | Description                                                                                                                      |
+|----------------|------------|----------------------------------------------------------------------------------------------------------------------------------|
+| Minimum Length | 480 bytes  | The minimum length of a log message is 480 bytes as per RFC5424.                                                                 |
+| Maximum Length | 2048 bytes | The recommended maximum length of a log message is 2048 bytes as per RFC5424, however implementations are free to increase this. |
