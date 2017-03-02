@@ -254,7 +254,7 @@ The alternative interface to the messaging system is the Channel Adapter, which 
 
 ## Logging
 
-All applications that interact with the messaging system, whether as a sender or receiver, **MUST** register as an originator of logs to the centralised logging system.
+All applications that interact with the messaging system, whether as a sender or receiver, **MUST** register as an originator of log messages to the centralised logging system.
 
 The logging system is implemented using the syslog protocol defined in [RFC5424](https://tools.ietf.org/html/rfc5424). Therefore, all originators of log messages **MUST** deliver log entries to the centralised logging system in the format defined within RFC5424.
 
@@ -350,12 +350,7 @@ An SD-ID may be omitted where that field is defined as optional in the [Message 
 
 The message itself that contains free-form text that provides information about the event that is being logged.
 
-All Messages sent and received by the application **MUST** be logged and **MUST** have the following details logged:
-
-- The name of the channel that the message was sent to, or received from.
-- All Message Headers, in the format of `key : value`.
-
-Log message originators **MUST** also provide additional useful information relevant to the granularity of the severity against which the log message is being generated.
+All Messages sent and received by the application **MUST** be logged and **MUST** contain, at a minimum, the Message Header information (via [Structured Data](#structured-data)), along with meaningful information relevant to the granularity of the severity against which the log message is being generated.
 
 ## Application Error Codes
 
