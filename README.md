@@ -262,9 +262,9 @@ The logging system is implemented using the syslog protocol defined in [RFC5424]
 
 Log messages delivered in syslog format consist of three parts:
 
-- Header
-- Structured Data
-- Message
+- [Header](#header)
+- [Structured Data](#structured-data)
+- [Message](#message)
 
 Examples:
 
