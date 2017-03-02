@@ -199,8 +199,8 @@ Each machine that is capable of receiving Messages **MUST** also maintain a loca
 
 The following tables describes the exhaustive list of error codes for invalid Messages:
 
-| Error Code   | Description                                                                                 |
-|--------------|---------------------------------------------------------------------------------------------|
+| Error Code     | Description                                                                                 |
+|----------------|---------------------------------------------------------------------------------------------|
 | `QUEUEINVL001` | The [`Message Body`](#message-body) is not in the expected format.                          |
 | `QUEUEINVL002` | The provided [`messageType`](#messagetype) is not supported.                                |
 | `QUEUEINVL003` | The expiration date of the Message had passed at the point at which delivery was attempted. |
@@ -269,8 +269,8 @@ Log messages delivered in syslog format consist of three parts:
 Examples:
 
 ```
-<134>1 2017-03-01T13:14:15.000Z machine.jisc.ac.uk msgsender-1.2.0 848221 MSGOUT Message with ID 123 was sent.
-<134>1 2017-03-01T15:16:17.000Z machine.jisc.ac.uk msgreceiver-1.3.1 810038 MSGIN Message with ID 456 was received.
+<134>1 2017-03-01T13:14:15.000Z machine.jisc.ac.uk msgsender-1.2.0 848221 MSGOUT [messageId@12345 value="9c4c31d7-710e-4994-ac07-b9d914015500"][correlationId@12345 value="eacd20bd-408f-4a1e-b4a6-64eec9d6624e"][messageType@12345 value="EVENT"][returnAddress@12345 value="192.168.0.1"][messageTimingsPublishedTimestamp@12345 value="2017-03-01T12:10:15.00Z"][messageTimingsExpirationTimestamp@12345 value="2017-03-02T12:10:15.00Z"][sequenceSequence@12345 value="7e58ed3b-36a2-413a-b70f-8a774b4ea2f3"][sequencePosition@12345 value="1"][sequenceTotal@12345 value="5"][messageHistoryMachineAddresses@12345 value="192.168.0.2,192.168.0.3"][messageHistoryTimestamps@12345 value="2017-03-01T12:10:18.00Z,2017-03-01T12:10:21.00Z"] Message with ID 123 was sent.
+<134>1 2017-03-01T15:16:17.000Z machine.jisc.ac.uk msgreceiver-1.3.1 810038 MSGIN [messageId@12345 value="9c4c31d7-710e-4994-ac07-b9d914015500"][correlationId@12345 value="eacd20bd-408f-4a1e-b4a6-64eec9d6624e"][messageType@12345 value="EVENT"][returnAddress@12345 value="192.168.0.1"][messageTimingsPublishedTimestamp@12345 value="2017-03-01T12:10:15.00Z"][messageTimingsExpirationTimestamp@12345 value="2017-03-02T12:10:15.00Z"][sequenceSequence@12345 value="7e58ed3b-36a2-413a-b70f-8a774b4ea2f3"][sequencePosition@12345 value="1"][sequenceTotal@12345 value="5"][messageHistoryMachineAddresses@12345 value="192.168.0.2,192.168.0.3"][messageHistoryTimestamps@12345 value="2017-03-01T12:10:18.00Z,2017-03-01T12:10:21.00Z"] Message with ID 456 was received.
 ```
 
 #### Header
@@ -320,9 +320,31 @@ Identifies the type of log message. The following tables describes the values th
 | `MSGIN`  | Used when the application is generating a log message related to thee receiving of a message. |
 | `MSGOUT` | Used when the application is generating a log message related to the sending of a message.    |
 
-#### Structed Data
+#### Structured Data
 
-Not currently used within the logging system.
+Structed data provides a mechanism to express information in a well defined, easily parseable way. Log message originators **MUST** use structed data to attach the Message Header information to a log message when the log message is about, or related to, a Message.
+
+Structured data is provided in the format:
+
+`[SD-ID@ENTERPRISE-ID KEY="VALUE"]`
+
+The following table describes the SD-ID's that are used in attaching structured data information to a log message (for the purposes of the specification, an enterprise ID of `12345` is provided):
+
+| `SD-ID`                             | Example                                                                                    |
+|-------------------------------------|--------------------------------------------------------------------------------------------|
+| `messageId`                         | `[messageId@12345 value="9c4c31d7-710e-4994-ac07-b9d914015500"]`                           |
+| `correlationId`                     | `[correlationId@12345 value="eacd20bd-408f-4a1e-b4a6-64eec9d6624e"]`                       |
+| `messageType`                       | `[messageType@12345 value="EVENT"]`                                                        |
+| `returnAddress`                     | `[returnAddress@12345 value="192.168.0.1"]`                                                |
+| `messageTimingsPublishedTimestamp`  | `[messageTimingsPublishedTimestamp@12345 value="2017-03-01T12:10:15.00Z"]`                 |
+| `messageTimingsExpirationTimestamp` | `[messageTimingsExpirationTimestamp@12345 value="2017-03-02T12:10:15.00Z"]`                |
+| `sequenceSequence`                  | `[sequenceSequence@12345 value="7e58ed3b-36a2-413a-b70f-8a774b4ea2f3"]`                    |
+| `sequencePosition`                  | `[sequencePosition@12345 value="1"]`                                                       |
+| `sequenceTotal`                     | `[sequenceTotal@12345 value="5"]`                                                          |
+| `messageHistoryMachineAddresses`    | `[messageHistoryMachineAddresses@12345 value="192.168.0.2,192.168.0.3"]`                   |
+| `messageHistoryTimestamps`          | `[messageHistoryTimestamps@12345 value="2017-03-01T12:10:18.00Z,2017-03-01T12:10:21.00Z"]` |
+
+An SD-ID may be omitted where that field is defined as optional in the [Message Header](#message-header) section.
 
 #### Message
 
