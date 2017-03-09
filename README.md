@@ -279,6 +279,7 @@ The creation process is "fire and forget", insomuch that it does not expect a re
 In contrast to the Metadata Create operation, the Metadata Read operation requires a response Message.
 
 To model this, the `Message Chanel` lifeline enters the following loop:
+
 1. Execute `GetRecords` for the current `ShardIterator`
 2. Seach the return `Record`'s for a Message with a `correlationId` that matches the request Message
 3. If found, exit the loop
