@@ -1,17 +1,17 @@
 # RDSS Message API
 
-- [Introduction](#introduction)
-- [Message Structure](#message-structure)
-- [Message Header](#message-header)
-- [Message Body](#message-body)
-- [Error Queues](#error-queues)
-- [Audit Log](#audit-log)
-- [Topology](#topology)
-- [Transactional Behaviour](#transactional-behaviour)
-- [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
-- [Logging](#logging)
-- [Application Error Codes](#application-error-codes)
-- [Non-Functional Requirements](#non-functional-requirements)
+	- [Introduction](#introduction)
+	- [Message Structure](#message-structure)
+	- [Message Header](#message-header)
+	- [Message Body](#message-body)
+	- [Error Queues](#error-queues)
+	- [Audit Log](#audit-log)
+	- [Topology](#topology)
+	- [Transactional Behaviour](#transactional-behaviour)
+	- [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
+	- [Logging](#logging)
+	- [Application Error Codes](#application-error-codes)
+	- [Non-Functional Requirements](#non-functional-requirements)
 
 ## Introduction
 
