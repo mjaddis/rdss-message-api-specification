@@ -216,7 +216,7 @@ In order for a Message to be consumed by the Audit Log, Messages **MUST** be in 
 
 ## Topology
 
-The following diagram describes the topology of the Messaging system (the diagram can be edited using [Microsoft Visio](https://products.office.com/en-gb/visio/flowchart-software). The source is provided in the [`topology/topology.vsdx`](topology/topology.vsdx) file.)
+The following diagram describes the topology of the Messaging system (the diagram can be edited using [Microsoft Visio](https://products.office.com/en-gb/visio/flowchart-software). The source is provided in the [`topology/topology.vsdx`](topology/topology.vsdx) file).
 
 The following stencils are used in the creation of the diagram:
 
@@ -244,9 +244,49 @@ For example, a client can consume a message without actually removing it from th
 
 The messaging system offers applications who wish to send and receive messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adapter](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html).
 
+### Message Gateway
+
 The Message Gateway offers the preferred interface to the messaging system. It exists within the application itself and encapsulates the code specific to the messaging system whilst exposing APIs for interaction.
 
-![Message Gateway](message-gateway/message-gateway.png)
+The following diagram describes the class structure of a Message Gateway (the diagram can be edited using [StarUML](http://staruml.io/). The source is provided in the [`message-gateway/message-gateway-simple.mdj`](message-gateway/message-gateway-simple.mdj) file).
+
+![Message Gateway](message-gateway/message-gateway-simple.png)
+
+The Message Gateway is designed to abstract the complexities and specifics of the underlying queueing system from the application, including the handling the requests and responses, and hiding the scenario where a single call to the Message Gateway interface may result in multiple calls to the queueing system.
+
+The Message Gateway **MUST** be synchronous, such that all calls to Message Gateway interface will block until the underlying request(s) complete in full.
+
+All Message Gateway implementations **MUST** be configurable to support, at a minimum:
+
+- Switching between queue types, e.g. AWS Kinesis Stream, RabbitMQ and Mock
+- Specify the addresses of the channels supported by the Message Gateway
+- The retry interval for pulling from the queue when waiting for a return Message
+
+#### Message Gateway Sequence Diagrams
+
+The sequence diagrams below describe the flow of executing through the Message Gateway for both a [Metadata Create](messages/metadata/create/) and a [Metadata Read](messages/metadata/read/) operation (the diagrams can be edited using [Visual Paradigm](https://www.visual-paradigm.com/). The source is provided in the [`message-gateway/sequence-diagrams.vpp`](message-gateway/sequence-diagrams.vpp) file).
+
+##### Metadata Create
+
+![Message Gateway Metadata Create](message-gateway/metadata-create.png)
+
+The creation process is "fire and forget", insomuch that it does not expect a return Message in response to the Message that is puts on the queue.
+
+##### Metadata Read
+
+![Message Gateway Metdata Read](message-gateway/metadata-read.png)
+
+In contrast to the Metadata Create operation, the Metadata Read operation requires a response Message.
+
+To model this, the `Message Chanel` lifeline enters the following loop:
+1. Execute `GetRecords` for the current `ShardIterator`
+2. Seach the return `Record`'s for a Message with a `correlationId` that matches the request Message
+3. If found, exit the loop
+4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `1`
+5. Sleep for a predefined period of time
+6. Return to step `1`
+
+### Channel Adapter
 
 The alternative interface to the messaging system is the Channel Adapter, which does not require code implementation as part of the application. Instead, the Channel Adapter exists as a separate component and exposes a REST API to applications
 
