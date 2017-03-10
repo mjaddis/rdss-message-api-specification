@@ -15,9 +15,9 @@
 
 ## Introduction
 
-This repository documents the RDSS Message API and describes the format and structure of messages sent within the RDSS project.
+This repository documents the RDSS Message API and describes the format and structure of messages sent within the RDSS project, and architectural designs and patterns for the underlying messaging system.
 
-The API, format and structure draws on patterns from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
+The API, format, structures and patterns are derived from material from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
 
 ### Audience
 
@@ -223,9 +223,13 @@ The following stencils are used in the creation of the diagram:
 - [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html)
 - [Amazon AWS Stencils](https://aws.amazon.com/architecture/icons/)
 
-| Key                      |
-|--------------------------|
-| ![Key](topology/key.png) |
+| Key                                                              | Description             |
+|------------------------------------------------------------------|-------------------------|
+| ![Directional Channel](topology/directional-channel.png)         | Directional Channel     |
+| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |
+| ![Channel Adapter](topology/channel-adapter.png)                 | Channel Adapter         |
+| ![Message Broker](topology/message-broker.png)                   | Message Broker          |
+| ![Content Based Router](topology/content-based-router.png)       | Content Based Router    |
 
 ![Topology](topology/topology.png)
 
