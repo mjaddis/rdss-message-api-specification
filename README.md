@@ -21,7 +21,7 @@ The API, format, structures and patterns are derived from material from [Enterpr
 
 ### Audience
 
-The RDSS Message API is inteded for the following audience:
+The RDSS Message API is intended for the following audience:
 
 - Engineering
 - Operations
@@ -53,7 +53,7 @@ The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 
 ## Message Header
 
-The Message Header contains important metadata descirbing the Message itself, including the type of Message, routing information, timings, sequencing, and so forth.
+The Message Header contains important metadata describing the Message itself, including the type of Message, routing information, timings, sequencing, and so forth.
 
 ### `messageId`
 
@@ -210,7 +210,7 @@ The following tables describes the exhaustive list of error codes for invalid Me
 
 The Audit Log is a destination for Messages that every Message sent through the system will arrive at.
 
-It is delivered in the form of an [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/), which in turn loads the data into an [Aamzon S3](https://aws.amazon.com/s3/). The data is then made available for consumption and processing by other systems (e.g reporting).
+It is delivered in the form of an [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/), which in turn loads the data into an [Amazon S3](https://aws.amazon.com/s3/). The data is then made available for consumption and processing by other systems (e.g reporting).
 
 In order for a Message to be consumed by the Audit Log, Messages **MUST** be in serialised JSON format and **MUST NOT** exceed 1000KB.
 
