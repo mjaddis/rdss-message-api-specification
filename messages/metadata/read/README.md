@@ -1,4 +1,4 @@
-# Meatadata Delete
+# Metadata Read
 
 Describes a JSON payload of metadata of a [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) that is generated during a `READ` operation.
 
