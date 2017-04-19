@@ -293,7 +293,7 @@ To model this, the `Message Chanel` lifeline enters the following loop:
 
 ### Channel Adapter
 
-The alternative interface to the messaging system is the Channel Adapter, which does not require code implementation as part of the application. Instead, the Channel Adapter exists as a separate component and exposes a REST API to applications
+The alternative interface to the messaging system is the Channel Adapter, which does not require code implementation as part of the application. Instead, the Channel Adapter exists as a separate component and acts as a middle man between the channel and the application, leveraging synchronous APIs that the application exposes.
 
 ![Channel Adapter](channel-adapter/channel-adapter.png)
 
