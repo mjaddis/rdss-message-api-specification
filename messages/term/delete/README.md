@@ -1,5 +1,7 @@
 # Term Delete
 
+Message Type: `TermDelete`.
+
 Describes a JSON payload for a Term that is generated during an `DELETE` option.
 
 ## Scenarios

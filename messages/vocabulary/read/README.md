@@ -1,5 +1,7 @@
 # Vocabulary Read
 
+Message Type: `VocabularyRead`.
+
 Describes a JSON payload for a Vocabulary that is generated during a `READ` option.
 
 ## Scenarios

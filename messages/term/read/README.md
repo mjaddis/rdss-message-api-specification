@@ -1,5 +1,7 @@
 # Term Read
 
+Message Type: `TermRead`.
+
 Describes a JSON payload for a Term that is generated during an `READ` option.
 
 ## Scenarios

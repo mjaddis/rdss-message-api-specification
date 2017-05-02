@@ -1,5 +1,7 @@
 # Vocabulary Create
 
+Message Type: `VocabularyCreate`.
+
 Describes a JSON payload for a Vocabulary that is generated during a `CREATE` option.
 
 ## Scenarios

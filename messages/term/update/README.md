@@ -1,5 +1,7 @@
 # Term Update
 
+Message Type: `TermUpdate`.
+
 Describes a JSON payload for a Term that is generated during an `UPDATE` option.
 
 ## Scenarios
