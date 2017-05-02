@@ -1,5 +1,7 @@
 # Vocabulary Update
 
+Message Type: `VocabularyUpdate`.
+
 Describes a JSON payload for a Vocabulary that is generated during an `UPDATE` option.
 
 ## Scenarios

@@ -69,12 +69,19 @@ System wide unique identifier describing the Message. It is expected that this w
 
 Provided on a return Message, containing the [`messageId`](#messageid) of the originally received Message.
 
+### `messageClass`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageClass`
+
+One of `Command`, `Event` or `Document`.
+
 ### `messageType`
 
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`MessageType`
 
-One of `Command`, `Event` or `Document`.
+Describes the type of Message, in the format of `<Type><Operation>` and is described in the [Message Body](#message-body) section.
 
 ### `returnAddress`
 
@@ -179,11 +186,11 @@ Currently, all JSON schemas IDs (including `$ref` declarations within the schema
 
 The following example Messages are provided in the [`messages/`](messages/) folder:
 
-| Message    | Read                                                     | Create                                                       | Update                                                       | Delete                                                       |
-|------------|----------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|--------------------------------------------------------------|
-| Vocabulary | [`messages/vocabulary/read/`](messages/vocabulary/read/) | [`messages/vocabulary/create/`](messages/vocabulary/create/) | [`messages/vocabulary/update/`](messages/vocabulary/update/) | [`messages/vocabulary/delete/`](messages/vocabulary/delete/) |
-| Term       | [`messages/term/read/`](messages/term/read/)             | [`messages/term/create/`](messages/term/create/)             | [`messages/term/update/`](messages/term/update/)             | [`messages/term/delete/`](messages/term/delete/)             |
-| Metadata   | [`messages/metadata/read/`](messages/metadata/read/)     | [`messages/metadata/create/`](messages/metadata/create/)     | [`messages/metadata/update/`](messages/metadata/update/)     | [`messages/metadata/delete/`](messages/metadata/delete/)     |
+|                | **Read**                                                                                                                        | **Create**                                                                                                                          | **Update**                                                                                                                          | **Delete**                                                                                                                          |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|
+| **Vocabulary** | Message Type:&nbsp;&nbsp;&nbsp;`VocabularyRead`<br>Documentation:&nbsp;[`messages/vocabulary/read/`](messages/vocabulary/read/) | Message Type:&nbsp;&nbsp;&nbsp;`VocabularyCreate`<br>Documentation:&nbsp;[`messages/vocabulary/create/`](messages/vocabulary/create/) | Message Type:&nbsp;&nbsp;&nbsp;`VocabularyUpdate`<br>Documentation:&nbsp;[`messages/vocabulary/update/`](messages/vocabulary/update/) | Message Type:&nbsp;&nbsp;&nbsp;`VocabularyDelete`<br>Documentation:&nbsp;[`messages/vocabulary/delete/`](messages/vocabulary/delete/) |
+| **Term**       | Message Type:&nbsp;&nbsp;&nbsp;`TermRead`<br>Documentation:&nbsp;[`messages/term/read/`](messages/term/read/)             | Message Type:&nbsp;&nbsp;&nbsp;`TermCreate`<br>Documentation:&nbsp;[`messages/term/create/`](messages/term/create/)             | Message Type:&nbsp;&nbsp;&nbsp;`TermUpdate`<br>Documentation:&nbsp;[`messages/term/update/`](messages/term/update/)             | Message Type:&nbsp;&nbsp;&nbsp;`TermDelete`<br>Documentation:&nbsp;[`messages/term/delete/`](messages/term/delete/)             |
+| **Metadata**   | Message Type:&nbsp;&nbsp;&nbsp;`MetadataRead`<br>Documentation:&nbsp;[`messages/metadata/read/`](messages/metadata/read/)     | Message Type:&nbsp;&nbsp;&nbsp;`MetadataCreate`<br>Documentation:&nbsp;[`messages/metadata/create/`](messages/metadata/create/)     | Message Type:&nbsp;&nbsp;&nbsp;`MetadataUpdate`<br>Documentation:&nbsp;[`messages/metadata/update/`](messages/metadata/update/)     | Message Type:&nbsp;&nbsp;&nbsp;`MetadataDelete`<br>Documentation:&nbsp;[`messages/metadata/delete/`](messages/metadata/delete/)     |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 

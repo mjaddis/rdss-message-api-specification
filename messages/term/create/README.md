@@ -1,5 +1,7 @@
 # Term Create
 
+Message Type: `TermCreate`.
+
 Describes a JSON payload for a Term that is generated during an `CREATE` option.
 
 ## Scenarios
