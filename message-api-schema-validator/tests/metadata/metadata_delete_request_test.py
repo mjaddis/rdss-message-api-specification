@@ -6,5 +6,5 @@ class MetadataDeleteRequestTest(AbstractSchemaValidatorTest, TestCase):
     def get_json_schema_file_name(self):
         return "messages/metadata/delete/request_schema.json"
 
-    def test_validate_request(self):
+    def runTest(self):
         self.validate_json("messages/metadata/delete/request.json")

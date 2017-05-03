@@ -1,5 +1,3 @@
-from tests.vocabulary.vocabulary_create_request_test import  VocabularyCreateRequestTest
 from tests.vocabulary.vocabulary_read_request_test import VocabularyReadRequestTest
 from tests.vocabulary.vocabulary_read_response_test import VocabularyReadResponseTest
-from tests.vocabulary.vocabulary_update_request_test import VocabularyUpdateRequestTest
-from tests.vocabulary.vocabulary_delete_request_test import VocabularyDeleteRequestTest
+from tests.vocabulary.vocabulary_patch_request_test import VocabularyPatchRequestTest
