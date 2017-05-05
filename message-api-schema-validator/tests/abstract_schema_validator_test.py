@@ -18,7 +18,7 @@ class AbstractSchemaValidatorTest(TestCase):
     schema_material_asset_path = "schemas/material_asset.json";
     schema_research_object_path = "schemas/research_object.json";
 
-    base_path = argv[2]
+    base_path = argv[1]
 
     @abstractmethod
     def get_json_schema_file_name(self): pass

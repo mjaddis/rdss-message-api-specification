@@ -1,12 +1,12 @@
 # Vocabulary Update
 
-Message Type: `VocabularyUpdate`.
+Message Type: `VocabularyPatch`.
 
-Describes a JSON payload for a Vocabulary that is generated during an `UPDATE` option.
+Describes a JSON payload for a Vocabulary that is generated during an `PATCH` option.
 
 ## Scenarios
 
-- Sent to subscribers to notify that a Vocabulary has been updated.
+- Sent to subscribers to notify that a Vocabulary has been patched.
 
 ## Request
 

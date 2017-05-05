@@ -1,21 +1,8 @@
 {
   "vocabularyId": 1,
-  "terms": [
-    {
-      "id": 1,
-      "name": "vocabularyOne"
-    },
-    {
-      "id": 2,
-      "name": "vocabularyTwo"
-    },
-    {
-      "id": 3,
-      "name": "vocabularyThree"
-    },
-    {
-      "id": 4,
-      "name": "vocabularyFour"
-    }
+  "vocabularyTerms": [
+      "Term One",
+      "Term Two",
+      "Term Three"
   ]
 }

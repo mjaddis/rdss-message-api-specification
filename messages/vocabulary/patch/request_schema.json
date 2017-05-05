@@ -7,8 +7,15 @@
   "vocabularyName": {
     "type": "string"
   },
+  "vocabularyTerms": {
+    "type": "array",
+    "items": {
+      "type": "string"
+    }
+  },
   "required": [
     "vocabularyId",
-    "vocabularyName"
+    "vocabularyName",
+    "vocabularyTerms"
   ]
 }

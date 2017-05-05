@@ -1,5 +1,0 @@
-from tests.term.term_create_request_test import  TermCreateRequestTest
-from tests.term.term_read_request_test import TermReadRequestTest
-from tests.term.term_read_response_test import TermReadResponseTest
-from tests.term.term_update_request_test import TermUpdateRequestTest
-from tests.term.term_delete_request_test import TermDeleteRequestTest

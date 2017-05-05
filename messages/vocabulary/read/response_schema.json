@@ -4,24 +4,14 @@
   "vocabularyId": {
     "type": "number"
   },
-  "terms": {
+  "vocabularyTerms": {
     "type": "array",
     "items": {
-      "type": "object",
-      "id": {
-        "type": "number"
-      },
-      "name": {
-        "type": "string"
-      },
-      "required": [
-        "id",
-        "name"
-      ]
+      "type": "string"
     }
   },
   "required": [
     "vocabularyId",
-    "terms"
+    "vocabularyTerms"
   ]
 }
