@@ -1,13 +1,15 @@
 {
-  "id": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
+  "id": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#",
   "definitions": {
-    "access": {
+    "accessType": {
       "enum": [
         "open",
-        "restricted",
+        "safeguarded",
         "controlled",
-        "closed"
+        "restricted",
+        "closed",
+        "retired"
       ]
     },
     "apc": {
@@ -42,6 +44,13 @@
         "workflow"
       ]
     },
+    "datasetValue": {
+      "enum": [
+        "normal",
+        "high",
+        "veryHigh"
+      ]
+    },
     "dateType": {
       "enum": [
         "accepted",
@@ -51,8 +60,21 @@
         "collected",
         "created",
         "issued",
+        "modified",
         "posted",
         "published"
+      ]
+    },
+    "eduPersonScopedAffiliation": {
+      "enum": [
+        "student",
+        "staff",
+        "faculty",
+        "employee",
+        "member",
+        "affiliate",
+        "alum",
+        "libraryWalkIn"
       ]
     },
     "fileUse": {
@@ -81,19 +103,11 @@
         "LISSN",
         "LSID",
         "PMID",
+        "PUID",
         "PURL",
         "UPC",
         "URL",
         "URN"
-      ]
-    },
-    "organisationIdentifierType": {
-      "enum": [
-        "HESA",
-        "OrgID",
-        "Ringgold",
-        "GRID",
-        "UKPRN"
       ]
     },
     "organisationRole": {
@@ -106,7 +120,9 @@
         "registrationAgency",
         "registrationAuthority",
         "distributor",
-        "advocacy"
+        "advocacy",
+        "billing",
+        "display"
       ]
     },
     "organisationType": {
@@ -130,7 +146,9 @@
       "enum": [
         "ORCID",
         "FOAF",
-        "Twitter"
+        "Twitter",
+        "eduPersonTargetedID",
+        "eduPersonPrincipleName"
       ]
     },
     "personRole": {
@@ -192,7 +210,7 @@
         "journal",
         "learningObject",
         "movingImage",
-        "musicOrMusicalComposition",
+        "musicOrMuscalComposition",
         "other",
         "patent",
         "performance",
@@ -221,12 +239,12 @@
     },
     "relationType": {
       "enum": [
-        "isCitedBy",
         "cites",
+        "isCitedBy",
         "isSupplementTo",
         "isSupplementedBy",
-        "isContinuedBy",
         "continues",
+        "isContinuedBy",
         "hasMetadata",
         "isMetadataFor",
         "isNewVersionOf",
@@ -245,7 +263,19 @@
         "isReviewedBy",
         "reviews",
         "isDerivedFrom",
-        "isSourceOf"
+        "isSourceOf",
+        "isCommentOn",
+        "hasComment",
+        "isReplyTo",
+        "hasReply",
+        "basedOnData",
+        "hasRelatedMaterial",
+        "isBasedOn",
+        "isBasisFor",
+        "requires",
+        "isRequiredBy",
+        "hasParent",
+        "isParentOf"
       ]
     },
     "storageStatus": {
@@ -255,7 +285,13 @@
         "offline"
       ]
     },
-    "transportStatus": {
+    "storageType": {
+      "enum": [
+        "S3",
+        "HTTP"
+      ]
+    },
+    "uploadStatus": {
       "enum": [
         "uploadStarted",
         "uploadComplete",
