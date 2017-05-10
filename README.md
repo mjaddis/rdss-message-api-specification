@@ -199,7 +199,7 @@ In all instances where a response is required, the [`correlationId`](#correlatio
 
 If a receiver receives a Message it cannot process, it **SHOULD** move the invalid Message to an Invalid Message Queue.
 
-Each machine that is capable of receiving Messages **MUST** also maintain a local Invalid Message Queue. The receiver is responsible for processing the Message and determining its validity, and as a result of this, moving the Message to the Invalid Message Queue should it be determined that the Message is invalid.
+Each environment will maintain a single Invalid Message Queue, to which all invalid Message's **MUST** be routed by receivers in the event that an erroneous Message is encountered by that receiver, or any other scenario arises which prevents a Message from being successfully processed by the receiver.
 
 #### Invalid Message Error Codes
 
