@@ -273,6 +273,7 @@ The following stencils are used in the creation of the diagram:
 |------------------------------------------------------------------|-------------------------|
 | ![Directional Channel](topology/directional-channel.png)         | Directional Channel     |
 | ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |
+| ![Error Message Channel](topology/error-message-channel.png)     | Error Message Channel   |
 | ![Channel Adapter](topology/channel-adapter.png)                 | Channel Adapter         |
 | ![Message Broker](topology/message-broker.png)                   | Message Broker          |
 | ![Content Based Router](topology/content-based-router.png)       | Content Based Router    |
