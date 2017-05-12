@@ -410,15 +410,6 @@ The following sections describe the error codes that an application may raise in
 | `APPERRVOC001` | Received a Vocabulary `UPDATE` with a `vocabularyId` that does not exist. |
 | `APPERRVOC002` | Received a Vocabulary `DELETE` with a `vocabularyId` that does not exist. |
 
-### Term Error Codes
-
-| Error Code     | Description                                                                               |
-|----------------|-------------------------------------------------------------------------------------------|
-| `APPERRTER001` | Received a Term `UPDATE` with a `vocabularyId` that does not exist.                       |
-| `APPERRTER002` | Received a Term `UPDATE` with a `termId` that does not exist in the given `vocabularyId`. |
-| `APPERRTER003` | Received a Term `DELETE` with a `vocabularyId` that does not exist.                       |
-| `APPERRTER004` | Received a Term `DELETE` with a `termId` that does not exist in the given `voabularyId`.  |
-
 ## Non-Functional Requirements
 
 ### Messages
