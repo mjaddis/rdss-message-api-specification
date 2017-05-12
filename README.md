@@ -222,6 +222,7 @@ The following tables describes the error codes that **MUST** be utilised when a 
 | `GENERR007` | Malformed JSON was detected in the Message Body.                                                             |
 | `GENERR008` | An attempt to roll back a transaction failed.                                                                |
 | `GENERR009` | An unexpected or unknown error occurred.                                                                     |
+| `GENERR010` | Maximum number of Message resend retries exceeded.                                                           |
 
 ### Application Error Codes
 
@@ -288,6 +289,30 @@ The following stencils are used in the creation of the diagram:
 All clients **MUST** implement transactional behaviour, such that any message consumed by a receiver will not be regarded as consumed until the client commits receipt of that message back to the sender / queue.
 
 For example, a client can consume a message without actually removing it from the channel. Should the client crash or fail to process the message, the message still exists on the queue after the client recovers. Once the receiver processes the message and is certain that it wants to consume the message, the client will commit the transaction and the message will be removed the queue.
+
+## Network Failure Behaviour
+
+In the event that a client attempting to send a Message encounters network connectivity issues preventing the sending of that Message, the client **SHOULD** attempt to resend the Message.
+
+If a client attempts to resend a Message, they **MUST** employ an exponential backoff algorithm. This is both to prevent repeated fixed-delay requests against a non-functioning network endpoint and, in the event that the network connectivity issue is the result of congestion, to reduce the impact of that congestion.
+
+The following Python code describes the algorithm that **SHOULD** be adopted by clients when determining the delay between retries:
+
+```
+max_retries = 10
+retry = 1
+
+while retry <= max_retries:
+  sleep_ms = pow(2, retry) * 100
+  if send_message():
+    break
+  retry += 1
+
+if(retry > max_retries):
+  log_max_retries_exceeded()
+```
+
+In the event that `max_retries` are exceeded, clients **MUST** write a log entry (as per [Logging](#logging)) with the special error code `GENERR010`.
 
 ## Message Gateway & Channel Adapter
 
