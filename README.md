@@ -1,4 +1,5 @@
 # RDSS Message API
+
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
@@ -7,6 +8,7 @@
 - [Audit Log](#audit-log)
 - [Topology](#topology)
 - [Transactional Behaviour](#transactional-behaviour)
+- [Network Failure Behaviour](#network-failure-behaviour)
 - [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
 - [Logging](#logging)
 - [Non-Functional Requirements](#non-functional-requirements)
@@ -218,7 +220,7 @@ The following tables describes the error codes that **MUST** be utilised when a 
 | `GENERR003` | The expiration date of the Message had passed at the point at which delivery was attempted.                  |
 | `GENERR004` | Invalid, missing or corrupt headers were detected on the Message.                                            |
 | `GENERR005` | Maximum number of connection retries exceeded when attempting to send the Message.                           |
-| `GENERR006` | An error occurred interacting with the repository.                                                           |
+| `GENERR006` | An error occurred interacting with the underlying system.                                                    |
 | `GENERR007` | Malformed JSON was detected in the Message Body.                                                             |
 | `GENERR008` | An attempt to roll back a transaction failed.                                                                |
 | `GENERR009` | An unexpected or unknown error occurred.                                                                     |
