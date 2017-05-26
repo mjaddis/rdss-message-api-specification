@@ -1,0 +1,9 @@
+language: python
+python:
+  - "3.6"
+install:
+  - pip install pylint .
+before_script:
+  - pylint --errors-only
+script:
+  - message-api-scheme-validator/schema_validator_test_suite.py
