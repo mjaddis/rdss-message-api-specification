@@ -9,4 +9,4 @@ before_script:
   - pylint --errors-only ./message-api-schema-validator/schema_validator_test_suite.py
   - pylint --errors-only ./message-api-schema-validator/tests
 script:
-  - message-api-scheme-validator/schema_validator_test_suite.py
+  - python message-api-scheme-validator/schema_validator_test_suite.py
