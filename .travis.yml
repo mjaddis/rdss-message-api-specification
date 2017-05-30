@@ -5,8 +5,6 @@ python:
 install:
   - pip install pylint .
 before_script:
-  - pylint --generate-rcfile
   - pylint --errors-only
 script:
   - message-api-scheme-validator/schema_validator_test_suite.py
-  
