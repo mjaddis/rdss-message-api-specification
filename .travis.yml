@@ -3,7 +3,7 @@ python:
   - "3.6"
 
 install:
-  - pip install pylint .
+  - pip install pylint
 before_script:
   - pylint --errors-only
 script:
