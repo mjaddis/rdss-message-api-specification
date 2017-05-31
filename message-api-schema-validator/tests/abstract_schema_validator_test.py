@@ -21,9 +21,11 @@ class AbstractSchemaValidatorTest(TestCase):
     # base_path = argv[1]
     # Replaced above with below to pass tests as argv[1] is not set when this is run, change made to gain pass in travis
     dir_path = os.path.dirname(os.path.realpath(__file__))
-
+    # Remove test directories, windows and unix, to move the based dir up
     dir_path = dir_path.replace("\\tests", "")
     dir_path = dir_path.replace("\\message-api-schema-validator", "")
+    dir_path = dir_path.replace("/tests", "")
+    dir_path = dir_path.replace("/message-api-schema-validator", "")
 
     @abstractmethod
     def get_json_schema_file_name(self): pass
