@@ -3,7 +3,7 @@ from jsonschema import validate, RefResolver
 from abc import ABCMeta, abstractmethod
 from sys import argv
 from unittest import TestCase
-
+import os
 
 class AbstractSchemaValidatorTest(TestCase):
     __metaclass__ = ABCMeta
@@ -18,7 +18,12 @@ class AbstractSchemaValidatorTest(TestCase):
     schema_material_asset_path = "schemas/material_asset.json";
     schema_research_object_path = "schemas/research_object.json";
 
-    base_path = argv[1]
+    # base_path = argv[1]
+    # Replaced above with below to pass tests as argv[1] is not set when this is run, change made to gain pass in travis
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+
+    dir_path = dir_path.replace("\\tests", "")
+    dir_path = dir_path.replace("\\message-api-schema-validator", "")
 
     @abstractmethod
     def get_json_schema_file_name(self): pass
@@ -38,4 +43,4 @@ class AbstractSchemaValidatorTest(TestCase):
             return load(json_data)
 
     def prepare_file_name(self, file_name):
-        return self.base_path + "/" + file_name
+        return self.dir_path + "/" + file_name
