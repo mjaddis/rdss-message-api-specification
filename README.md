@@ -1,16 +1,16 @@
 # RDSS Message API
 
-- [Introduction](#introduction)
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
 - [Error Queues](#error-queues)
+- [Error Codes](#error-codes)
 - [Audit Log](#audit-log)
 - [Topology](#topology)
 - [Transactional Behaviour](#transactional-behaviour)
+- [Network Failure Behaviour](#network-failure-behaviour)
 - [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
 - [Logging](#logging)
-- [Application Error Codes](#application-error-codes)
 - [Non-Functional Requirements](#non-functional-requirements)
 
 ## Introduction
@@ -195,22 +195,63 @@ In all instances where a response is required, the [`correlationId`](#correlatio
 
 ## Error Queues
 
+### Error Message Queue
+
+If a receiver is unable to process a Message due to, for example, and infrastructure issue (such as network connectivity), or a Message that exceeds the maximum size defined in [Non-Functional Requirement](#non-functional-requirement), it **SHOULD** move the erroneous Message to the Error Message Queue.
+
+A Message that is to be routed to the Error Message Queue must be decorated with the appropriate error code, as per the [Error Codes](#error-codes) section, before it is dispatched.
+
 ### Invalid Message Queue
 
-If a receiver receives a Message it cannot process, it **SHOULD** move the invalid Message to an Invalid Message Queue.
+If a receiver receives a Message it cannot process, for example if the Message is malformed or does not contain all the mandatory fields, it **SHOULD** move the invalid Message to an Invalid Message Queue.
 
-Each machine that is capable of receiving Messages **MUST** also maintain a local Invalid Message Queue. The receiver is responsible for processing the Message and determining its validity, and as a result of this, moving the Message to the Invalid Message Queue should it be determined that the Message is invalid.
+A Message that is to be routed to the Invalid Message Queue must be decorated with the appropriate error code, as per the [Error Codes](#error-codes) section, before it is dispatched.
 
-#### Invalid Message Error Codes
+## Error Codes
 
-The following tables describes the exhaustive list of error codes for invalid Messages:
+### General Error Codes
 
-| Error Code     | Description                                                                                 |
-|----------------|---------------------------------------------------------------------------------------------|
-| `QUEUEINVL001` | The [`Message Body`](#message-body) is not in the expected format.                          |
-| `QUEUEINVL002` | The provided [`messageType`](#messagetype) is not supported.                                |
-| `QUEUEINVL003` | The expiration date of the Message had passed at the point at which delivery was attempted. |
-| `QUEUEINVL004` | Invalid or corrupt headers were detected on the Message.                                    |
+The following tables describes the error codes that **MUST** be utilised when a Message is moved to either the [Error Message Queue](#error-message-queue) and the [Invalid Message Queue](#invalid-message-queue), and in all [Logging](#logging) entries that describe an error:
+
+| Error Code  | Description                                                                                                  |
+|-------------|--------------------------------------------------------------------------------------------------------------|
+| `GENERR001` | The [`Message Body`](#message-body) is not in the expected format, for example mandatory fields are missing. |
+| `GENERR002` | The provided [`messageType`](#messagetype) is not supported.                                                 |
+| `GENERR003` | The expiration date of the Message had passed at the point at which delivery was attempted.                  |
+| `GENERR004` | Invalid, missing or corrupt headers were detected on the Message.                                            |
+| `GENERR005` | Maximum number of connection retries exceeded when attempting to send the Message.                           |
+| `GENERR006` | An error occurred interacting with the underlying system.                                                    |
+| `GENERR007` | Malformed JSON was detected in the Message Body.                                                             |
+| `GENERR008` | An attempt to roll back a transaction failed.                                                                |
+| `GENERR009` | An unexpected or unknown error occurred.                                                                     |
+| `GENERR010` | Maximum number of Message resend retries exceeded.                                                           |
+
+### Application Error Codes
+
+The following sections describe the error codes that **MUST** be utilised when an application raises an error that relate specifically to the type of Messages it receives.
+
+#### Metadata Error Codes
+
+| Error Code     | Description                                                            |
+|----------------|------------------------------------------------------------------------|
+| `APPERRMET001` | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
+| `APPERRMET002` | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
+
+#### Vocabulary Error Codes
+
+| Error Code     | Description                                                               |
+|----------------|---------------------------------------------------------------------------|
+| `APPERRVOC001` | Received a Vocabulary `UPDATE` with a `vocabularyId` that does not exist. |
+| `APPERRVOC002` | Received a Vocabulary `DELETE` with a `vocabularyId` that does not exist. |
+
+#### Term Error Codes
+
+| Error Code     | Description                                                                               |
+|----------------|-------------------------------------------------------------------------------------------|
+| `APPERRTER001` | Received a Term `UPDATE` with a `vocabularyId` that does not exist.                       |
+| `APPERRTER002` | Received a Term `UPDATE` with a `termId` that does not exist in the given `vocabularyId`. |
+| `APPERRTER003` | Received a Term `DELETE` with a `vocabularyId` that does not exist.                       |
+| `APPERRTER004` | Received a Term `DELETE` with a `termId` that does not exist in the given `voabularyId`.  |
 
 ## Audit Log
 
@@ -233,6 +274,7 @@ The following stencils are used in the creation of the diagram:
 |------------------------------------------------------------------|-------------------------|
 | ![Directional Channel](topology/directional-channel.png)         | Directional Channel     |
 | ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |
+| ![Error Message Channel](topology/error-message-channel.png)     | Error Message Channel   |
 | ![Channel Adapter](topology/channel-adapter.png)                 | Channel Adapter         |
 | ![Message Broker](topology/message-broker.png)                   | Message Broker          |
 | ![Content Based Router](topology/content-based-router.png)       | Content Based Router    |
@@ -249,6 +291,30 @@ The following stencils are used in the creation of the diagram:
 All clients **MUST** implement transactional behaviour, such that any message consumed by a receiver will not be regarded as consumed until the client commits receipt of that message back to the sender / queue.
 
 For example, a client can consume a message without actually removing it from the channel. Should the client crash or fail to process the message, the message still exists on the queue after the client recovers. Once the receiver processes the message and is certain that it wants to consume the message, the client will commit the transaction and the message will be removed the queue.
+
+## Network Failure Behaviour
+
+In the event that a client attempting to send a Message encounters network connectivity issues preventing the sending of that Message, the client **SHOULD** attempt to resend the Message.
+
+If a client attempts to resend a Message, they **MUST** employ an exponential backoff algorithm. This is both to prevent repeated fixed-delay requests against a non-functioning network endpoint and, in the event that the network connectivity issue is the result of congestion, to reduce the impact of that congestion.
+
+The following Python code describes the algorithm that **SHOULD** be adopted by clients when determining the delay between retries:
+
+```
+max_retries = 10
+retry = 1
+
+while retry <= max_retries:
+  sleep_ms = pow(2, retry) * 100
+  if send_message():
+    break
+  retry += 1
+
+if(retry > max_retries):
+  log_max_retries_exceeded()
+```
+
+In the event that `max_retries` are exceeded, clients **MUST** write a log entry (as per [Logging](#logging)) with the special error code `GENERR010`.
 
 ## Message Gateway & Channel Adapter
 
@@ -380,35 +446,6 @@ Contains the process identifier of the application on the operating system of th
 The message itself that contains free-form text that provides information about the event that is being logged.
 
 All Messages sent and received by the application **MUST** be logged and **MUST** contain, at a minimum, the severity of the log message wrapped in square brackets (e.g. `[INFO]`) along with meaningful information relevant to the severity against which the log message is being generated.
-
-## Application Error Codes
-
-The following sections describe the error codes that an application may raise in relation to the Messages it receives. These are separate from [Invalid Message Error Codes](#invalid-message-error-codes), which represent errors that may occur with the delivery of a Message.
-
-### Generic Error Codes
-
-| Error Code  | Description                                              |
-|-------------|----------------------------------------------------------|
-| `APPERR001` | An error occurred interacting with the repository.       |
-| `APPERR002` | Invalid JSON structure detected in the Message Body.     |
-| `APPERR003` | A required header was not present in the Message Header. |
-| `APPERR004` | A required field was not present in the Message Body.    |
-| `APPERR005` | Failed to roll back transaction.                         |
-| `APPERR006` | An unexpected error occurred.                            |
-
-### Metadata Error Codes
-
-| Error Code     | Description                                                            |
-|----------------|------------------------------------------------------------------------|
-| `APPERRMET001` | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
-| `APPERRMET002` | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
-
-### Vocabulary Error Codes
-
-| Error Code     | Description                                                               |
-|----------------|---------------------------------------------------------------------------|
-| `APPERRVOC001` | Received a Vocabulary `UPDATE` with a `vocabularyId` that does not exist. |
-| `APPERRVOC002` | Received a Vocabulary `DELETE` with a `vocabularyId` that does not exist. |
 
 ## Non-Functional Requirements
 
