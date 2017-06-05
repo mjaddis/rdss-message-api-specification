@@ -1,122 +1,138 @@
 {
-  "datasetUuid": "f4fe4ff2-d9a3-11e6-bf26-cec0c932ce01",
-  "datasetTitle": "A Sample Dataset",
-  "datasetSubject": [
-    "The first dataset subject",
-    "The second dataset subject",
-    "The third dataset subject"
+  "objectUuid": "string",
+  "objectTitle": "string",
+  "objectContributor": [
+    1
   ],
-  "datasetDescription": "This is an sample dataset.",
-  "datasetKeywords": [
-    "sample",
-    "dataset"
-  ],
-  "datasetRights": [
+  "objectDescription": "string",
+  "objectRights": [
     {
-      "rightsStatement": "Copyright 2017 JISC",
-      "rightsHolder": "JISC",
-      "licence": {
-        "licenceName": "",
-        "licenceIdentifier": ""
-      },
-      "access": {
+      "rightsStatement": [
+        "string"
+      ],
+      "rightsHolder": [
+        "string"
+      ],
+      "licence": [
+        {
+          "licenceName": "string",
+          "licenceIdentifier": "string"
+        }
+      ],
+      "access": [
+        {
           "accessType": 1,
-          "accessStatement": ""
-      }
+          "accessStatement": "string"
+        }
+      ]
     }
   ],
-  "datasetDate": {
-    "dateValue": "2017-01-13T112:34:56+00:00",
-    "dateType": 1
-  },
-  "datasetLanguage": [
-    "en",
-    "fr",
-    "de"
+  "objectDate": [
+    {
+      "dateValue": "string",
+      "dateType": 1
+    }
   ],
-  "datasetCoverage": {
-    "geospatialCoverage": [
-      {
-        "geolocationPoint": [
-          123.45,
-          123.45
+  "objectResourceType": {},
+  "objectValue": 1,
+  "objectIdentifier": [
+    {
+      "objectIdentifierValue": "string",
+      "objectIdentifierType": 1,
+      "relationType": 1
+    }
+  ],
+  "objectRelatedIdentifier": [
+    {
+      "objectIdentifierValue": "string",
+      "objectIdentifierType": 1,
+      "relationType": 1
+    }
+  ],
+  "objectPublisher": [
+    {
+      "organisation": {
+        "organisationJiscId": 1,
+        "organisationName": "string",
+        "organisationType": 1,
+        "organisationAddress": "string"
+      },
+      "role": 1
+    }
+  ],
+  "objectFile": [
+    {
+      "fileUuid": "string",
+      "fileIdentifier": "string",
+      "fileName": "string",
+      "fileSize": 1,
+      "fileLabel": "string",
+      "fileDateCreated": {
+        "dateValue": "string",
+        "dateType": 1
+      },
+      "fileRights": {
+        "rightsStatement": [
+          "string"
         ],
-        "geolocationBox": [
-          123.45,
-          123.45,
-          123.45,
-          123.45
+        "rightsHolder": [
+          "string"
         ],
-        "geolocationPlace": [
-          "abc",
-          "abc",
-          "abc"
+        "licence": [
+          {
+            "licenceName": "string",
+            "licenceIdentifier": "string"
+          }
+        ],
+        "access": [
+          {
+            "accessType": 1,
+            "accessStatement": "string"
+          }
         ]
       },
-      {
-        "geolocationPoint": [
-          123.45,
-          123.45
-        ],
-        "geolocationBox": [
-          123.45,
-          123.45,
-          123.45,
-          123.45
-        ],
-        "geolocationPlace": [
-          "abc",
-          "abc",
-          "abc"
-        ]
-      }
-    ],
-    "temporalCoverage": []
-  },
-  "datasetResourceType": [
-    1,
-    2,
-    3
-  ],
-  "datasetVersion": "1.0.0",
-  "datasetIdentifier": [
-    {
-      "objectIdentifierValue": "",
-      "objectIdentifierType": 1,
-      "relationType": 2
-    },
-    {
-      "objectIdentifierValue": "",
-      "objectIdentifierType": 3,
-      "relationType": 4
+      "fileChecksum": [
+        {
+          "checksumUuid": "string",
+          "checksumType": 1,
+          "checksumValue": "string"
+        }
+      ],
+      "fileFormatType": "string",
+      "fileCompositionLevel": "string",
+      "fileHasMimeType": true,
+      "fileDate": [
+        {
+          "dateValue": "string",
+          "dateType": 1
+        }
+      ],
+      "filePuid": [
+        "string"
+      ],
+      "fileUse": 1,
+      "preservationEvent": [
+        {
+          "preservationEventValue": "string",
+          "preservationEventType": 1,
+          "preservationEventDetail": "string"
+        }
+      ],
+      "uploadStatus": 1,
+      "storageStatus": 1,
+      "fileSoftware": [
+        {}
+      ],
+      "fileEquipment": {},
+      "fileLastDownload": {
+        "dateValue": "string",
+        "dateType": 1
+      },
+      "fileTechnicalAttributes": [
+        "string"
+      ],
+      "fileStorageLocation": "string",
+      "fileStorageType": 1
     }
-  ],
-  "datasetYear": 2017,
-  "datasetRelatedIdentifier": [
-    {
-      "objectIdentifierValue": "",
-      "objectIdentifierType": 5,
-      "relationType": 6
-    },
-    {
-      "objectIdentifierValue": "",
-      "objectIdentifierType": 7,
-      "relationType": 8
-    }
-  ],
-  "datasetSoftwareLinkage": [
-    "",
-    "",
-    ""
-  ],
-  "datasetPublicationLinkage": [
-    "",
-    "",
-    ""
-  ],
-  "datasetPersonLinkage": [
-    "",
-    "",
-    ""
   ]
 }

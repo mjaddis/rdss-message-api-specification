@@ -1,16 +1,11 @@
 {
-  "datasetUuid": "string",
-  "datasetTitle": "string",
-  "datasetSubject": [
-    "string"
+  "objectUuid": "string",
+  "objectTitle": "string",
+  "objectContributor": [
+    1
   ],
-  "datasetDescription": {
-    "type": "string"
-  },
-  "datasetKeywords": [
-    "string"
-  ],
-  "datasetRights": [
+  "objectDescription": "string",
+  "objectRights": [
     {
       "rightsStatement": [
         "string"
@@ -26,502 +21,118 @@
       ],
       "access": [
         {
-          "accessType": "number",
+          "accessType": 1,
           "accessStatement": "string"
         }
       ]
     }
   ],
-  "datasetDate": [
+  "objectDate": [
     {
       "dateValue": "string",
-      "dateType": "number"
+      "dateType": 1
     }
   ],
-  "datasetLanguage": [
-    "string"
-  ],
-  "datasetCoverage": {
-    "geospatialCoverage": [
-      {
-        "geolocationPoint": {
-          "x": "number",
-          "y": "number"
-        },
-        "geolocationPolygon": [
-          {
-            "x": "number",
-            "y": "number"
-          }
-        ],
-        "geolocationPlace": "string",
-        "coordinateReferenceSystem": "string"
-      }
-    ],
-    "temporalCoverageStart": [
-      {
-        "dateValue": "string",
-        "dateType": "number"
-      }
-    ],
-    "temporalCoverageEnd": [
-      {
-        "dateValue": "string",
-        "dateType": "number"
-      }
-    ]
-  },
-  "datasetResourceType": [
-    "number"
-  ],
-  "datasetVersion": "string",
-  "datasetValue": "number",
-  "datasetIdentifier": [
+  "objectResourceType": {},
+  "objectValue": 1,
+  "objectIdentifier": [
     {
       "objectIdentifierValue": "string",
-      "objectIdentifierType": "number",
-      "relationType": "number"
+      "objectIdentifierType": 1,
+      "relationType": 1
     }
   ],
-  "datasetRelatedIdentifier": [
+  "objectRelatedIdentifier": [
     {
       "objectIdentifierValue": "string",
-      "objectIdentifierType": "number",
-      "relationType": "number"
+      "objectIdentifierType": 1,
+      "relationType": 1
     }
   ],
-  "datasetCitedBy": [
+  "objectPublisher": [
     {
-      "publicationUuid": "string",
-      "publicationFreeToRead": "boolean",
-      "publicationIdentifier": {
-        "objectIdentifierValue": "string",
-        "objectIdentifierType": "number",
-        "relationType": "number"
+      "organisation": {
+        "organisationJiscId": 1,
+        "organisationName": "string",
+        "organisationType": 1,
+        "organisationAddress": "string"
       },
-      "publicationCoverage": {
-        "geospatialCoverage": [
+      "role": 1
+    }
+  ],
+  "objectFile": [
+    {
+      "fileUuid": "string",
+      "fileIdentifier": "string",
+      "fileName": "string",
+      "fileSize": 1,
+      "fileLabel": "string",
+      "fileDateCreated": {
+        "dateValue": "string",
+        "dateType": 1
+      },
+      "fileRights": {
+        "rightsStatement": [
+          "string"
+        ],
+        "rightsHolder": [
+          "string"
+        ],
+        "licence": [
           {
-            "geolocationPoint": {
-              "x": "number",
-              "y": "number"
-            },
-            "geolocationPolygon": [
-              {
-                "x": "number",
-                "y": "number"
-              }
-            ],
-            "geolocationPlace": "string",
-            "coordinateReferenceSystem": "string"
+            "licenceName": "string",
+            "licenceIdentifier": "string"
           }
         ],
-        "temporalCoverageStart": [
+        "access": [
           {
-            "dateValue": "string",
-            "dateType": "number"
-          }
-        ],
-        "temporalCoverageEnd": [
-          {
-            "dateValue": "string",
-            "dateType": "number"
+            "accessType": 1,
+            "accessStatement": "string"
           }
         ]
       },
-      "publicationDescription": "string",
-      "publicationFile": {
-        "fileUuid": "string",
-        "fileIdentifier": "string",
-        "fileName": "string",
-        "fileSize": "number",
-        "fileLabel": "string",
-        "fileDateCreated": {
+      "fileChecksum": [
+        {
+          "checksumUuid": "string",
+          "checksumType": 1,
+          "checksumValue": "string"
+        }
+      ],
+      "fileFormatType": "string",
+      "fileCompositionLevel": "string",
+      "fileHasMimeType": true,
+      "fileDate": [
+        {
           "dateValue": "string",
-          "dateType": "number"
-        },
-        "fileRights": {
-          "rightsStatement": [
-            "string"
-          ],
-          "rightsHolder": [
-            "string"
-          ],
-          "licence": [
-            {
-              "licenceName": "string",
-              "licenceIdentifier": "string"
-            }
-          ],
-          "access": [
-            {
-              "accessType": "number",
-              "accessStatement": "string"
-            }
-          ]
-        },
-        "fileChecksum": [
-          {
-            "checksumUuid": "string",
-            "checksumType": "number",
-            "checksumValue": "string"
-          }
-        ],
-        "fileFormatType": "string",
-        "fileCompositionLevel": "string",
-        "fileHasMimeType": "boolean",
-        "fileDate": [
-          {
-            "dateValue": "string",
-            "dateType": "number"
-          }
-        ],
-        "filePuid": [
-          "string"
-        ],
-        "fileUse": "number",
-        "preservationEvent": [
-          {
-            "preservationEventValue": "string",
-            "preservationEventType": "number",
-            "preservationEventDetail": "string"
-          }
-        ],
-        "uploadStatus": "number",
-        "storageStatus": "number",
-        "fileSoftware": [
-          {
-            "softwareUuid": "string",
-            "softwareName": "string",
-            "softwareIdentifier": {
-              "objectIdentifierValue": "string",
-              "objectIdentifierType": "number",
-              "relationType": "number"
-            },
-            "softwareDescription": "string",
-            "softwareVersion": "string",
-            "softwareRights": {
-              "rightsStatement": [
-                "string"
-              ],
-              "rightsHolder": [
-                "string"
-              ],
-              "licence": [
-                {
-                  "licenceName": "string",
-                  "licenceIdentifier": "string"
-                }
-              ],
-              "access": [
-                {
-                  "accessType": "number",
-                  "accessStatement": "string"
-                }
-              ]
-            },
-            "softwareLanguage": "string",
-            "softwareVendor": "string",
-            "softwareDatasetLinkage": [
-              "string"
-            ]
-          }
-        ],
-        "fileEquipment": {
-          "equipmentUuid": "string",
-          "equipmentName": "string",
-          "equipmentIdentifier": {
-            "objectIdentifierValue": "string",
-            "objectIdentifierType": "number",
-            "relationType": "number"
-          },
-          "equipmentType": "string",
-          "equipmentDescription": "string",
-          "equipmentOrganisation": [
-            {
-              "organisationJiscId": "number",
-              "organisationName": "string",
-              "organisationType": "number",
-              "organisationRole": [
-                "number"
-              ]
-            }
-          ]
-        },
-        "fileLastDownload": {
-          "dateValue": "string",
-          "dateType": "number"
-        },
-        "fileTechnicalAttributes": [
-          "string"
-        ],
-        "fileStorageLocation": "string",
-        "fileStorageType": "number"
-      },
-      "publicationLanguage": [
+          "dateType": 1
+        }
+      ],
+      "filePuid": [
         "string"
       ],
-      "publicationResourceType": [
-        "number"
+      "fileUse": 1,
+      "preservationEvent": [
+        {
+          "preservationEventValue": "string",
+          "preservationEventType": 1,
+          "preservationEventDetail": "string"
+        }
       ],
-      "publicationTitle": "string",
-      "publicationSubject": [
+      "uploadStatus": 1,
+      "storageStatus": 1,
+      "fileSoftware": [
+        {}
+      ],
+      "fileEquipment": {},
+      "fileLastDownload": {
+        "dateValue": "string",
+        "dateType": 1
+      },
+      "fileTechnicalAttributes": [
         "string"
       ],
-      "publicationDate": [
-        {
-          "dateValue": "string",
-          "dateType": "number"
-        }
-      ],
-      "publicationApc": "number",
-      "publicationRelatedIdentifier": [
-        {
-          "objectIdentifierValue": "string",
-          "objectIdentifierType": "number",
-          "relationType": "number"
-        }
-      ],
-      "publicationVersion": "number",
-      "publicationRights": [
-        {
-          "rightsStatement": [
-            "string"
-          ],
-          "rightsHolder": [
-            "string"
-          ],
-          "licence": [
-            {
-              "licenceName": "string",
-              "licenceIdentifier": "string"
-            }
-          ],
-          "access": [
-            {
-              "accessType": "number",
-              "accessStatement": "string"
-            }
-          ]
-        }
-      ],
-      "publicationPerson": [
-        {
-          "personUuid": "string",
-          "personCn": "string",
-          "personIdentifier": [
-            {
-              "personIdentifierValue": "string",
-              "personIdentifierType": "number"
-            }
-          ],
-          "personEntitlement": [
-            "number"
-          ],
-          "personGroup": [
-            {
-              "groupUuid": "string",
-              "groupName": "string",
-              "groupIdentifier": "string",
-              "groupFilePermission": [
-                "#/definitions/filePermission"
-              ]
-            }
-          ],
-          "personOrganisation": [
-            {
-              "organisationJiscId": "number",
-              "organisationName": "string",
-              "organisationType": "number",
-              "organisationRole": [
-                "number"
-              ]
-            }
-          ],
-          "personProject": [
-            {
-              "projectUuid": "string",
-              "projectIdentifier": [
-                "string"
-              ],
-              "projectName": "string",
-              "projectDescription": "string",
-              "projectCollection": [
-                {
-                  "collectiveObjectUuid": "string",
-                  "collectiveObjectName": "string",
-                  "collectiveObjectIdentifier": "#/definitions/objectIdentifier",
-                  "collectiveObjectDataset": ["#/definitions/dataset"],
-                  "collectiveObjectPublication":  ["#/definitions/publication"],
-                  "collectiveObjectSoftware": ["#/definitions/software"]
-                }
-              ],
-              "projectGroup": [
-                "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/group"
-              ],
-              "projectGrant": [
-                "#/definitions/grant"
-              ],
-              "projectStart": {
-                "dateValue": "string",
-                "dateType": "number"
-              },
-              "projectEnd": {
-                "dateValue": "string",
-                "dateType": "number"
-              }
-            }
-          ],
-          "personAffiliation": [
-            "number"
-          ],
-          "personGivenName": "string",
-          "personSn": "string",
-          "personTelephoneNumber": "string",
-          "personMail": "string",
-          "personOu": "string"
-        }
-      ],
-      "publicationOrganisation": [
-        {
-          "organisationJiscId": "number",
-          "organisationName": "string",
-          "organisationType": "number",
-          "organisationRole": [
-            "number"
-          ]
-        }
-      ],
-      "publicationProject": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/project",
-      "publicationAdditionalMetadata": "string"
-    }
-  ],
-  "datasetOrganisation": [
-    {
-      "organisationJiscId": "number",
-      "organisationName": "string",
-      "organisationType": "number",
-      "organisationRole": [
-        "number"
-      ]
-    }
-  ],
-  "datasetFile": [
-    "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/file"
-  ],
-  "datasetAdditionalMetadata": "string",
-  "datasetPerson": [
-    {
-      "datasetPerson": {
-        "personUuid": "string",
-        "personCn": "string",
-        "personIdentifier": [
-          {
-            "personIdentifierValue": "string",
-            "personIdentifierType": "number"
-          }
-        ],
-        "personEntitlement": [
-          "number"
-        ],
-        "personGroup": [
-          {
-            "groupUuid": "string",
-            "groupName": "string",
-            "groupIdentifier": "string",
-            "groupFilePermission": [
-              {
-                "permission": {
-                  "read": "boolean",
-                  "write": "boolean",
-                  "control": "boolean",
-                  "append": "boolean"
-                },
-                "file": "#/definitions/file"
-              }
-            ]
-          }
-        ],
-        "personOrganisation": [
-          {
-            "organisationJiscId": "number",
-            "organisationName": "string",
-            "organisationType": "number",
-            "organisationRole": [
-              "number"
-            ]
-          }
-        ],
-        "personProject": [
-          {
-            "projectUuid": "string",
-            "projectIdentifier": [
-              "string"
-            ],
-            "projectName": "string",
-            "projectDescription": "string",
-            "projectCollection": [
-              "https://www.jisc.ac.uk/rdss/schema/research_asset.json/#/definitions/collectiveObject"
-            ],
-            "projectGroup": [
-              {
-                "groupUuid": "string",
-                "groupName": "string",
-                "groupIdentifier": "string",
-                "groupFilePermission": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/filePermission"
-                  },
-                  "minItems": 1
-                }
-              }
-            ],
-            "projectGrant": [
-              {
-                "grantUuid": "string",
-                "grantIdentifier": "string",
-                "grantFunder": {
-                  "organisationJiscId": "number",
-                  "organisationName": "string",
-                  "organisationType": "number",
-                  "organisationRole": [
-                    "number"
-                  ]
-                },
-                "grantStart": {
-                  "dateValue": "string",
-                  "dateType": "number"
-                },
-                "grantEnd": {
-                  "dateValue": "string",
-                  "dateType": "number"
-                },
-                "grantPerson": [
-                  "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
-                ]
-              }
-            ],
-            "projectStart": {
-              "dateValue": "string",
-              "dateType": "number"
-            },
-            "projectEnd": {
-              "dateValue": "string",
-              "dateType": "number"
-            }
-          }
-        ],
-        "personAffiliation": [
-          "number"
-        ],
-        "personGivenName": "string",
-        "personSn": "string",
-        "personTelephoneNumber": "string",
-        "personMail": "string",
-        "personOu": "string"
-      },
-      "datasetPersonRole": "number"
+      "fileStorageLocation": "string",
+      "fileStorageType": 1
     }
   ]
 }

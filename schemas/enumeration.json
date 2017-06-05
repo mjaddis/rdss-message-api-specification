@@ -1,6 +1,6 @@
 {
-  "$schema": "http://json-schema.org/draft-04/schema#",
   "id": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
     "accessType": {
       "enum": [
@@ -8,47 +8,13 @@
         "safeguarded",
         "controlled",
         "restricted",
-        "closed",
-        "retired"
-      ]
-    },
-    "apc": {
-      "enum": [
-        "paid",
-        "partiallyWaived",
-        "fullyWaived",
-        "notCharged",
-        "notRequired",
-        "unknown"
+        "closed"
       ]
     },
     "checksumType": {
       "enum": [
         "md5",
         "sha256"
-      ]
-    },
-    "datasetResourceType": {
-      "enum": [
-        "dataset",
-        "image",
-        "movingImage",
-        "model",
-        "software",
-        "audio",
-        "other",
-        "interactiveResource",
-        "event",
-        "service",
-        "text",
-        "workflow"
-      ]
-    },
-    "datasetValue": {
-      "enum": [
-        "normal",
-        "high",
-        "veryHigh"
       ]
     },
     "dateType": {
@@ -63,18 +29,6 @@
         "modified",
         "posted",
         "published"
-      ]
-    },
-    "eduPersonScopedAffiliation": {
-      "enum": [
-        "student",
-        "staff",
-        "faculty",
-        "employee",
-        "member",
-        "affiliate",
-        "alum",
-        "libraryWalkIn"
       ]
     },
     "fileUse": {
@@ -120,26 +74,7 @@
         "registrationAgency",
         "registrationAuthority",
         "distributor",
-        "advocacy",
-        "billing",
-        "display"
-      ]
-    },
-    "organisationType": {
-      "enum": [
-        "charity",
-        "commercial",
-        "funder",
-        "furtherEducation",
-        "government",
-        "health",
-        "heritage",
-        "higherEducation",
-        "other",
-        "professionalBody",
-        "research",
-        "school",
-        "skills"
+        "advocacy"
       ]
     },
     "personIdentifierType": {
@@ -195,46 +130,6 @@
         "update",
         "validation",
         "virusCheck"
-      ]
-    },
-    "publicationResourceType": {
-      "enum": [
-        "artOrDesignItem",
-        "article",
-        "audio",
-        "book",
-        "bookSection",
-        "conferenceOrWorkshopItem",
-        "examPaper",
-        "image",
-        "journal",
-        "learningObject",
-        "movingImage",
-        "musicOrMuscalComposition",
-        "other",
-        "patent",
-        "performance",
-        "preprint",
-        "report",
-        "review",
-        "showExhibition",
-        "text",
-        "thesisOrDissertation",
-        "unknown",
-        "website",
-        "workingPaper"
-      ]
-    },
-    "publicationVersion": {
-      "enum": [
-        "AO",
-        "SMUR",
-        "AM",
-        "P",
-        "VoR",
-        "CVoR",
-        "EVoR",
-        "NA"
       ]
     },
     "relationType": {
@@ -296,6 +191,25 @@
         "uploadStarted",
         "uploadComplete",
         "uploadAborted"
+      ]
+    },
+    "eduPersonScopedAffiliation": {
+      "enum": [
+        "student",
+        "staff",
+        "faculty",
+        "employee",
+        "member",
+        "affiliate",
+        "alum",
+        "libraryWalkIn"
+      ]
+    },
+    "objectValue": {
+      "enum": [
+        "normal",
+        "high",
+        "veryHigh"
       ]
     }
   }

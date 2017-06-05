@@ -74,12 +74,12 @@
         "fileSoftware": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/software"
+            "type": "object"
           },
           "minItems": 1
         },
         "fileEquipment": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/material_object.json/#/definitions/equipment"
+          "type": "object"
         },
         "fileLastDownload": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
@@ -207,6 +207,12 @@
             "$ref": "#/definitions/filePermission"
           },
           "minItems": 1
+        },
+        "groupMembers": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
+          }
         }
       },
       "required": [
@@ -226,7 +232,7 @@
           "type": "string"
         },
         "grantFunder": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/organisation"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/organisationRole"
         },
         "grantStart": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
@@ -234,12 +240,8 @@
         "grantEnd": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
         },
-        "grantPerson": {
-          "type": "array",
-          "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
-          },
-          "minItems": 1
+        "grantValue": {
+          "type": "string"
         }
       },
       "required": [
@@ -248,7 +250,7 @@
         "grantFunder",
         "grantStart",
         "grantEnd",
-        "grantPerson"
+        "grantValue"
       ]
     },
     "project": {
@@ -273,14 +275,14 @@
         "projectCollection": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_asset.json/#/definitions/collectiveObject"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_asset.json/#/definitions/collection"
           },
           "minItems": 1
         },
         "projectGroup": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/group"
+            "$ref": "#/definitions/group"
           },
           "minItems": 1
         },

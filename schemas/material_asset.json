@@ -14,28 +14,21 @@
         "organisationType": {
           "type": "number"
         },
-        "organisationRole": {
-          "type": "array",
-          "items": {
-            "type": "number"
-          },
-          "minItems": 1
+        "organisationAddress": {
+          "type": "string"
         }
       },
       "required": [
         "organisationJiscId",
         "organisationName",
         "organisationType",
-        "organisationRole"
+        "organisationAddress"
       ]
     },
     "person": {
       "type": "object",
       "properties": {
         "personUuid": {
-          "type": "string"
-        },
-        "personCn": {
           "type": "string"
         },
         "personIdentifier": {
@@ -48,14 +41,7 @@
         "personEntitlement": {
           "type": "array",
           "items": {
-            "type": "number"
-          },
-          "minItems": 1
-        },
-        "personGroup": {
-          "type": "array",
-          "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/group"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/personRole"
           },
           "minItems": 1
         },
@@ -63,13 +49,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/organisation"
-          },
-          "minItems": 1
-        },
-        "personProject": {
-          "type": "array",
-          "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/project"
           },
           "minItems": 1
         },
@@ -81,6 +60,9 @@
           "minItems": 1
         },
         "personGivenName": {
+          "type": "string"
+        },
+        "personCn": {
           "type": "string"
         },
         "personSn": {
@@ -98,16 +80,15 @@
       },
       "required": [
         "personUuid",
-        "personCn",
         "personIdentifier",
         "personEntitlement",
-        "personGroup",
         "personOrganisation",
-        "personProject",
         "personAffiliation",
         "personGivenName",
+        "personCn",
         "personSn",
         "personTelephoneNumber",
+        "personGroup",
         "personMail",
         "personOu"
       ]
@@ -125,38 +106,6 @@
       "required": [
         "personIdentifierValue",
         "personIdentifierType"
-      ]
-    },
-    "equipment": {
-      "type": "object",
-      "properties": {
-        "equipmentUuid": {
-          "type": "string"
-        },
-        "equipmentName": {
-          "type": "string"
-        },
-        "equipmentIdentifier": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/objectIdentifier"
-        },
-        "equipmentType": {
-          "type": "string"
-        },
-        "equipmentDescription": {
-          "type": "string"
-        },
-        "equipmentOrganisation": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/organisation"
-          },
-          "minItems": 1
-        }
-      },
-      "required": [
-        "equipmentUuid",
-        "equipmentName",
-        "equipmentOrganisation"
       ]
     }
   }

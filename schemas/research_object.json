@@ -2,152 +2,102 @@
   "id": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
-    "dataset": {
+    "object": {
       "type": "object",
       "properties": {
-        "datasetUuid": {
+        "objectUuid": {
           "type": "string"
         },
-        "datasetTitle": {
+        "objectTitle": {
           "type": "string"
         },
-        "datasetSubject": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "datasetDescription": {
-          "type": "string"
-        },
-        "datasetKeywords": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "minItems": 1
-        },
-        "datasetRights": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/rights"
-          },
-          "minItems": 1
-        },
-        "datasetDate": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/date"
-          },
-          "minItems": 1
-        },
-        "datasetLanguage": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "datasetCoverage": {
-          "$ref": "#/definitions/coverage"
-        },
-        "datasetResourceType": {
+        "objectContributor": {
           "type": "array",
           "items": {
             "type": "number"
           },
           "minItems": 1
         },
-        "datasetVersion": {
+        "objectDescription": {
           "type": "string"
         },
-        "datasetValue": {
+        "objectRights": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/rights"
+          },
+          "minItems": 1
+        },
+        "objectDate": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/date"
+          },
+          "minItems": 1
+        },
+        "objectResourceType": {
+          "type": "object"
+        },
+        "objectValue": {
           "type": "number"
         },
-        "datasetIdentifier": {
+        "objectIdentifier": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/objectIdentifier"
           },
           "minItems": 1
         },
-        "datasetRelatedIdentifier": {
+        "objectRelatedIdentifier": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/objectIdentifier"
           }
         },
-        "datasetCitedBy": {
+        "objectPublisher": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/publication"
-          }
-        },
-        "datasetOrganisation": {
-          "type": "array",
-          "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/organisation"
+            "$ref": "#/definitions/organisationRole"
           },
           "minItems": 1
         },
-        "datasetFile": {
+        "objectFile": {
           "type": "array",
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/file"
           }
-        },
-        "datasetAdditionalMetadata": {
-          "type": "string"
-        },
-        "datasetPerson": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/datasetPerson"
-          },
-          "minItems": 1
         }
       },
       "required": [
-        "datasetUuid",
-        "datasetTitle",
-        "datasetDescription",
-        "datasetKeywords",
-        "datasetRights",
-        "datasetDate",
-        "datasetResourceType",
-        "datasetValue",
-        "datasetIdentifier",
-        "datasetOrganisation",
-        "datasetPerson"
+        "objectUuid",
+        "objectTitle",
+        "objectContributor",
+        "objectDescription",
+        "objectRights",
+        "objectDate",
+        "objectResourceType",
+        "objectValue",
+        "objectIdentifier",
+        "objectPublisher"
       ]
     },
-    "datasetPerson": {
+    "objectIdentifier": {
       "type": "object",
       "properties": {
-        "datasetPerson": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
+        "objectIdentifierValue": {
+          "type": "string"
         },
-        "datasetPersonRole": {
+        "objectIdentifierType": {
+          "type": "number"
+        },
+        "relationType": {
           "type": "number"
         }
       },
       "required": [
-        "datasetPerson",
-        "datasetPersonRole"
-      ]
-    },
-    "date": {
-      "type": "object",
-      "properties": {
-        "dateValue": {
-          "type": "string"
-        },
-        "dateType": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "dateValue",
-        "dateType"
+        "objectIdentifierValue",
+        "objectIdentifierType",
+        "relationType"
       ]
     },
     "rights": {
@@ -218,264 +168,86 @@
         "accessType"
       ]
     },
-    "coverage": {
+    "collection": {
       "type": "object",
       "properties": {
-        "geospatialCoverage": {
+        "collectionUuid": {
+          "type": "string"
+        },
+        "collectionName": {
+          "type": "string"
+        },
+        "collection": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/geospatialCoverage"
+            "$ref": "#/definitions/object"
           }
         },
-        "temporalCoverageStart": {
-          "$ref": "#/definitions/date"
-        },
-        "temporalCoverageEnd": {
-          "$ref": "#/definitions/date"
-        }
-      }
-    },
-    "geospatialCoverage": {
-      "type": "object",
-      "properties": {
-        "geolocationPoint": {
-          "$ref": "#/definitions/geolocationPoint"
-        },
-        "geolocationPolygon": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/geolocationPoint"
-          }
-        },
-        "geolocationPlace": {
-          "type": "string"
-        },
-        "coordinateReferenceSystem": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "coordinateReferenceSystem"
-      ]
-    },
-    "geolocationPoint": {
-      "type": "object",
-      "properties": {
-        "x": {
-          "type": "number"
-        },
-        "y": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "x",
-        "y"
-      ]
-    },
-    "objectIdentifier": {
-      "type": "object",
-      "properties": {
-        "objectIdentifierValue": {
-          "type": "string"
-        },
-        "objectIdentifierType": {
-          "type": "number"
-        },
-        "relationType": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "objectIdentifierValue",
-        "objectIdentifierType"
-      ]
-    },
-    "collectiveObject": {
-      "type": "object",
-      "properties": {
-        "collectiveObjectUuid": {
-          "type": "string"
-        },
-        "collectiveObjectName": {
-          "type": "string"
-        },
-        "collectiveObjectIdentifier": {
-          "$ref": "#/definitions/objectIdentifier"
-        },
-        "collectiveObjectDataset": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/dataset"
-          }
-        },
-        "collectiveObjectPublication": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/publication"
-          }
-        },
-        "collectiveObjectSoftware": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/software"
-          }
-        }
-      },
-      "required": [
-        "collectiveObjectUuid",
-        "collectiveObjectName",
-        "collectiveObjectIdentifier"
-      ]
-    },
-    "publication": {
-      "type": "object",
-      "properties": {
-        "publicationUuid": {
-          "type": "string"
-        },
-        "publicationFreeToRead": {
-          "type": "boolean"
-        },
-        "publicationIdentifier": {
-          "$ref": "#/definitions/objectIdentifier"
-        },
-        "publicationCoverage": {
-          "$ref": "#/definitions/coverage"
-        },
-        "publicationDescription": {
-          "type": "string"
-        },
-        "publicationFile": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/file"
-        },
-        "publicationLanguage": {
+        "collectionDescription": {
           "type": "array",
           "items": {
             "type": "string"
           },
           "minItems": 1
         },
-        "publicationResourceType": {
-          "type": "array",
-          "items": {
-            "type": "number"
-          },
-          "minItems": 1
-        },
-        "publicationTitle": {
-          "type": "string"
-        },
-        "publicationSubject": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "publicationDate": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/date"
-          },
-          "minItems": 1
-        },
-        "publicationApc": {
-          "type": "number"
-        },
-        "publicationRelatedIdentifier": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/objectIdentifier"
-          }
-        },
-        "publicationVersion": {
-          "type": "number"
-        },
-        "publicationRights": {
+        "collectionRights": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/rights"
           },
           "minItems": 1
-        },
-        "publicationPerson": {
-          "type": "array",
-          "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
-          },
-          "minItems": 1
-        },
-        "publicationOrganisation": {
-          "type": "array",
-          "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/organisation"
-          },
-          "minItems": 1
-        },
-        "publicationProject": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/project"
-        },
-        "publicationAdditionalMetadata": {
-          "type": "string"
         }
       },
       "required": [
-        "publicationUuid",
-        "publicationFreeToRead",
-        "publicationIdentifier",
-        "publicationDescription",
-        "publicationFile",
-        "publicationLanguage",
-        "publicationResourceType",
-        "publicationTitle",
-        "publicationDate",
-        "publicationVersion",
-        "publicationRights",
-        "publicationPerson",
-        "publicationOrganisation"
+        "collectionUuid",
+        "collectionName",
+        "collectionDescription",
+        "collectionRights"
       ]
     },
-    "software": {
+    "organisationRole": {
       "type": "object",
       "properties": {
-        "softwareUuid": {
-          "type": "string"
+        "organisation": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/organisation"
         },
-        "softwareName": {
-          "type": "string"
-        },
-        "softwareIdentifier": {
-          "$ref": "#/definitions/objectIdentifier"
-        },
-        "softwareDescription": {
-          "type": "string"
-        },
-        "softwareVersion": {
-          "type": "string"
-        },
-        "softwareRights": {
-          "$ref": "#/definitions/rights"
-        },
-        "softwareLanguage": {
-          "type": "string"
-        },
-        "softwareVendor": {
-          "type": "string"
-        },
-        "softwareDatasetLinkage": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
+        "role": {
+          "type": "number"
         }
       },
       "required": [
-        "softwareUuid",
-        "softwareName",
-        "softwareIdentifier",
-        "softwareDescription",
-        "softwareVersion",
-        "softwareRights"
+        "organisation",
+        "role"
+      ]
+    },
+    "personRole": {
+      "type": "object",
+      "properties": {
+        "person": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
+        },
+        "role": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "person",
+        "role"
+      ]
+    },
+    "date": {
+      "type": "object",
+      "properties": {
+        "dateValue": {
+          "type": "string"
+        },
+        "dateType": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "dateValue",
+        "dateType"
       ]
     }
   }
