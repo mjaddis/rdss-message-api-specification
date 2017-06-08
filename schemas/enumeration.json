@@ -2,44 +2,19 @@
   "id": "https://www.jisc.ac.uk/rdss/schema/enumeration.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "definitions": {
-    "access": {
+    "accessType": {
       "enum": [
         "open",
-        "restricted",
+        "safeguarded",
         "controlled",
+        "restricted",
         "closed"
-      ]
-    },
-    "apc": {
-      "enum": [
-        "paid",
-        "partiallyWaived",
-        "fullyWaived",
-        "notCharged",
-        "notRequired",
-        "unknown"
       ]
     },
     "checksumType": {
       "enum": [
         "md5",
         "sha256"
-      ]
-    },
-    "datasetResourceType": {
-      "enum": [
-        "dataset",
-        "image",
-        "movingImage",
-        "model",
-        "software",
-        "audio",
-        "other",
-        "interactiveResource",
-        "event",
-        "service",
-        "text",
-        "workflow"
       ]
     },
     "dateType": {
@@ -51,6 +26,7 @@
         "collected",
         "created",
         "issued",
+        "modified",
         "posted",
         "published"
       ]
@@ -81,19 +57,11 @@
         "LISSN",
         "LSID",
         "PMID",
+        "PUID",
         "PURL",
         "UPC",
         "URL",
         "URN"
-      ]
-    },
-    "organisationIdentifierType": {
-      "enum": [
-        "HESA",
-        "OrgID",
-        "Ringgold",
-        "GRID",
-        "UKPRN"
       ]
     },
     "organisationRole": {
@@ -109,28 +77,13 @@
         "advocacy"
       ]
     },
-    "organisationType": {
-      "enum": [
-        "charity",
-        "commercial",
-        "funder",
-        "furtherEducation",
-        "government",
-        "health",
-        "heritage",
-        "higherEducation",
-        "other",
-        "professionalBody",
-        "research",
-        "school",
-        "skills"
-      ]
-    },
     "personIdentifierType": {
       "enum": [
         "ORCID",
         "FOAF",
-        "Twitter"
+        "Twitter",
+        "eduPersonTargetedID",
+        "eduPersonPrincipleName"
       ]
     },
     "personRole": {
@@ -179,54 +132,14 @@
         "virusCheck"
       ]
     },
-    "publicationResourceType": {
-      "enum": [
-        "artOrDesignItem",
-        "article",
-        "audio",
-        "book",
-        "bookSection",
-        "conferenceOrWorkshopItem",
-        "examPaper",
-        "image",
-        "journal",
-        "learningObject",
-        "movingImage",
-        "musicOrMusicalComposition",
-        "other",
-        "patent",
-        "performance",
-        "preprint",
-        "report",
-        "review",
-        "showExhibition",
-        "text",
-        "thesisOrDissertation",
-        "unknown",
-        "website",
-        "workingPaper"
-      ]
-    },
-    "publicationVersion": {
-      "enum": [
-        "AO",
-        "SMUR",
-        "AM",
-        "P",
-        "VoR",
-        "CVoR",
-        "EVoR",
-        "NA"
-      ]
-    },
     "relationType": {
       "enum": [
-        "isCitedBy",
         "cites",
+        "isCitedBy",
         "isSupplementTo",
         "isSupplementedBy",
-        "isContinuedBy",
         "continues",
+        "isContinuedBy",
         "hasMetadata",
         "isMetadataFor",
         "isNewVersionOf",
@@ -245,7 +158,19 @@
         "isReviewedBy",
         "reviews",
         "isDerivedFrom",
-        "isSourceOf"
+        "isSourceOf",
+        "isCommentOn",
+        "hasComment",
+        "isReplyTo",
+        "hasReply",
+        "basedOnData",
+        "hasRelatedMaterial",
+        "isBasedOn",
+        "isBasisFor",
+        "requires",
+        "isRequiredBy",
+        "hasParent",
+        "isParentOf"
       ]
     },
     "storageStatus": {
@@ -255,11 +180,36 @@
         "offline"
       ]
     },
-    "transportStatus": {
+    "storageType": {
+      "enum": [
+        "S3",
+        "HTTP"
+      ]
+    },
+    "uploadStatus": {
       "enum": [
         "uploadStarted",
         "uploadComplete",
         "uploadAborted"
+      ]
+    },
+    "eduPersonScopedAffiliation": {
+      "enum": [
+        "student",
+        "staff",
+        "faculty",
+        "employee",
+        "member",
+        "affiliate",
+        "alum",
+        "libraryWalkIn"
+      ]
+    },
+    "objectValue": {
+      "enum": [
+        "normal",
+        "high",
+        "veryHigh"
       ]
     }
   }

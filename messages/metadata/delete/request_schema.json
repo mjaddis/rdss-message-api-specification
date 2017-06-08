@@ -1,10 +1,10 @@
 {
   "id": "https://www.jisc.ac.uk/rdss/schema/messages/metadata/delete/request_schema.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "datasetUuid": {
+  "objectUuid": {
     "type": "string"
   },
   "required": [
-    "datasetUuid"
+    "objectUuid"
   ]
 }

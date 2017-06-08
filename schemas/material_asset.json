@@ -5,78 +5,24 @@
     "organisation": {
       "type": "object",
       "properties": {
-        "organisationUuid": {
-          "type": "string"
+        "organisationJiscId": {
+          "type": "number"
         },
         "organisationName": {
           "type": "string"
         },
-        "organisationIdentifier": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/organisationIdentifier"
-          }
-        },
-        "organisationContact": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/contact"
-          }
-        },
         "organisationType": {
           "type": "number"
         },
-        "organisationRole": {
-          "type": "array",
-          "items": {
-            "type": "number"
-          }
+        "organisationAddress": {
+          "type": "string"
         }
       },
       "required": [
-        "organisationUuid",
+        "organisationJiscId",
         "organisationName",
-        "organisationIdentifier",
         "organisationType",
-        "organisationRole"
-      ]
-    },
-    "organisationIdentifier": {
-      "type": "object",
-      "properties": {
-        "organisationIdentifierValue": {
-          "type": "string"
-        },
-        "organisationIdentifierType": {
-          "type": "number"
-        }
-      },
-      "required": [
-        "organisationIdentifierValue",
-        "organisationIdentifierType"
-      ]
-    },
-    "contact": {
-      "type": "object",
-      "properties": {
-        "contactName": {
-          "type": "string"
-        },
-        "contactEmail": {
-          "type": "string"
-        },
-        "contactAddress": {
-          "type": "string"
-        },
-        "contactTelephone": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "contactName",
-        "contactEmail",
-        "contactAddress",
-        "contactTelephone"
+        "organisationAddress"
       ]
     },
     "person": {
@@ -85,25 +31,67 @@
         "personUuid": {
           "type": "string"
         },
-        "personName": {
-          "type": "string"
-        },
         "personIdentifier": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/personIdentifier"
-          }
+          },
+          "minItems": 1
         },
-        "personRole": {
-          "type": "number"
+        "personEntitlement": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/personRole"
+          },
+          "minItems": 1
         },
-        "personAffiliationGroup": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/group"
+        "personOrganisation": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/organisation"
+          },
+          "minItems": 1
         },
-        "personContact": {
-          "$ref": "#/definitions/contact"
+        "personAffiliation": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 1
+        },
+        "personGivenName": {
+          "type": "string"
+        },
+        "personCn": {
+          "type": "string"
+        },
+        "personSn": {
+          "type": "string"
+        },
+        "personTelephoneNumber": {
+          "type": "string"
+        },
+        "personMail": {
+          "type": "string"
+        },
+        "personOu": {
+          "type": "string"
         }
-      }
+      },
+      "required": [
+        "personUuid",
+        "personIdentifier",
+        "personEntitlement",
+        "personOrganisation",
+        "personAffiliation",
+        "personGivenName",
+        "personCn",
+        "personSn",
+        "personTelephoneNumber",
+        "personGroup",
+        "personMail",
+        "personOu"
+      ]
     },
     "personIdentifier": {
       "type": "object",
