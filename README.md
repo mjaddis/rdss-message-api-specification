@@ -236,22 +236,13 @@ The following sections describe the error codes that **MUST** be utilised when a
 |----------------|------------------------------------------------------------------------|
 | `APPERRMET001` | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
 | `APPERRMET002` | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
+| `APPERRMET003` | Received a Metadata `READ` with a `datasetUuid` that does not exist.   |
 
 #### Vocabulary Error Codes
 
-| Error Code     | Description                                                               |
-|----------------|---------------------------------------------------------------------------|
-| `APPERRVOC001` | Received a Vocabulary `UPDATE` with a `vocabularyId` that does not exist. |
-| `APPERRVOC002` | Received a Vocabulary `DELETE` with a `vocabularyId` that does not exist. |
-
-#### Term Error Codes
-
-| Error Code     | Description                                                                               |
-|----------------|-------------------------------------------------------------------------------------------|
-| `APPERRTER001` | Received a Term `UPDATE` with a `vocabularyId` that does not exist.                       |
-| `APPERRTER002` | Received a Term `UPDATE` with a `termId` that does not exist in the given `vocabularyId`. |
-| `APPERRTER003` | Received a Term `DELETE` with a `vocabularyId` that does not exist.                       |
-| `APPERRTER004` | Received a Term `DELETE` with a `termId` that does not exist in the given `voabularyId`.  |
+| Error Code     | Description                                                             |
+|----------------|-------------------------------------------------------------------------|
+| `APPERRVOC002` | Received a Vocabulary `READ` with a `vocabularyId` that does not exist. |
 
 ## Audit Log
 
