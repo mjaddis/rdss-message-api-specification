@@ -29,9 +29,19 @@ The RDSS Message API is intended for the following audience:
 
 ### Versioning
 
-Current version:&nbsp;&nbsp;&nbsp;&nbsp;`0.0.1-SNAPSHOT`
+Current version:&nbsp;&nbsp;&nbsp;&nbsp;`0.0.1-SNAPSHOT`.
 
-Versioning for the RDSS Message API follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html).
+Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
+
+The versioning scheme of this specification follows [Semantic Versioning 2.0.0](http://semver.org/spec/v2.0.0.html) (also known as SemVer). Using SemVer, the version number is given in the format of `MAJOR.MINOR.PATH`, where:
+
+- `MAJOR` version changes contain non-compatible API changes.
+- `MINOR` version changes contain backwards compatible enhancements.
+- `PATCH` version changes contain backwards compatible bugfixes.
+
+Vendors implementing this specification **SHOULD** make a best effort to implement all `MINOR` and `PATCH` changes as and when thery are made available. The implementation and release of `MAJOR` changes however **MUST** be coordinated with maintainers of the messaging system to ensure compatibility between this API and the messaging system itself.
+
+The version of this specification used to generate a given message can be determined by inspecting the `version` header (as described in the [Message Header](#message-header)) section.
 
 ### Comformance
 
@@ -166,6 +176,13 @@ The hostname, IP address, or other identifying network address of the machine th
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`Timestamp`
 
 The timestamp at which the history entry was generated.
+
+### `version`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+The version of this specification that the producer responsible for generating the message was using when the message was generated.
 
 ## Message Body
 
