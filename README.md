@@ -269,6 +269,7 @@ The following stencils are used in the creation of the diagram:
 | ![Channel Adapter](topology/channel-adapter.png)                 | Channel Adapter         |
 | ![Message Broker](topology/message-broker.png)                   | Message Broker          |
 | ![Content Based Router](topology/content-based-router.png)       | Content Based Router    |
+| ![Message Dispatcher](topology/message-dispatcher.png)           | Message Dispatcher      |
 
 ![Topology](topology/topology.png)
 
