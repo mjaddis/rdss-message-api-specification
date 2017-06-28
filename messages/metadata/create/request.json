@@ -1,8 +1,39 @@
 {
   "objectUuid": "string",
   "objectTitle": "string",
-  "objectContributor": [
-    1
+  "objectPersonRole": [
+    {
+      "person": {
+        "personUuid": "string",
+        "personIdentifier": [
+          {
+            "personIdentifierValue": "string",
+            "personIdentifierType": 1
+          }
+        ],
+        "personEntitlement": [
+          1
+        ],
+        "personOrganisation": [
+          {
+            "organisationJiscId": 1,
+            "organisationName": "string",
+            "organisationType": 1,
+            "organisationAddress": "string"
+          }
+        ],
+        "personAffiliation": [
+          1
+        ],
+        "personGivenName": "string",
+        "personCn": "string",
+        "personSn": "string",
+        "personTelephoneNumber": "string",
+        "personMail": "string",
+        "personOu": "string"
+      },
+      "role": 1
+    }
   ],
   "objectDescription": "string",
   "objectRights": [
@@ -33,23 +64,29 @@
       "dateType": 1
     }
   ],
-  "objectResourceType": {},
+  "objectKeywords": [
+    "string"
+  ],
+  "objectCategory": [
+    "string"
+  ],
+  "objectResourceType": 1,
   "objectValue": 1,
   "objectIdentifier": [
     {
-      "objectIdentifierValue": "string",
-      "objectIdentifierType": 1,
+      "identifierValue": "string",
+      "identifierType": 1,
       "relationType": 1
     }
   ],
   "objectRelatedIdentifier": [
     {
-      "objectIdentifierValue": "string",
-      "objectIdentifierType": 1,
+      "identifierValue": "string",
+      "identifierType": 1,
       "relationType": 1
     }
   ],
-  "objectPublisher": [
+  "objectOrganisationRole": [
     {
       "organisation": {
         "organisationJiscId": 1,
@@ -58,6 +95,13 @@
         "organisationAddress": "string"
       },
       "role": 1
+    }
+  ],
+  "objectPreservationEvent": [
+    {
+      "preservationEventValue": "string",
+      "preservationEventType": 1,
+      "preservationEventDetail": "string"
     }
   ],
   "objectFile": [
@@ -93,7 +137,6 @@
       },
       "fileChecksum": [
         {
-          "checksumUuid": "string",
           "checksumType": 1,
           "checksumValue": "string"
         }
@@ -101,7 +144,7 @@
       "fileFormatType": "string",
       "fileCompositionLevel": "string",
       "fileHasMimeType": true,
-      "fileDate": [
+      "fileDateModified": [
         {
           "dateValue": "string",
           "dateType": 1
@@ -111,19 +154,15 @@
         "string"
       ],
       "fileUse": 1,
-      "preservationEvent": [
+      "filePreservationEvent": [
         {
           "preservationEventValue": "string",
           "preservationEventType": 1,
           "preservationEventDetail": "string"
         }
       ],
-      "uploadStatus": 1,
-      "storageStatus": 1,
-      "fileSoftware": [
-        {}
-      ],
-      "fileEquipment": {},
+      "fileUploadStatus": 1,
+      "fileStorageStatus": 1,
       "fileLastDownload": {
         "dateValue": "string",
         "dateType": 1

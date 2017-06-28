@@ -11,10 +11,10 @@
         "objectTitle": {
           "type": "string"
         },
-        "objectContributor": {
+        "objectPersonRole": {
           "type": "array",
           "items": {
-            "type": "number"
+            "ref": "#/definitions/personRole"
           },
           "minItems": 1
         },
@@ -35,8 +35,20 @@
           },
           "minItems": 1
         },
+        "objectKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "objectCategory": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
         "objectResourceType": {
-          "type": "object"
+          "type": "number"
         },
         "objectValue": {
           "type": "number"
@@ -44,22 +56,27 @@
         "objectIdentifier": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/objectIdentifier"
+            "$ref": "#/definitions/identifier"
           },
           "minItems": 1
         },
         "objectRelatedIdentifier": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/objectIdentifier"
+            "$ref": "#/definitions/identifier"
           }
         },
-        "objectPublisher": {
+        "objectOrganisationRole": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/organisationRole"
-          },
-          "minItems": 1
+          }
+        },
+        "objectPreservationEvent": {
+          "type": "array",
+          "items": {
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#/definitions/preservationEvent"
+          }
         },
         "objectFile": {
           "type": "array",
@@ -71,23 +88,22 @@
       "required": [
         "objectUuid",
         "objectTitle",
-        "objectContributor",
+        "objectPersonRole",
         "objectDescription",
         "objectRights",
         "objectDate",
         "objectResourceType",
         "objectValue",
-        "objectIdentifier",
-        "objectPublisher"
+        "objectIdentifier"
       ]
     },
-    "objectIdentifier": {
+    "identifier": {
       "type": "object",
       "properties": {
-        "objectIdentifierValue": {
+        "identifierValue": {
           "type": "string"
         },
-        "objectIdentifierType": {
+        "identifierType": {
           "type": "number"
         },
         "relationType": {
@@ -95,9 +111,8 @@
         }
       },
       "required": [
-        "objectIdentifierValue",
-        "objectIdentifierType",
-        "relationType"
+        "identifierValue",
+        "identifierType"
       ]
     },
     "rights": {
@@ -177,10 +192,22 @@
         "collectionName": {
           "type": "string"
         },
-        "collection": {
+        "collectionObject": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/object"
+          }
+        },
+        "collectionKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "collectionCategory": {
+          "type": "string",
+          "items": {
+            "type": "string"
           }
         },
         "collectionDescription": {
@@ -196,6 +223,30 @@
             "$ref": "#/definitions/rights"
           },
           "minItems": 1
+        },
+        "collectionIdentifier": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/identifier"
+          }
+        },
+        "collectionRelatedIdentifier": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/identifier"
+          }
+        },
+        "collectionPersonRole": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/personRole"
+          }
+        },
+        "collectionOrganisationRole": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/organisationRole"
+          }
         }
       },
       "required": [
