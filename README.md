@@ -29,7 +29,8 @@ The RDSS Message API is intended for the following audience:
 
 ### Versioning
 
-Current version:&nbsp;&nbsp;&nbsp;&nbsp;`0.0.1-SNAPSHOT`.
+- Specification version:&nbsp;&nbsp;`0.0.1-SNAPSHOT`
+- Data model version:&nbsp;&nbsp;&nbsp; [`1.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.0.0)
 
 Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
 
@@ -39,7 +40,7 @@ The versioning scheme of this specification follows [Semantic Versioning 2.0.0](
 - `MINOR` version changes contain backwards compatible enhancements.
 - `PATCH` version changes contain backwards compatible bugfixes.
 
-Vendors implementing this specification **SHOULD** make a best effort to implement all `MINOR` and `PATCH` changes as and when thery are made available. The implementation and release of `MAJOR` changes however **MUST** be coordinated with maintainers of the messaging system to ensure compatibility between this API and the messaging system itself.
+Vendors implementing this specification **SHOULD** make a best effort to implement all `MINOR` and `PATCH` changes as and when they are made available. The implementation and release of `MAJOR` changes however **MUST** be coordinated with maintainers of the messaging system to ensure compatibility between this API and the messaging system itself.
 
 The version of this specification used to generate a given message can be determined by inspecting the `version` header (as described in the [Message Header](#message-header)) section.
 
@@ -188,7 +189,7 @@ The version of this specification that the producer responsible for generating t
 
 ### JSON Schema
 
-The following JSON schemas are provided as part of this project, which fully describe the associated [Data Model](https://github.com/JiscRDSS/rdss-canonical-data-model):
+The following JSON schemas are provided as part of this project, which fully describe the associated [Data Model](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.0.0):
 
 - [`schemas/research_object.json`](schemas/research_object.json)
 - [`schemas/material_asset.json`](schemas/material_asset.json)
@@ -300,9 +301,68 @@ The following stencils are used in the creation of the diagram:
 
 ## Transactional Behaviour
 
-All clients **MUST** implement transactional behaviour, such that any message consumed by a receiver will not be regarded as consumed until the client commits receipt of that message back to the sender / queue.
+All clients **MUST** implement transactional behaviour for both sending and receiving of messages.
 
-For example, a client can consume a message without actually removing it from the channel. Should the client crash or fail to process the message, the message still exists on the queue after the client recovers. Once the receiver processes the message and is certain that it wants to consume the message, the client will commit the transaction and the message will be removed the queue.
+### Receiving
+
+This behaviour is achieved through the use of AWS Kinesis's shard iterator. By using the shard iterator, clients can maintain a pointer to an exact record in the queue, which only moves when records retrieved from that point, up to the record limit, have been committed to the local repository.
+
+The following Python describes the behaviour that clients **SHOULD** adopt when consuming messages from a queue in order to ensure transactional behaviour:
+
+```
+import boto3
+
+client = boto3.client('kinesis')
+
+response = client.get_shard_iterator(
+    StreamName='StreamName',
+    ShardId='ShardId',
+    ShardIteratorType='TRIM_HORIZON'
+)
+
+shard_iterator = response['ShardIterator']
+while shard_iterator is not None:
+
+    response = client.get_records(
+        ShardIterator=shard_iterator,
+        Limit=1000
+    )
+
+    for record in response['Records']:
+        try:
+            process_message(record)
+        except RuntimeError:
+            break
+    else:
+        shard_iterator = response['NextShardIterator']
+```
+
+This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
+
+When processing messages, the behaviour of the underlying AWS Kinesis is such that it guarantees "at least once" delivery of a message, meaning therefore that it's possible (and probable) that a client should expect to receive duplicate messages.
+
+In order to prevent the processing of duplicate messages, all messages received by a client **MUST** be written to a [Local Data Repository](#local-data-repository), which **MUST** be referenced when deciding whether to process a message. Should the `messageId` of a message already exist in the Local Data Repository, it can be deduced that the message in question has already been processed and thus can be discarded.
+
+### Sending
+
+When sending a message, a sender **MUST NOT** consider a message as sent until they receive a successful response to the send request from the underlying AWS Kinesis stream.
+
+Similar to receiving messages, a message sent by a client **MUST** be saved in the Local Data Repository with an initial status of `TO_SEND`. Once a successful send operation has been carried out, this **MUST** be changed to `SENT`.
+
+## Local Data Repository
+
+The nature of the AWS Kinesis stream which forms the basis of the messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same message multiple times. This is also true when a client sends a message - they will receive the sent message back again.
+
+In order to prevent the same message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each message, at a minimum:
+
+- `messageId`
+- `messageClass`
+- `messageType`
+- `sequence`
+- `position`
+- `status`
+
+Valid values for `status` are `RECEIVED`, `TO_SEND` and `SENT`.
 
 ## Network Failure Behaviour
 

@@ -42,7 +42,7 @@
         "fileHasMimeType": {
           "type": "boolean"
         },
-        "fileDate": {
+        "fileDateModified": {
           "type": "array",
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
@@ -58,28 +58,18 @@
         "fileUse": {
           "type": "number"
         },
-        "preservationEvent": {
+        "filePreservationEvent": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/preservationEvent"
           },
           "minItems": 1
         },
-        "uploadStatus": {
+        "fileUploadStatus": {
           "type": "number"
         },
-        "storageStatus": {
+        "fileStorageStatus": {
           "type": "number"
-        },
-        "fileSoftware": {
-          "type": "array",
-          "items": {
-            "type": "object"
-          },
-          "minItems": 1
-        },
-        "fileEquipment": {
-          "type": "object"
         },
         "fileLastDownload": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
@@ -104,12 +94,11 @@
         "fileSize",
         "fileChecksum",
         "fileCompositionLevel",
-        "fileDate",
+        "fileDateModified",
         "fileUse",
-        "preservationEvent",
-        "uploadStatus",
-        "storageStatus",
-        "fileSoftware",
+        "filePreservationEvent",
+        "fileUploadStatus",
+        "fileStorageStatus",
         "fileStorageLocation",
         "fileStorageType"
       ]
@@ -117,9 +106,6 @@
     "checksum": {
       "type": "object",
       "properties": {
-        "checksumUuid": {
-          "type": "string"
-        },
         "checksumType": {
           "type": "number"
         },
@@ -128,7 +114,6 @@
         }
       },
       "required": [
-        "checksumUuid",
         "checksumType",
         "checksumValue"
       ]
