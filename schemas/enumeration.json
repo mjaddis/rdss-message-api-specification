@@ -31,6 +31,18 @@
         "published"
       ]
     },
+    "eduPersonScopedAffiliation": {
+      "enum": [
+        "student",
+        "staff",
+        "faculty",
+        "employee",
+        "member",
+        "affiliate",
+        "alum",
+        "libraryWalkIn"
+      ]
+    },
     "fileUse": {
       "enum": [
         "originalFile",
@@ -42,7 +54,7 @@
         "transcript"
       ]
     },
-    "objectIdentifierType": {
+    "identifierType": {
       "enum": [
         "ARK",
         "arXiv",
@@ -64,6 +76,13 @@
         "URN"
       ]
     },
+    "objectValue": {
+      "enum": [
+        "normal",
+        "high",
+        "veryHigh"
+      ]
+    },
     "organisationRole": {
       "enum": [
         "funder",
@@ -74,7 +93,27 @@
         "registrationAgency",
         "registrationAuthority",
         "distributor",
-        "advocacy"
+        "advocacy",
+        "author"
+      ]
+    },
+    "organisationType": {
+      "enum": [
+        "charity",
+        "commerical",
+        "funder",
+        "furtherEducation",
+        "government",
+        "health",
+        "heritage",
+        "higherEducation",
+        "other",
+        "professionalBody",
+        "research",
+        "school",
+        "skills",
+        "billing",
+        "display"
       ]
     },
     "personIdentifierType": {
@@ -107,7 +146,8 @@
         "rightsHolder",
         "sponsor",
         "supervisor",
-        "other"
+        "other",
+        "author"
       ]
     },
     "preservationEventType": {
@@ -173,6 +213,38 @@
         "isParentOf"
       ]
     },
+    "resourceType": {
+      "enum": [
+        "artDesignItem",
+        "article",
+        "audio",
+        "book",
+        "bookSection",
+        "conferenceWorkshopItem",
+        "dataset",
+        "examPaper",
+        "image",
+        "journal",
+        "learningObject",
+        "metadataRecord",
+        "movingImage",
+        "musicComposition",
+        "other",
+        "patent",
+        "performance",
+        "preprint",
+        "report",
+        "review",
+        "showExhibition",
+        "software",
+        "text",
+        "thesisDissertation",
+        "unknown",
+        "website",
+        "workflow",
+        "equipment"
+      ]
+    },
     "storageStatus": {
       "enum": [
         "online",
@@ -191,25 +263,6 @@
         "uploadStarted",
         "uploadComplete",
         "uploadAborted"
-      ]
-    },
-    "eduPersonScopedAffiliation": {
-      "enum": [
-        "student",
-        "staff",
-        "faculty",
-        "employee",
-        "member",
-        "affiliate",
-        "alum",
-        "libraryWalkIn"
-      ]
-    },
-    "objectValue": {
-      "enum": [
-        "normal",
-        "high",
-        "veryHigh"
       ]
     }
   }
