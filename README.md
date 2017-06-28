@@ -189,7 +189,7 @@ The version of this specification that the producer responsible for generating t
 
 ### JSON Schema
 
-The following JSON schemas are provided as part of this project, which fully describe the associated [Data Model](https://github.com/JiscRDSS/rdss-canonical-data-model):
+The following JSON schemas are provided as part of this project, which fully describe the associated [Data Model](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.0.0):
 
 - [`schemas/research_object.json`](schemas/research_object.json)
 - [`schemas/material_asset.json`](schemas/material_asset.json)
