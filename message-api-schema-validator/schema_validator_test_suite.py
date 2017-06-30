@@ -3,6 +3,7 @@ from tests.metadata import MetadataCreateRequestTest, MetadataReadRequestTest, M
     MetadataUpdateRequestTest, MetadataDeleteRequestTest
 from tests.vocabulary import VocabularyReadRequestTest, VocabularyReadResponseTest, VocabularyPatchRequestTest
 
+
 def suite():
     suite = TestSuite()
 

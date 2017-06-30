@@ -4,7 +4,7 @@ from unittest import TestCase
 
 class VocabularyReadRequestTest(AbstractSchemaValidatorTest, TestCase):
     def get_json_schema_file_name(self):
-        return "messages/vocabulary/read/request_schema.json"
+        return 'messages/vocabulary/read/request_schema.json'
 
     def runTest(self):
-        self.validate_json("messages/vocabulary/read/request.json")
+        self.validate_json('messages/vocabulary/read/request.json')
