@@ -9,4 +9,5 @@ before_script:
   - pylint --errors-only ./message-api-schema-validator/schema_validator_test_suite.py
   - pylint --errors-only ./message-api-schema-validator/tests
 script:
+  - pre-commit run --allow-unstaged-config --all-files --verbose
   - python message-api-schema-validator/schema_validator_test_suite.py
