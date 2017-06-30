@@ -2,11 +2,11 @@
 
 Message Type: `MetadataRead`.
 
-Describes a JSON payload of metadata of a [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) that is generated during a `READ` operation.
+Describes a JSON payload of metadata of an [Object](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Object) that is generated during a `READ` operation.
 
 ## Scenarios
 
-- Sent by subscribers when the metadata for an existing [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) is required.
+- Sent by subscribers when the metadata for an existing [Object](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Object) is required.
 
 ## Request
 

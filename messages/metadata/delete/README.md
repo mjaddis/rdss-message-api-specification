@@ -2,11 +2,11 @@
 
 Message Type: `MetadataDelete`.
 
-Describes a JSON payload of metadata of a [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) that is generated during a `DELETE` operation.
+Describes a JSON payload of metadata of an [Object](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Object) that is generated during a `DELETE` operation.
 
 ## Scenarios
 
-- Sent to subscribers to notify that metadata for a [Dataset](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Dataset) has been deleted.
+- Sent to subscribers to notify that metadata for an [Object](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/master/properties/Object) has been deleted.
 
 ## Request
 
