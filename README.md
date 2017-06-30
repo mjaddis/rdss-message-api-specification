@@ -314,27 +314,39 @@ import boto3
 
 client = boto3.client('kinesis')
 
-response = client.get_shard_iterator(
-    StreamName='StreamName',
-    ShardId='ShardId',
+response = client.describe_stream
+    StreamName=stream_name
+)
+shard_id = response["StreamDescription"]["Shards"][0]["ShardId"]
+
+response = self.client.get_shard_iterator(
+    StreamName=stream_name,
+    ShardId=shard_id,
     ShardIteratorType='TRIM_HORIZON'
 )
-
 shard_iterator = response['ShardIterator']
-while shard_iterator is not None:
 
-    response = client.get_records(
-        ShardIterator=shard_iterator,
-        Limit=1000
-    )
-
-    for record in response['Records']:
-        try:
-            process_message(record)
-        except RuntimeError:
-            break
-    else:
-        shard_iterator = response['NextShardIterator']
+try:
+    caught_up = False
+    while True:
+        response = self.client.get_records(
+            ShardIterator=shard_iterator,
+            Limit=100
+        )
+        records = response["Records"]
+        if len(records) > 0:
+            caught_up = False
+            for record in records:
+                process_record(record)
+        shard_iterator = response["NextShardIterator"]
+        millis_behind_latest = response["MillisBehindLatest"]
+        if millis_behind_latest > 0:
+            caught_up = False
+        elif millis_behind_latest == 0 and not caught_up:
+            caught_up = True
+        sleep(0.2)
+except KeyboardInterrupt:
+    pass
 ```
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
