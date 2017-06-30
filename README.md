@@ -290,7 +290,7 @@ The following stencils are used in the creation of the diagram:
 |         ![Channel Adapter](topology/channel-adapter.png)         | Channel Adapter         |   |   ![Kinesis Stream](topology/aws-kinesis-stream.png)   | [Kinesis Stream](https://aws.amazon.com/kinesis/streams/)    |
 |          ![Message Broker](topology/message-broker.png)          | Message Broker          |   |           ![Lambda](topology/aws-lambda.png)           | [Lambda](https://aws.amazon.com/lambda/)                     |
 |    ![Content Based Router](topology/content-based-router.png)    | Content Based Router    |   |  ![Relational Database Service](topology/aws-rds.png)  | [Relational Database Service](https://aws.amazon.com/rds/)   |
-|                                                                  |                         |   | ![Simple Storage Service (S3)](topology/amazon-s3.png) | [Simple Storage Service (S3)](https://aws.amazon.com/s3/)    |
+|                                                                  |                         |   | ![Simple Storage Service (S3)](topology/aws-s3.png) | [Simple Storage Service (S3)](https://aws.amazon.com/s3/)    |
 
 ![Topology](topology/topology.png)
 
