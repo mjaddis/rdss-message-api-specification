@@ -8,9 +8,7 @@ use_step_matcher("re")
 
 @given("User write to the kinessis stream")
 def step_impl(context):
-    p = subprocess.Popen(
-        'python write_stream.py rdss_qa_input_staging /Users/zakir.ahmed/workspace/RDSS-964/rdss-message-api-docs/messages/metadata/create/',
-        shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    p = subprocess.Popen('python write_stream.py rdss_qa_input_staging /Users/zakir.ahmed/workspace/RDSS-964/rdss-message-api-docs/messages/metadata/create/', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     (out, err) = p.communicate()
     print("program output:", out)
     string = out.decode(encoding="utf-8", errors="strict")
@@ -27,8 +25,7 @@ def step_impl(context):
 @when("User read from the kinesis stream")
 def step_impl(context):
     print(sequence_number)
-    z1 = subprocess.Popen('python read_stream.py rdss_qa_input_staging --sequence_number' + " " + sequence_number,
-                          shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    z1 = subprocess.Popen('python read_stream.py rdss_qa_input_staging --sequence_number' + " " + sequence_number,shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     (readout, err) = z1.communicate()
     print("program output2:", readout)
     global string
@@ -40,7 +37,11 @@ def step_impl(context):
 @then("I validate the sequence number matches")
 def step_impl(context):
 
-    z2 = (string.split("u'"))
-    print(z2[3])
-    print(z2[5])
+    z2 = (string.split("\'"))
+    #print("output2 after split:", z2)
+    for seq in z2:
+     #   print(seq.__contains__(sequence_number))
+        if (seq.__contains__(sequence_number))== True:
+            print('Found')
+
     pass
