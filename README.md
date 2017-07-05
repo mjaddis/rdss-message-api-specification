@@ -294,6 +294,7 @@ The following stencils are used in the creation of the diagram:
 |                                                                  |                         |   |         ![Redshift](topology/aws-redshift.png)         | [Redshift ](https://aws.amazon.com/redshift/)                |
 
 ![Topology](topology/topology.png)
+_(click the diagram to view in high resolution)_
 
 - [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
 - [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
