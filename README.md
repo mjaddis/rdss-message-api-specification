@@ -282,17 +282,19 @@ The following stencils are used in the creation of the diagram:
 - [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html)
 - [Amazon AWS Stencils](https://aws.amazon.com/architecture/icons/)
 
-| Key                                                              | Description             |
-|------------------------------------------------------------------|-------------------------|
-| ![Directional Channel](topology/directional-channel.png)         | Directional Channel     |
-| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |
-| ![Error Message Channel](topology/error-message-channel.png)     | Error Message Channel   |
-| ![Channel Adapter](topology/channel-adapter.png)                 | Channel Adapter         |
-| ![Message Broker](topology/message-broker.png)                   | Message Broker          |
-| ![Content Based Router](topology/content-based-router.png)       | Content Based Router    |
-| ![Message Dispatcher](topology/message-dispatcher.png)           | Message Dispatcher      |
+|                             EIP Key                              | Description             |   |                        AWS Key                         | Description                                                  |
+|:----------------------------------------------------------------:|-------------------------|---|:------------------------------------------------------:|--------------------------------------------------------------|
+|     ![Directional Channel](topology/directional-channel.png)     | Directional Channel     |   |  ![Elastic Cloud Compute (EC2)](topology/aws-ec2.png)  | [Elastic Cloud Compute (EC2)](https://aws.amazon.com/ec2/)   |
+| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |   |     ![EC2 Container Service](topology/aws-ecs.png)     | [EC2 Container Service](https://aws.amazon.com/ecs/)         |
+|   ![Error Message Channel](topology/error-message-channel.png)   | Error Message Channel   |   | ![Kinesis Firehose](topology/aws-kinesis-firehose.png) | [Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/) |
+|         ![Channel Adapter](topology/channel-adapter.png)         | Channel Adapter         |   |   ![Kinesis Stream](topology/aws-kinesis-stream.png)   | [Kinesis Stream](https://aws.amazon.com/kinesis/streams/)    |
+|          ![Message Broker](topology/message-broker.png)          | Message Broker          |   |           ![Lambda](topology/aws-lambda.png)           | [Lambda](https://aws.amazon.com/lambda/)                     |
+|    ![Content Based Router](topology/content-based-router.png)    | Content Based Router    |   |  ![Relational Database Service](topology/aws-rds.png)  | [Relational Database Service](https://aws.amazon.com/rds/)   |
+|                                                                  |                         |   |  ![Simple Storage Service (S3)](topology/aws-s3.png)   | [Simple Storage Service (S3)](https://aws.amazon.com/s3/)    |
+|                                                                  |                         |   |         ![Redshift](topology/aws-redshift.png)         | [Redshift ](https://aws.amazon.com/redshift/)                |
 
 ![Topology](topology/topology.png)
+_(click the diagram to view in high resolution)_
 
 - [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
 - [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
