@@ -29,7 +29,7 @@ The RDSS Message API is intended for the following audience:
 
 ### Versioning
 
-- Specification version:&nbsp;&nbsp;`1.0.0`
+- Specification version:&nbsp;&nbsp;`1.0.1-SNAPSHOT`
 - Data model version:&nbsp;&nbsp;&nbsp; [`1.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.0.0)
 
 Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
@@ -282,17 +282,19 @@ The following stencils are used in the creation of the diagram:
 - [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html)
 - [Amazon AWS Stencils](https://aws.amazon.com/architecture/icons/)
 
-| Key                                                              | Description             |
-|------------------------------------------------------------------|-------------------------|
-| ![Directional Channel](topology/directional-channel.png)         | Directional Channel     |
-| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |
-| ![Error Message Channel](topology/error-message-channel.png)     | Error Message Channel   |
-| ![Channel Adapter](topology/channel-adapter.png)                 | Channel Adapter         |
-| ![Message Broker](topology/message-broker.png)                   | Message Broker          |
-| ![Content Based Router](topology/content-based-router.png)       | Content Based Router    |
-| ![Message Dispatcher](topology/message-dispatcher.png)           | Message Dispatcher      |
+|                             EIP Key                              | Description             |   |                        AWS Key                         | Description                                                  |
+|:----------------------------------------------------------------:|-------------------------|---|:------------------------------------------------------:|--------------------------------------------------------------|
+|     ![Directional Channel](topology/directional-channel.png)     | Directional Channel     |   |  ![Elastic Cloud Compute (EC2)](topology/aws-ec2.png)  | [Elastic Cloud Compute (EC2)](https://aws.amazon.com/ec2/)   |
+| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |   |     ![EC2 Container Service](topology/aws-ecs.png)     | [EC2 Container Service](https://aws.amazon.com/ecs/)         |
+|   ![Error Message Channel](topology/error-message-channel.png)   | Error Message Channel   |   | ![Kinesis Firehose](topology/aws-kinesis-firehose.png) | [Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/) |
+|         ![Channel Adapter](topology/channel-adapter.png)         | Channel Adapter         |   |   ![Kinesis Stream](topology/aws-kinesis-stream.png)   | [Kinesis Stream](https://aws.amazon.com/kinesis/streams/)    |
+|          ![Message Broker](topology/message-broker.png)          | Message Broker          |   |           ![Lambda](topology/aws-lambda.png)           | [Lambda](https://aws.amazon.com/lambda/)                     |
+|    ![Content Based Router](topology/content-based-router.png)    | Content Based Router    |   |  ![Relational Database Service](topology/aws-rds.png)  | [Relational Database Service](https://aws.amazon.com/rds/)   |
+|                                                                  |                         |   |  ![Simple Storage Service (S3)](topology/aws-s3.png)   | [Simple Storage Service (S3)](https://aws.amazon.com/s3/)    |
+|                                                                  |                         |   |         ![Redshift](topology/aws-redshift.png)         | [Redshift ](https://aws.amazon.com/redshift/)                |
 
 ![Topology](topology/topology.png)
+_(click the diagram to view in high resolution)_
 
 - [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
 - [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
@@ -314,27 +316,39 @@ import boto3
 
 client = boto3.client('kinesis')
 
-response = client.get_shard_iterator(
-    StreamName='StreamName',
-    ShardId='ShardId',
+response = client.describe_stream
+    StreamName=stream_name
+)
+shard_id = response["StreamDescription"]["Shards"][0]["ShardId"]
+
+response = self.client.get_shard_iterator(
+    StreamName=stream_name,
+    ShardId=shard_id,
     ShardIteratorType='TRIM_HORIZON'
 )
-
 shard_iterator = response['ShardIterator']
-while shard_iterator is not None:
 
-    response = client.get_records(
-        ShardIterator=shard_iterator,
-        Limit=1000
-    )
-
-    for record in response['Records']:
-        try:
-            process_message(record)
-        except RuntimeError:
-            break
-    else:
-        shard_iterator = response['NextShardIterator']
+try:
+    caught_up = False
+    while True:
+        response = self.client.get_records(
+            ShardIterator=shard_iterator,
+            Limit=100
+        )
+        records = response["Records"]
+        if len(records) > 0:
+            caught_up = False
+            for record in records:
+                process_record(record)
+        shard_iterator = response["NextShardIterator"]
+        millis_behind_latest = response["MillisBehindLatest"]
+        if millis_behind_latest > 0:
+            caught_up = False
+        elif millis_behind_latest == 0 and not caught_up:
+            caught_up = True
+        sleep(0.2)
+except KeyboardInterrupt:
+    pass
 ```
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
