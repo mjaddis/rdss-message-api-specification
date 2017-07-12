@@ -307,49 +307,72 @@ All clients **MUST** implement transactional behaviour for both sending and rece
 
 ### Receiving
 
-This behaviour is achieved through the use of AWS Kinesis's shard iterator. By using the shard iterator, clients can maintain a pointer to an exact record in the queue, which only moves when records retrieved from that point, up to the record limit, have been committed to the local repository.
+This behaviour is achieved through the use of AWS Kinesis's shard implementation.  Each Kinesis Stream maintains several shards and a message is placed within a shard through load balanced rules.  Therefore all shards **must** be checked for messages.  Each shard can be read through the use of the shard iterator. 
+
+Using the shard iterator to move through the different sequences of messages in the shard, starting from the tail (known as the TRIM_HORIZON) and moving up to the latest messages on the shard at the HEAD.  If the reading of the streams was interrupted it would have to return to the beginning, to prevent this the id of the current shard being read and the sequence number should be kept and persisted to allow any interrupted search to continue from the same point.
+
+Each sequence is given a unique number within that shard, resulting in a reliable identifier using **shard id** and **sequence number** to find the place of the record in the queue when restarting a search.
 
 The following Python describes the behaviour that clients **SHOULD** adopt when consuming messages from a queue in order to ensure transactional behaviour:
 
-```
+```python
 import boto3
 
 client = boto3.client('kinesis')
 
-response = client.describe_stream
+persistedValues = loadPersistedValues()
+
+if persistedValues != null:
+    shard_id = persisteValues['shardId']
+    sequence_number = persisteValues['sequenceNumber']
+else:
+    shard_id = null
+    sequence_number = null
+
+response = client.describe_stream (
     StreamName=stream_name
+    ExclusiveStartShardId=shard_id,
+    SequenceNumber=sequence_number
 )
-shard_id = response["StreamDescription"]["Shards"][0]["ShardId"]
 
-response = self.client.get_shard_iterator(
-    StreamName=stream_name,
-    ShardId=shard_id,
-    ShardIteratorType='TRIM_HORIZON'
-)
-shard_iterator = response['ShardIterator']
+shards = response['shards']
 
-try:
-    caught_up = False
-    while True:
-        response = self.client.get_records(
-            ShardIterator=shard_iterator,
-            Limit=100
-        )
-        records = response["Records"]
-        if len(records) > 0:
-            caught_up = False
-            for record in records:
-                process_record(record)
-        shard_iterator = response["NextShardIterator"]
-        millis_behind_latest = response["MillisBehindLatest"]
-        if millis_behind_latest > 0:
-            caught_up = False
-        elif millis_behind_latest == 0 and not caught_up:
-            caught_up = True
-        sleep(0.2)
-except KeyboardInterrupt:
-    pass
+for shard in shards:
+    iterator_response = self.client.get_shard_iterator(
+        StreamName=stream_name,
+        ShardId=shard_id,
+        ShardIteratorType='TRIM_HORIZON',
+        SequenceNumber=sequence_number
+    )
+    shard_iterator = iterator_response['ShardIterator']
+    try:
+        caught_up = False
+        while True:
+            records_response = self.client.get_records(
+                ShardIterator=shard_iterator,
+                Limit=100
+            )
+            records = records_response["Records"]
+            if len(records) > 0:
+                caught_up = False
+                for record in records:
+                    sequence_number = record['SequenceNumber']
+                    process_record(record)
+            shard_iterator = response["NextShardIterator"]
+            millis_behind_latest = response["MillisBehindLatest"]
+            if millis_behind_latest > 0:
+                caught_up = False
+            elif millis_behind_latest == 0 and not caught_up:
+                caught_up = True
+            sleep(0.2)
+            
+    except KeyboardInterrupt:
+        storePersistedValues(shard_id, sequence_number)
+        pass
+        
+
 ```
+
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
 
@@ -440,14 +463,18 @@ The creation process is "fire and forget", insomuch that it does not expect a re
 
 In contrast to the Metadata Create operation, the Metadata Read operation requires a response Message.
 
-To model this, the `Message Chanel` lifeline enters the following loop:
+To model this, the `Message Chanel` lifeline enters the following loops:
 
-1. Execute `GetRecords` for the current `ShardIterator`
-2. Seach the return `Record`'s for a Message with a `correlationId` that matches the request Message
-3. If found, exit the loop
-4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `1`
-5. Sleep for a predefined period of time
-6. Return to step `1`
+1. Execute `GetShards` for the current stream.
+2. Execute the `GetShardIterator` to retrieve the current iterator from the current `shard`
+    * 2.1. Execute `GetRecords` for the current `ShardIterator`
+    * 2.2. Search the return `Record`'s for a Message with a `correlationId` that matches the request Message
+    * 2.3. If found, exit the loop
+    * 2.4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `2.1`
+    * 2.5. Sleep for a predefined period of time
+    * 2.6. Return to step `2.1`
+3. If not found, update the shard with the next `shard` in the list of `shards`
+4. Return to step `2`
 
 ### Channel Adapter
 
