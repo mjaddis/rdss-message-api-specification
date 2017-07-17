@@ -307,11 +307,11 @@ All clients **MUST** implement transactional behaviour for both sending and rece
 
 ### Receiving
 
-This behaviour is achieved through the use of AWS Kinesis's shard implementation.  Each Kinesis Stream maintains several shards and a message is placed within a shard through load balanced rules.  Therefore all shards **must** be checked for messages.  Each shard can be read through the use of the shard iterator. 
+Receiving a message is achieved through the use of AWS Kinesis Stream’s API. Each Kinesis Stream is constructed with one or more shards and a message would have been added to a shard through the predetermined load balancing rules. Therefore all existing shards in the Stream **MUST** be queried for messages. Each shard can be accessed through the Kinesis Client Library (KCL).
 
-Using the shard iterator to move through the different sequences of messages in the shard, starting from the tail (known as the TRIM_HORIZON) and moving up to the latest messages on the shard at the HEAD.  If the reading of the streams was interrupted it would have to return to the beginning, to prevent this the id of the current shard being read and the sequence number should be kept and persisted to allow any interrupted search to continue from the same point.
+Using the KCL, you would first fetch the appropriate Stream and then check each shard contained within the Stream, there may be more than one.  Each shard contains an iterator that will move along the shard through each partition of the shard. By obtaining the shard iterator, a shard can be traversed towards the HEAD from a given start point. On the first traversal the start point should be the opposite end of the shard, known as the trim horizon.
 
-Each sequence is given a unique number within that shard, resulting in a reliable identifier using **shard id** and **sequence number** to find the place of the record in the queue when restarting a search.
+If reading of the Stream was interrupted, it is possible to take up the traversal from the point it was interrupted by capturing the ID of the current shard and the sequence number of the last data record read.  By persisting both shard id and sequence number the KCL can be directed to start a traversal with that shard's iterator and using that record's sequence number as the start point for that shard.
 
 The following Python describes the behaviour that clients **SHOULD** adopt when consuming messages from a queue in order to ensure transactional behaviour:
 
@@ -320,14 +320,14 @@ import boto3
 
 client = boto3.client('kinesis')
 
-persistedValues = loadPersistedValues()
+persisted_values = load_persisted_values()
 
-if persistedValues != null:
-    shard_id = persisteValues['shardId']
-    sequence_number = persisteValues['sequenceNumber']
+if persisted_values not none:
+    shard_id = persisted_values['shardId']
+    sequence_number = persisted_values['sequenceNumber']
 else:
-    shard_id = null
-    sequence_number = null
+    shard_id = none
+    sequence_number = none
 
 response = client.describe_stream (
     StreamName=stream_name
@@ -335,15 +335,27 @@ response = client.describe_stream (
     SequenceNumber=sequence_number
 )
 
-shards = response['shards']
+shards = response['Shards']
 
 for shard in shards:
-    iterator_response = self.client.get_shard_iterator(
-        StreamName=stream_name,
-        ShardId=shard_id,
-        ShardIteratorType='TRIM_HORIZON',
-        SequenceNumber=sequence_number
-    )
+    current_shard_id = shard['ShardId']
+    if (shard_id not none and shard_id != current_shard_id):
+        continue
+    elif (shard_id not none and shard_id == current_shard_id):
+        shard_id = none
+    if sequence_number not none:
+        iterator_response = self.client.get_shard_iterator(
+            StreamName=stream_name,
+            ShardId=current_shard_id,
+            ShardIteratorType='AT_SEQUENCE_NUMBER',
+            SequenceNumber=sequence_number
+        )
+    else:
+        iterator_response = self.client.get_shard_iterator(
+            StreamName=stream_name,
+            ShardId=current_shard_id,
+            ShardIteratorType='TRIM_HORIZON'
+        )
     shard_iterator = iterator_response['ShardIterator']
     try:
         caught_up = False
@@ -367,12 +379,11 @@ for shard in shards:
             sleep(0.2)
             
     except KeyboardInterrupt:
-        storePersistedValues(shard_id, sequence_number)
+        store_persisted_values(shard_id, sequence_number)
         pass
         
 
 ```
-
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
 
@@ -463,17 +474,17 @@ The creation process is "fire and forget", insomuch that it does not expect a re
 
 In contrast to the Metadata Create operation, the Metadata Read operation requires a response Message.
 
-To model this, the `Message Chanel` lifeline enters the following loops:
+To model this, the `Message Channel` lifeline enters the following loops:
 
-1. Execute `GetShards` for the current stream.
-2. Execute the `GetShardIterator` to retrieve the current iterator from the current `shard`
+1. Fetch the shards for the current stream through `DescribeStreams` from the KCL.
+2. Execute the `GetShardIterator` to retrieve the current iterator from the current shard
     * 2.1. Execute `GetRecords` for the current `ShardIterator`
-    * 2.2. Search the return `Record`'s for a Message with a `correlationId` that matches the request Message
+    * 2.2. Search the returned record's for a Message with a `correlationId` that matches the request Message
     * 2.3. If found, exit the loop
     * 2.4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `2.1`
     * 2.5. Sleep for a predefined period of time
     * 2.6. Return to step `2.1`
-3. If not found, update the shard with the next `shard` in the list of `shards`
+3. If no message found, update the shard with the next shard in the list of shards
 4. Return to step `2`
 
 ### Channel Adapter
