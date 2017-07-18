@@ -23,4 +23,4 @@
     sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
     hooks:
     -   id: shell-lint
-        files: bin
+        files: announce_to_github.sh
