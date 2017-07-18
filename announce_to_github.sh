@@ -57,10 +57,10 @@ execute_announcement () {
 if [ ! -z "$TRAVIS_TAG" ]
 then
   log_info "Announcing the release of '$TRAVIS_TAG' to Slack channels '$SLACK_TARGET_CHANNELS'..."
-  for SLACK_CHANNEL in $(echo $SLACK_TARGET_CHANNELS | sed "s/,/ /g")
+  for SLACK_CHANNEL in ${SLACK_TARGET_CHANNELS//,/ }
   do
     log_info "Announcing the release of '$TRAVIS_TAG' to Slack channel '$SLACK_CHANNEL'..."
-    execute_announcement $SLACK_CHANNEL "$(build_announcement_text)"
+    execute_announcement "$SLACK_CHANNEL" "$(build_announcement_text)"
   done
 else
   log_info "Got \$TRAVIS_TAG value '$TRAVIS_TAG' - \$TRAVIS_BRANCH '$TRAVIS_BRANCH' is not a candidate for announcement."
