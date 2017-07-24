@@ -1,10 +1,13 @@
 -   repo: git://github.com/pre-commit/pre-commit-hooks
-    sha: 46251c9523506b68419aefdf5ff6ff2fbc4506a4
+    sha: feb71798bfcaf4653c0b592d115ca30561cd7c05
     hooks:
     -   id: autopep8-wrapper
     -   id: check-added-large-files
     -   id: check-ast
+    -   id: check-byte-order-marker
     -   id: check-case-conflict
+    -   id: check-docstring-first
+    -   id: check-executables-have-shebangs
     -   id: check-json
     -   id: check-merge-conflict
     -   id: check-yaml
@@ -15,3 +18,9 @@
     -   id: forbid-new-submodules
     -   id: name-tests-test
     -   id: requirements-txt-fixer
+
+-   repo: git@github.com:detailyang/pre-commit-shell.git
+    sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
+    hooks:
+    -   id: shell-lint
+        files: announce_to_github.sh
