@@ -327,7 +327,7 @@ class KinesisClient(object):
         self.client = boto3.client('kinesis')
 
     def poll_stream(self, stream_name):
-        shard_ids = self.get_shard_ids(stream_name, None)
+        shard_ids = self.__get_shard_ids(stream_name, None)
         for shard_id in shard_ids:
             sequence_number = self.__get_sequence_number_for_shard(shard_id)
             shard_iterator = self.__get_shard_iterator(stream_name, shard_id,
