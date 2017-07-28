@@ -307,49 +307,107 @@ All clients **MUST** implement transactional behaviour for both sending and rece
 
 ### Receiving
 
-This behaviour is achieved through the use of AWS Kinesis's shard iterator. By using the shard iterator, clients can maintain a pointer to an exact record in the queue, which only moves when records retrieved from that point, up to the record limit, have been committed to the local repository.
+Receiving a message is achieved through the use of AWS Kinesis Stream’s API. Each Kinesis Stream consists of one or more Shards, where a Shard is a uniquely identified group of records within a Stream. When polling a Stream for records, all Shards in the Stream **MUST** be queried for records as a record can be written to any Shard, and it is impossible to predict which Shard a record will be written to.
 
-The following Python describes the behaviour that clients **SHOULD** adopt when consuming messages from a queue in order to ensure transactional behaviour:
+In order to achieve transactionality when reading from a Kinesis Stream, a client **MUST** keep track of all Shards within the Stream, and **MUST** keep track of the Sequence ID of the most recently received and successfully processed record within each Shard.
 
-```
+In doing so, this permits the client to restart the polling of the Kinesis Stream and its respective Shards by being able to begin polling at the point in the Shard of the last record that was received and processed. Should a failure occur with the client or with the parsing of a record, polling of the Stream can resume from the last successfully processed record.
+
+The process for reading records from a Stream (including the handling of the respective Shards) is detailed in the [Message Gateway Sequence Diagrams](#message-gateway-sequence-diagrams) section.
+
+The following Python describes the behaviour that clients **SHOULD** adopt when consuming messages from a queue in order to achieve transactional behaviour:
+
+```python
 import boto3
+import time
 
-client = boto3.client('kinesis')
 
-response = client.describe_stream
-    StreamName=stream_name
-)
-shard_id = response["StreamDescription"]["Shards"][0]["ShardId"]
+class KinesisClient(object):
+    def __init__(self):
+        self.client = boto3.client('kinesis')
 
-response = self.client.get_shard_iterator(
-    StreamName=stream_name,
-    ShardId=shard_id,
-    ShardIteratorType='TRIM_HORIZON'
-)
-shard_iterator = response['ShardIterator']
+    def poll_stream(self, stream_name):
+        shard_ids = self.__get_shard_ids(stream_name, None)
+        for shard_id in shard_ids:
+            sequence_number = self.__get_sequence_number_for_shard(shard_id)
+            shard_iterator = self.__get_shard_iterator(stream_name, shard_id,
+                                                       sequence_number)
+            self.__do_poll(shard_id, shard_iterator)
 
-try:
-    caught_up = False
-    while True:
-        response = self.client.get_records(
-            ShardIterator=shard_iterator,
-            Limit=100
-        )
-        records = response["Records"]
-        if len(records) > 0:
-            caught_up = False
-            for record in records:
-                process_record(record)
-        shard_iterator = response["NextShardIterator"]
-        millis_behind_latest = response["MillisBehindLatest"]
-        if millis_behind_latest > 0:
-            caught_up = False
-        elif millis_behind_latest == 0 and not caught_up:
-            caught_up = True
-        sleep(0.2)
-except KeyboardInterrupt:
-    pass
+    def __get_shard_ids(self, stream_name, start_shard_id):
+        shard_ids = []
+        if start_shard_id is None:
+            response = self.client.describe_stream(
+                StreamName=stream_name,
+                Limit=100,
+                ExclusiveStartShardId=start_shard_id
+            )
+        else:
+            response = self.client.describe_stream(
+                StreamName=stream_name,
+                Limit=100
+            )
+        for shard in response['StreamDescription']['Shards']:
+            shard_ids.append(shard['ShardId'])
+        if response['StreamDescription']['HasMoreShards']:
+            shard_ids.append(self.__get_shard_ids(stream_name, shard_ids[-1]))
+        return shard_ids
+
+    def __get_sequence_number_for_shard(self, shard_id):
+        # Fetch the Sequence Number stored against the Shard ID
+
+    def __get_shard_iterator(self, stream_name, shard_id, sequence_number):
+        if sequence_number is not None:
+            response = self.client.get_shard_iterator(
+                StreamName=stream_name,
+                ShardId=shard_id,
+                ShardIteratorType='AFTER_SEQUENCE_NUMBER',
+                SequenceNumber=sequence_number
+            )
+        else:
+            response = self.client.get_shard_iterator(
+                StreamName=stream_name,
+                ShardId=shard_id,
+                ShardIteratorType='TRIM_HORIZON'
+            )
+        return response['ShardIterator']
+
+    def __do_poll(self, shard_id, shard_iterator):
+        caught_up = False
+        try:
+            while True:
+                response = self.client.get_records(
+                    ShardIterator=shard_iterator,
+                    Limit=100
+                )
+                records = response["Records"]
+                if len(records) > 0:
+                    caught_up = False
+                    for record in records:
+                        self.__process_record(record)
+                        sequence_number = record['SequenceNumber']
+                        self.__store_sequence_number_for_shard(shard_id,
+                                                               sequence_number)
+                shard_iterator = response["NextShardIterator"]
+                millis_behind_latest = response["MillisBehindLatest"]
+                if millis_behind_latest > 0:
+                    caught_up = False
+                elif millis_behind_latest == 0 and not caught_up:
+                    caught_up = True
+                time.sleep(0.2)
+        finally:
+            self.__store_sequence_number_for_shard(shard_id, sequence_number)
+
+    def __process_record(self, record):
+        # Process the record...
+
+    def __store_sequence_number_for_shard(self, shard_id, sequence_number):
+        # Store the Sequence Number against the Shard ID
 ```
+*Note:*
+
+- *This example does not account for resharding (i.e. splitting and merging Shards). Such behaviour will change the state of the Stream, something which clients need to accommodate.*
+- *This example does not implement threading. It is expected that the polling of each Shard takes place in its own thread, so that each Shard can be operated upon in parallel.*
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
 
@@ -440,14 +498,17 @@ The creation process is "fire and forget", insomuch that it does not expect a re
 
 In contrast to the Metadata Create operation, the Metadata Read operation requires a response Message.
 
-To model this, the `Message Chanel` lifeline enters the following loop:
+To model this, the `Message Channel` lifeline enters the following loops:
 
-1. Execute `GetRecords` for the current `ShardIterator`
-2. Seach the return `Record`'s for a Message with a `correlationId` that matches the request Message
-3. If found, exit the loop
-4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `1`
-5. Sleep for a predefined period of time
-6. Return to step `1`
+1. Fetch the Shards for the current Stream through `DescribeStreams`.
+2. For each Shard return in step `1`, create a new thread and:
+  * 2.1. Execute the `GetShardIterator` to retrieve the Shard Iterator for the current Shard
+  * 2.1. Execute `GetRecords` for the current `ShardIterator`
+  * 2.2. Search the returned record's for a Message with a `correlationId` that matches the request Message
+  * 2.3. If found, all threads exit their loops
+  * 2.4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `2.1`
+  * 2.5. Sleep for a predefined period of time
+  * 2.6. Return to step `2.1`
 
 ### Channel Adapter
 
