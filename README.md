@@ -404,6 +404,10 @@ class KinesisClient(object):
     def __store_sequence_number_for_shard(self, shard_id, sequence_number):
         # Store the Sequence Number against the Shard ID
 ```
+*Note:*
+
+- *This example does not account for resharding (i.e. splitting and merging Shards). Such behaviour will change the state of the Stream, something which clients need to accommodate.*
+- *This example does not implement threading. It is expected that the polling of each Shard takes place in its own thread, so that each Shard can be operated upon in parallel.*
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
 
