@@ -1,4 +1,4 @@
-# Vocabulary Update
+# Vocabulary Patch
 
 Message Type: `VocabularyPatch`.
 
