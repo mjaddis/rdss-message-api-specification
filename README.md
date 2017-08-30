@@ -269,7 +269,7 @@ The following sections describe the error codes that **MUST** be utilised when a
 
 The Audit Log is a destination for Messages that every Message sent through the system will arrive at.
 
-It is delivered in the form of an [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/), which in turn loads the data into an [Amazon S3](https://aws.amazon.com/s3/). The data is then made available for consumption and processing by other systems (e.g reporting).
+It is delivered in the form of an [AWS Kinesis Stream](https://aws.amazon.com/kinesis/streams/), which in turn loads the data into an [Amazon S3](https://aws.amazon.com/s3/) via an [AWS Lambda Function](https://aws.amazon.com/lambda/). The data is then made available for consumption and processing by other systems (e.g reporting).
 
 In order for a Message to be consumed by the Audit Log, Messages **MUST** be in serialised JSON format and **MUST NOT** exceed 1000KB.
 
@@ -294,7 +294,6 @@ _(click the diagram to view in high resolution)_
 
 - [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
 - [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
-- Firehoses are implemented using [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/).
 - Logs are implemented using [Amazon S3](https://aws.amazon.com/s3/).
 
 ## Transactional Behaviour
