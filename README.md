@@ -15,7 +15,7 @@
 
 ## Introduction
 
-This repository documents the RDSS Message API and describes the format and structure of messages sent within the RDSS project, and architectural designs and patterns for the underlying messaging system.
+This repository documents the RDSS Message API and describes the format and structure of Messages sent within the RDSS project, and architectural designs and patterns for the underlying messaging system.
 
 The API, format, structures and patterns are derived from material from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
 
@@ -42,7 +42,7 @@ The versioning scheme of this specification follows [Semantic Versioning 2.0.0](
 
 Vendors implementing this specification **SHOULD** make a best effort to implement all `MINOR` and `PATCH` changes as and when they are made available. The implementation and release of `MAJOR` changes however **MUST** be coordinated with maintainers of the messaging system to ensure compatibility between this API and the messaging system itself.
 
-The version of this specification used to generate a given message can be determined by inspecting the `version` header (as described in the [Message Header](#message-header)) section.
+The version of this specification used to generate a given Message can be determined by inspecting the `version` header (as described in the [Message Header](#message-header)) section.
 
 ### Comformance
 
@@ -58,6 +58,8 @@ A Message is broken into two parts:
 - The [Message Header](#message-header)
 - The [Message Body](#message-body)
 
+A complete example of a Message can be found [here](messages/example.json).
+
 The standard encoding for a Message is [JSON](http://www.json.org/), and the examples provided in this documentation are given in this format.
 
 The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
@@ -65,6 +67,8 @@ The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 ## Message Header
 
 The Message Header contains important metadata describing the Message itself, including the type of Message, routing information, timings, sequencing, and so forth.
+
+An example Message Header can be found [here](messages/header/example.json).
 
 ### `messageId`
 
@@ -185,6 +189,22 @@ The timestamp at which the history entry was generated.
 
 The version of this specification that the producer responsible for generating the message was using when the message was generated.
 
+### `errorCode`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+If an error has occurred and this message is being moved to the Invalid Message Queue or Error Message Queue, this field **MUST** be populated with the error code that represents the error that occurred.
+
+The value **MUST** be one of the error codes defined in the [Error Codes](#error-codes) section.
+
+### `errorDescription`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+A free text field that clients and applications **SHOULD** populate with a meaningful description of the error that occurred when a message is moved to the Invalid Message Queue or Error Message Queue.
+
 ## Message Body
 
 ### JSON Schema
@@ -196,25 +216,27 @@ The following JSON schemas are provided as part of this project, which fully des
 - [`schemas/intellectual_asset.json`](schemas/intellectual_asset.json)
 - [`schemas/enumeration.json`](schemas/enumeration.json) - *Note that enumeration values are provided for reference only. Enumerations* ***MUST*** *be referenced using their respective ID values.*
 
-The schemas can be used to assist in development and validation of JSON objects that represent payloads, which are described in this API. Additionally, they are also used within the [`message-api-schema-validator/`](message-api-schema-validator/) tool, which validates the example payload JSON objects described in the [`messages/`](messages/) folder.
+The schemas can be used to assist in development and validation of JSON objects that represent payloads, which are described in this API. Additionally, they are also used within the [`message-api-schema-validator/`](message-api-schema-validator/) tool, which validates the example payload JSON objects described in the [`messages/body/`](messages/body/) folder.
 
 Currently, all JSON schemas IDs (including `$ref` declarations within the schemas) are namespaced under `https://www.jisc.ac.uk/rdss/schema/`. However, consumers of the schemas should not expect the schemas to be available at the URLs represented by these IDs.
 
 ### Messages
 
-The following example Messages are provided in the [`messages/`](messages/) folder:
+The following example Message payloads are provided in the [`messages/body/`](messages/body/) folder:
 
 |            | **Vocabulary**                                                                                              | **Metadata**                                                                                                |
 |------------|-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/vocabulary/read/`](messages/vocabulary/read/) | Message Type: `MetadataRead`Documentation: [`messages/metadata/read/`](messages/metadata/read/)             |
-| **Create** | Not Supported                                                                                               | Message Type:   `MetadataCreate`<br>Documentation: [`messages/metadata/create/`](messages/metadata/create/) |
-| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`Documentation: [`messages/metadata/update/`](messages/metadata/update/)       |
-| **Patch**  | Message Type: `VocabularyRead`Documentation: [`messages/vocabulary/patch/`](messages/vocabulary/patch/)     | Not Supported                                                                                               |
-| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`Documentation: [`messages/metadata/delete/`](messages/metadata/delete/)       |
+| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/body/vocabulary/read/`](messages/body/vocabulary/read/) | Message Type: `MetadataRead`Documentation: [`messages/body/metadata/read/`](messages/body/metadata/read/)             |
+| **Create** | Not Supported                                                                                               | Message Type:   `MetadataCreate`<br>Documentation: [`messages/body/metadata/create/`](messages/body/metadata/create/) |
+| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`Documentation: [`messages/body/metadata/update/`](messages/body/metadata/update/)       |
+| **Patch**  | Message Type: `VocabularyRead`Documentation: [`messages/body/vocabulary/patch/`](messages/body/vocabulary/patch/)     | Not Supported                                                                                               |
+| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
 ## Error Queues
+
+All Messages placed on the Error Message Queue or Invalid Message Queue **MUST** contain the `errorCode` and `errorDescription` fields within the `messageHeader` of the Message.
 
 ### Error Message Queue
 
@@ -298,11 +320,11 @@ _(click the diagram to view in high resolution)_
 
 ## Transactional Behaviour
 
-All clients **MUST** implement transactional behaviour for both sending and receiving of messages.
+All clients **MUST** implement transactional behaviour for both sending and receiving of Messages.
 
 ### Receiving
 
-Receiving a message is achieved through the use of AWS Kinesis Stream’s API. Each Kinesis Stream consists of one or more Shards, where a Shard is a uniquely identified group of records within a Stream. When polling a Stream for records, all Shards in the Stream **MUST** be queried for records as a record can be written to any Shard, and it is impossible to predict which Shard a record will be written to.
+Receiving a Message is achieved through the use of AWS Kinesis Stream’s API. Each Kinesis Stream consists of one or more Shards, where a Shard is a uniquely identified group of records within a Stream. When polling a Stream for records, all Shards in the Stream **MUST** be queried for records as a record can be written to any Shard, and it is impossible to predict which Shard a record will be written to.
 
 In order to achieve transactionality when reading from a Kinesis Stream, a client **MUST** keep track of all Shards within the Stream, and **MUST** keep track of the Sequence ID of the most recently received and successfully processed record within each Shard.
 
@@ -310,7 +332,7 @@ In doing so, this permits the client to restart the polling of the Kinesis Strea
 
 The process for reading records from a Stream (including the handling of the respective Shards) is detailed in the [Message Gateway Sequence Diagrams](#message-gateway-sequence-diagrams) section.
 
-The following Python describes the behaviour that clients **SHOULD** adopt when consuming messages from a queue in order to achieve transactional behaviour:
+The following Python describes the behaviour that clients **SHOULD** adopt when consuming Messages from a queue in order to achieve transactional behaviour:
 
 ```python
 import boto3
@@ -399,6 +421,7 @@ class KinesisClient(object):
     def __store_sequence_number_for_shard(self, shard_id, sequence_number):
         # Store the Sequence Number against the Shard ID
 ```
+
 *Note:*
 
 - *This example does not account for resharding (i.e. splitting and merging Shards). Such behaviour will change the state of the Stream, something which clients need to accommodate.*
@@ -406,21 +429,21 @@ class KinesisClient(object):
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
 
-When processing messages, the behaviour of the underlying AWS Kinesis is such that it guarantees "at least once" delivery of a message, meaning therefore that it's possible (and probable) that a client should expect to receive duplicate messages.
+When processing Messages, the behaviour of the underlying AWS Kinesis is such that it guarantees "at least once" delivery of a Message, meaning therefore that it's possible (and probable) that a client should expect to receive duplicate Messages.
 
-In order to prevent the processing of duplicate messages, all messages received by a client **MUST** be written to a [Local Data Repository](#local-data-repository), which **MUST** be referenced when deciding whether to process a message. Should the `messageId` of a message already exist in the Local Data Repository, it can be deduced that the message in question has already been processed and thus can be discarded.
+In order to prevent the processing of duplicate Messages, all Messages received by a client **MUST** be written to a [Local Data Repository](#local-data-repository), which **MUST** be referenced when deciding whether to process a Message. Should the `messageId` of a Message already exist in the Local Data Repository, it can be deduced that the Message in question has already been processed and thus can be discarded.
 
 ### Sending
 
-When sending a message, a sender **MUST NOT** consider a message as sent until they receive a successful response to the send request from the underlying AWS Kinesis stream.
+When sending a Message, a sender **MUST NOT** consider a Message as sent until they receive a successful response to the send request from the underlying AWS Kinesis stream.
 
-Similar to receiving messages, a message sent by a client **MUST** be saved in the Local Data Repository with an initial status of `TO_SEND`. Once a successful send operation has been carried out, this **MUST** be changed to `SENT`.
+Similar to receiving Messages, a Message sent by a client **MUST** be saved in the Local Data Repository with an initial status of `TO_SEND`. Once a successful send operation has been carried out, this **MUST** be changed to `SENT`.
 
 ## Local Data Repository
 
-The nature of the AWS Kinesis stream which forms the basis of the messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same message multiple times. This is also true when a client sends a message - they will receive the sent message back again.
+The nature of the AWS Kinesis stream which forms the basis of the Messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same Message multiple times. This is also true when a client sends a Message - they will receive the sent Message back again.
 
-In order to prevent the same message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each message, at a minimum:
+In order to prevent the same Message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
 
 - `messageId`
 - `messageClass`
@@ -439,7 +462,7 @@ If a client attempts to resend a Message, they **MUST** employ an exponential ba
 
 The following Python code describes the algorithm that **SHOULD** be adopted by clients when determining the delay between retries:
 
-```
+```python
 max_retries = 10
 retry = 1
 
@@ -457,7 +480,7 @@ In the event that `max_retries` are exceeded, clients **MUST** write a log entry
 
 ## Message Gateway & Channel Adapter
 
-The messaging system offers applications who wish to send and receive messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adapter](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html).
+The messaging system offers applications who wish to send and receive Messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adapter](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html).
 
 ### Message Gateway
 
@@ -479,7 +502,7 @@ All Message Gateway implementations **MUST** be configurable to support, at a mi
 
 #### Message Gateway Sequence Diagrams
 
-The sequence diagrams below describe the flow of executing through the Message Gateway for both a [Metadata Create](messages/metadata/create/) and a [Metadata Read](messages/metadata/read/) operation (the diagrams can be edited using [Visual Paradigm](https://www.visual-paradigm.com/). The source is provided in the [`message-gateway/sequence-diagrams.vpp`](message-gateway/sequence-diagrams.vpp) file).
+The sequence diagrams below describe the flow of executing through the Message Gateway for both a [Metadata Create](messages/body/metadata/create/) and a [Metadata Read](messages/body/metadata/read/) operation (the diagrams can be edited using [Visual Paradigm](https://www.visual-paradigm.com/). The source is provided in the [`message-gateway/sequence-diagrams.vpp`](message-gateway/sequence-diagrams.vpp) file).
 
 ##### Metadata Create
 
@@ -519,14 +542,14 @@ All applications that interact with the messaging system, whether as a sender or
 
 Log messages generated by applications must be written to the local syslog service provided by the operating system. Most Unix based operating systems provide a simple utility known as `logger` to interact with the syslog service.
 
-The following example describes how to generate the log message examples provided in the [Log Message Format](#log-message-format) section:
+The following example describes how to generate the log Message examples provided in the [Log Message Format](#log-message-format) section:
 
-```
+```sh
 logger -p local0.info -i "[INFO] Message sent"
 logger -p local0.info -i "[INFO] Message received"
 ```
 
-For informational purposes, the expected format of a raw syslog log message is described in the [Log Message Format](#log-message-format) section.
+For informational purposes, the expected format of a raw syslog log Message is described in the [Log Message Format](#log-message-format) section.
 
 ### Log Message Format
 
