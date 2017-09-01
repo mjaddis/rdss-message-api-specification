@@ -4,7 +4,7 @@ from unittest import TestCase
 
 class MetadataDeleteRequestTest(AbstractSchemaValidatorTest, TestCase):
     def get_json_schema_file_name(self):
-        return 'messages/metadata/delete/request_schema.json'
+        return 'messages/body/metadata/delete/request_schema.json'
 
     def runTest(self):
-        self.validate_json('messages/metadata/delete/request.json')
+        self.validate_json('messages/body/metadata/delete/request.json')
