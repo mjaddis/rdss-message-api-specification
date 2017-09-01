@@ -249,12 +249,15 @@ max_message_size = 1000000
 
 
 def calculate_available_size(message_json):
-    return max_message_size - len(str(message_json['messageHeader'])) - len('messageHeader') - len('messageBody') - len('{}')
+    return max_message_size - len(str(message_json['messageHeader'])) - len(
+        'messageHeader') - len('messageBody') - len('{}')
 
 
 def split_payload(available_size, message_body_json):
     message_body_str = str(message_body_json)
-    return [message_body_str[i: i + available_size] for i in range(0, len(message_body_str), available_size)]
+    return [message_body_str[i: i + available_size] for i in
+            range(0, len(message_body_str), available_size)]
+
 
 available_size = calculate_available_size(message)
 sequences = split_payload(available_size, message['messageBody'])
