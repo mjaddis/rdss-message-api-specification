@@ -250,6 +250,37 @@ The following example Message payloads are provided in the [`messages/body/`](me
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
+## Multi-Message Sequence
+
+The underlying AWS Kinesis Stream enforces a limit of 1000KB on the size of a single Message, this limit may prevent the entire body of a Message from being contained within a single Message. In order to provide for Messages that are greater than 1000KB in size, all consumers and producers **MUST** support Message sequences.
+
+Messaging sequencing information is conveyed through the `messageSequence` object as described in the [Message Header](#message-header): `sequence`, `position` and `total`.
+
+The following Python describes the process of splitting a larger `messageBody` into smaller constituent parts which, when inserted into a Message that contains both the `messageHeader`, the `messageHeader` and `messageBody` JSON keys, and the wrapping JSON `{}` braces, will be less than 1000KB in size:
+
+```python
+import json
+
+max_message_size = 1000000
+
+
+def calculate_available_size(message_json):
+    return max_message_size - len(str(message_json['messageHeader'])) - len(
+        'messageHeader') - len('messageBody') - len('{}')
+
+
+def split_payload(available_size, message_body_json):
+    message_body_str = str(message_body_json)
+    return [message_body_str[i: i + available_size] for i in
+            range(0, len(message_body_str), available_size)]
+
+
+available_size = calculate_available_size(message)
+sequences = split_payload(available_size, message['messageBody'])
+```
+
+When a consumer receives a Message, they **MUST** inspect the `messageSequence` header to determine whether there are more than 1 Messages in the sequences (i.e. `total > 1`). In this case, the consumer **MUST** wait for all constituent Messages to arrive before reconstructing the overall payload and processing it.
+
 ## Error Queues
 
 All Messages placed on the Error Message Queue or Invalid Message Queue **MUST** contain the `errorCode` and `errorDescription` fields within the `messageHeader` of the Message.
