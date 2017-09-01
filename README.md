@@ -8,6 +8,7 @@
 - [Audit Log](#audit-log)
 - [Topology](#topology)
 - [Transactional Behaviour](#transactional-behaviour)
+- [Local Data Repository](#local-data-repository)
 - [Network Failure Behaviour](#network-failure-behaviour)
 - [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
 - [Logging](#logging)
@@ -15,7 +16,7 @@
 
 ## Introduction
 
-This repository documents the RDSS Message API and describes the format and structure of messages sent within the RDSS project, and architectural designs and patterns for the underlying messaging system.
+This repository documents the RDSS Message API and describes the format and structure of Messages sent within the RDSS project, and architectural designs and patterns for the underlying messaging system.
 
 The API, format, structures and patterns are derived from material from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
 
@@ -29,8 +30,8 @@ The RDSS Message API is intended for the following audience:
 
 ### Versioning
 
-- Specification version:&nbsp;&nbsp;`1.1.2`
-- Data model version:&nbsp;&nbsp;&nbsp; [`1.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.0.0)
+- Specification version:&nbsp;&nbsp;`1.1.3-SNAPSHOT`
+- Data model version:&nbsp;&nbsp;&nbsp; [`1.1.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.1.0)
 
 Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
 
@@ -42,7 +43,7 @@ The versioning scheme of this specification follows [Semantic Versioning 2.0.0](
 
 Vendors implementing this specification **SHOULD** make a best effort to implement all `MINOR` and `PATCH` changes as and when they are made available. The implementation and release of `MAJOR` changes however **MUST** be coordinated with maintainers of the messaging system to ensure compatibility between this API and the messaging system itself.
 
-The version of this specification used to generate a given message can be determined by inspecting the `version` header (as described in the [Message Header](#message-header)) section.
+The version of this specification used to generate a given Message can be determined by inspecting the `version` header (as described in the [Message Header](#message-header)) section.
 
 ### Comformance
 
@@ -58,13 +59,32 @@ A Message is broken into two parts:
 - The [Message Header](#message-header)
 - The [Message Body](#message-body)
 
+A complete example of a Message can be found [here](messages/example.json).
+
 The standard encoding for a Message is [JSON](http://www.json.org/), and the examples provided in this documentation are given in this format.
 
 The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 
+### Data Types
+
+#### Timestamp
+
+All timestamps provided as part of a JSON payload **MUST** be provided in ISO 8601 format and **MUST** contain both the date and time component:
+
+- Complete date plus hours and minutes:
+    - `YYYY-MM-DDThh:mmTZD` (e.g. `1997-07-16T19:20+01:00`)
+- Complete date plus hours, minutes and seconds:
+    - `YYYY-MM-DDThh:mm:ssTZD` (e.g. `1997-07-16T19:20:30+01:00`)
+- Complete date plus hours, minutes, seconds and a decimal fraction of a second:
+    - `YYYY-MM-DDThh:mm:ss.sTZD` (e.g. `1997-07-16T19:20:30.45+01:00`)
+
+_Note with regards to the timezone component of a timestamp, for the purposes of clarity this **MUST** be provided in all instances, either with the UTC designation `Z` or as an hours and minutes offset, e.g. `+01:00`._
+
 ## Message Header
 
 The Message Header contains important metadata describing the Message itself, including the type of Message, routing information, timings, sequencing, and so forth.
+
+An example Message Header can be found [here](messages/header/example.json).
 
 ### `messageId`
 
@@ -185,6 +205,22 @@ The timestamp at which the history entry was generated.
 
 The version of this specification that the producer responsible for generating the message was using when the message was generated.
 
+### `errorCode`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+If an error has occurred and this message is being moved to the Invalid Message Queue or Error Message Queue, this field **MUST** be populated with the error code that represents the error that occurred.
+
+The value **MUST** be one of the error codes defined in the [Error Codes](#error-codes) section.
+
+### `errorDescription`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`0..1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+A free text field that clients and applications **SHOULD** populate with a meaningful description of the error that occurred when a message is moved to the Invalid Message Queue or Error Message Queue.
+
 ## Message Body
 
 ### JSON Schema
@@ -196,25 +232,58 @@ The following JSON schemas are provided as part of this project, which fully des
 - [`schemas/intellectual_asset.json`](schemas/intellectual_asset.json)
 - [`schemas/enumeration.json`](schemas/enumeration.json) - *Note that enumeration values are provided for reference only. Enumerations* ***MUST*** *be referenced using their respective ID values.*
 
-The schemas can be used to assist in development and validation of JSON objects that represent payloads, which are described in this API. Additionally, they are also used within the [`message-api-schema-validator/`](message-api-schema-validator/) tool, which validates the example payload JSON objects described in the [`messages/`](messages/) folder.
+The schemas can be used to assist in development and validation of JSON objects that represent payloads, which are described in this API. Additionally, they are also used within the [`message-api-schema-validator/`](message-api-schema-validator/) tool, which validates the example payload JSON objects described in the [`messages/body/`](messages/body/) folder.
 
 Currently, all JSON schemas IDs (including `$ref` declarations within the schemas) are namespaced under `https://www.jisc.ac.uk/rdss/schema/`. However, consumers of the schemas should not expect the schemas to be available at the URLs represented by these IDs.
 
 ### Messages
 
-The following example Messages are provided in the [`messages/`](messages/) folder:
+The following example Message payloads are provided in the [`messages/body/`](messages/body/) folder:
 
 |            | **Vocabulary**                                                                                              | **Metadata**                                                                                                |
 |------------|-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/vocabulary/read/`](messages/vocabulary/read/) | Message Type: `MetadataRead`Documentation: [`messages/metadata/read/`](messages/metadata/read/)             |
-| **Create** | Not Supported                                                                                               | Message Type:   `MetadataCreate`<br>Documentation: [`messages/metadata/create/`](messages/metadata/create/) |
-| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`Documentation: [`messages/metadata/update/`](messages/metadata/update/)       |
-| **Patch**  | Message Type: `VocabularyRead`Documentation: [`messages/vocabulary/patch/`](messages/vocabulary/patch/)     | Not Supported                                                                                               |
-| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`Documentation: [`messages/metadata/delete/`](messages/metadata/delete/)       |
+| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/body/vocabulary/read/`](messages/body/vocabulary/read/) | Message Type: `MetadataRead`Documentation: [`messages/body/metadata/read/`](messages/body/metadata/read/)             |
+| **Create** | Not Supported                                                                                               | Message Type:   `MetadataCreate`<br>Documentation: [`messages/body/metadata/create/`](messages/body/metadata/create/) |
+| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`Documentation: [`messages/body/metadata/update/`](messages/body/metadata/update/)       |
+| **Patch**  | Message Type: `VocabularyRead`Documentation: [`messages/body/vocabulary/patch/`](messages/body/vocabulary/patch/)     | Not Supported                                                                                               |
+| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
+## Multi-Message Sequence
+
+The underlying AWS Kinesis Stream enforces a limit of 1000KB on the size of a single Message, this limit may prevent the entire body of a Message from being contained within a single Message. In order to provide for Messages that are greater than 1000KB in size, all consumers and producers **MUST** support Message sequences.
+
+Messaging sequencing information is conveyed through the `messageSequence` object as described in the [Message Header](#message-header): `sequence`, `position` and `total`.
+
+The following Python describes the process of splitting a larger `messageBody` into smaller constituent parts which, when inserted into a Message that contains both the `messageHeader`, the `messageHeader` and `messageBody` JSON keys, and the wrapping JSON `{}` braces, will be less than 1000KB in size:
+
+```python
+import json
+
+max_message_size = 1000000
+
+
+def calculate_available_size(message_json):
+    return max_message_size - len(str(message_json['messageHeader'])) - len(
+        'messageHeader') - len('messageBody') - len('{}')
+
+
+def split_payload(available_size, message_body_json):
+    message_body_str = str(message_body_json)
+    return [message_body_str[i: i + available_size] for i in
+            range(0, len(message_body_str), available_size)]
+
+
+available_size = calculate_available_size(message)
+sequences = split_payload(available_size, message['messageBody'])
+```
+
+When a consumer receives a Message, they **MUST** inspect the `messageSequence` header to determine whether there are more than 1 Messages in the sequences (i.e. `total > 1`). In this case, the consumer **MUST** wait for all constituent Messages to arrive before reconstructing the overall payload and processing it.
+
 ## Error Queues
+
+All Messages placed on the Error Message Queue or Invalid Message Queue **MUST** contain the `errorCode` and `errorDescription` fields within the `messageHeader` of the Message.
 
 ### Error Message Queue
 
@@ -269,7 +338,7 @@ The following sections describe the error codes that **MUST** be utilised when a
 
 The Audit Log is a destination for Messages that every Message sent through the system will arrive at.
 
-It is delivered in the form of an [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/), which in turn loads the data into an [Amazon S3](https://aws.amazon.com/s3/). The data is then made available for consumption and processing by other systems (e.g reporting).
+It is delivered in the form of an [AWS Kinesis Stream](https://aws.amazon.com/kinesis/streams/), which in turn loads the data into an [Amazon S3](https://aws.amazon.com/s3/) via an [AWS Lambda Function](https://aws.amazon.com/lambda/). The data is then made available for consumption and processing by other systems (e.g reporting).
 
 In order for a Message to be consumed by the Audit Log, Messages **MUST** be in serialised JSON format and **MUST NOT** exceed 1000KB.
 
@@ -277,97 +346,151 @@ In order for a Message to be consumed by the Audit Log, Messages **MUST** be in 
 
 The following diagram describes the topology of the Messaging system (the diagram can be edited using [Microsoft Visio](https://products.office.com/en-gb/visio/flowchart-software). The source is provided in the [`topology/topology.vsdx`](topology/topology.vsdx) file).
 
-The following stencils are used in the creation of the diagram:
+[Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html) is used in the creation of the topology diagram.
 
-- [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html)
-- [Amazon AWS Stencils](https://aws.amazon.com/architecture/icons/)
+|                             EIP Key                              | Description             
+|:----------------------------------------------------------------:|-------------------------
+|     ![Directional Channel](topology/directional-channel.png)     | Directional Channel     |
+| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |
+|   ![Error Message Channel](topology/error-message-channel.png)   | Error Message Channel   |
+|         ![Channel Adapter](topology/channel-adapter.png)         | Channel Adapter         |
+|          ![Message Broker](topology/message-broker.png)          | Message Broker          |
+|    ![Content Based Router](topology/content-based-router.png)    | Content Based Router    |
 
-|                             EIP Key                              | Description             |   |                        AWS Key                         | Description                                                  |
-|:----------------------------------------------------------------:|-------------------------|---|:------------------------------------------------------:|--------------------------------------------------------------|
-|     ![Directional Channel](topology/directional-channel.png)     | Directional Channel     |   |  ![Elastic Cloud Compute (EC2)](topology/aws-ec2.png)  | [Elastic Cloud Compute (EC2)](https://aws.amazon.com/ec2/)   |
-| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |   |     ![EC2 Container Service](topology/aws-ecs.png)     | [EC2 Container Service](https://aws.amazon.com/ecs/)         |
-|   ![Error Message Channel](topology/error-message-channel.png)   | Error Message Channel   |   | ![Kinesis Firehose](topology/aws-kinesis-firehose.png) | [Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/) |
-|         ![Channel Adapter](topology/channel-adapter.png)         | Channel Adapter         |   |   ![Kinesis Stream](topology/aws-kinesis-stream.png)   | [Kinesis Stream](https://aws.amazon.com/kinesis/streams/)    |
-|          ![Message Broker](topology/message-broker.png)          | Message Broker          |   |           ![Lambda](topology/aws-lambda.png)           | [Lambda](https://aws.amazon.com/lambda/)                     |
-|    ![Content Based Router](topology/content-based-router.png)    | Content Based Router    |   |  ![Relational Database Service](topology/aws-rds.png)  | [Relational Database Service](https://aws.amazon.com/rds/)   |
-|                                                                  |                         |   |  ![Simple Storage Service (S3)](topology/aws-s3.png)   | [Simple Storage Service (S3)](https://aws.amazon.com/s3/)    |
-|                                                                  |                         |   |         ![Redshift](topology/aws-redshift.png)         | [Redshift ](https://aws.amazon.com/redshift/)                |
 
 ![Topology](topology/topology.png)
 _(click the diagram to view in high resolution)_
 
 - [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
 - [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
-- Firehoses are implemented using [AWS Kinesis Firehose](https://aws.amazon.com/kinesis/firehose/).
 - Logs are implemented using [Amazon S3](https://aws.amazon.com/s3/).
 
 ## Transactional Behaviour
 
-All clients **MUST** implement transactional behaviour for both sending and receiving of messages.
+All clients **MUST** implement transactional behaviour for both sending and receiving of Messages.
 
 ### Receiving
 
-This behaviour is achieved through the use of AWS Kinesis's shard iterator. By using the shard iterator, clients can maintain a pointer to an exact record in the queue, which only moves when records retrieved from that point, up to the record limit, have been committed to the local repository.
+Receiving a Message is achieved through the use of AWS Kinesis Stream’s API. Each Kinesis Stream consists of one or more Shards, where a Shard is a uniquely identified group of records within a Stream. When polling a Stream for records, all Shards in the Stream **MUST** be queried for records as a record can be written to any Shard, and it is impossible to predict which Shard a record will be written to.
 
-The following Python describes the behaviour that clients **SHOULD** adopt when consuming messages from a queue in order to ensure transactional behaviour:
+In order to achieve transactionality when reading from a Kinesis Stream, a client **MUST** keep track of all Shards within the Stream, and **MUST** keep track of the Sequence ID of the most recently received and successfully processed record within each Shard.
 
-```
+In doing so, this permits the client to restart the polling of the Kinesis Stream and its respective Shards by being able to begin polling at the point in the Shard of the last record that was received and processed. Should a failure occur with the client or with the parsing of a record, polling of the Stream can resume from the last successfully processed record.
+
+The process for reading records from a Stream (including the handling of the respective Shards) is detailed in the [Message Gateway Sequence Diagrams](#message-gateway-sequence-diagrams) section.
+
+The following Python describes the behaviour that clients **SHOULD** adopt when consuming Messages from a queue in order to achieve transactional behaviour:
+
+```python
 import boto3
+import time
 
-client = boto3.client('kinesis')
 
-response = client.describe_stream
-    StreamName=stream_name
-)
-shard_id = response["StreamDescription"]["Shards"][0]["ShardId"]
+class KinesisClient(object):
+    def __init__(self):
+        self.client = boto3.client('kinesis')
 
-response = self.client.get_shard_iterator(
-    StreamName=stream_name,
-    ShardId=shard_id,
-    ShardIteratorType='TRIM_HORIZON'
-)
-shard_iterator = response['ShardIterator']
+    def poll_stream(self, stream_name):
+        shard_ids = self.__get_shard_ids(stream_name, None)
+        for shard_id in shard_ids:
+            sequence_number = self.__get_sequence_number_for_shard(shard_id)
+            shard_iterator = self.__get_shard_iterator(stream_name, shard_id,
+                                                       sequence_number)
+            self.__do_poll(shard_id, shard_iterator)
 
-try:
-    caught_up = False
-    while True:
-        response = self.client.get_records(
-            ShardIterator=shard_iterator,
-            Limit=100
-        )
-        records = response["Records"]
-        if len(records) > 0:
-            caught_up = False
-            for record in records:
-                process_record(record)
-        shard_iterator = response["NextShardIterator"]
-        millis_behind_latest = response["MillisBehindLatest"]
-        if millis_behind_latest > 0:
-            caught_up = False
-        elif millis_behind_latest == 0 and not caught_up:
-            caught_up = True
-        sleep(0.2)
-except KeyboardInterrupt:
-    pass
+    def __get_shard_ids(self, stream_name, start_shard_id):
+        shard_ids = []
+        if start_shard_id is None:
+            response = self.client.describe_stream(
+                StreamName=stream_name,
+                Limit=100,
+                ExclusiveStartShardId=start_shard_id
+            )
+        else:
+            response = self.client.describe_stream(
+                StreamName=stream_name,
+                Limit=100
+            )
+        for shard in response['StreamDescription']['Shards']:
+            shard_ids.append(shard['ShardId'])
+        if response['StreamDescription']['HasMoreShards']:
+            shard_ids.append(self.__get_shard_ids(stream_name, shard_ids[-1]))
+        return shard_ids
+
+    def __get_sequence_number_for_shard(self, shard_id):
+        # Fetch the Sequence Number stored against the Shard ID
+
+    def __get_shard_iterator(self, stream_name, shard_id, sequence_number):
+        if sequence_number is not None:
+            response = self.client.get_shard_iterator(
+                StreamName=stream_name,
+                ShardId=shard_id,
+                ShardIteratorType='AFTER_SEQUENCE_NUMBER',
+                SequenceNumber=sequence_number
+            )
+        else:
+            response = self.client.get_shard_iterator(
+                StreamName=stream_name,
+                ShardId=shard_id,
+                ShardIteratorType='TRIM_HORIZON'
+            )
+        return response['ShardIterator']
+
+    def __do_poll(self, shard_id, shard_iterator):
+        caught_up = False
+        try:
+            while True:
+                response = self.client.get_records(
+                    ShardIterator=shard_iterator,
+                    Limit=100
+                )
+                records = response["Records"]
+                if len(records) > 0:
+                    caught_up = False
+                    for record in records:
+                        self.__process_record(record)
+                        sequence_number = record['SequenceNumber']
+                        self.__store_sequence_number_for_shard(shard_id,
+                                                               sequence_number)
+                shard_iterator = response["NextShardIterator"]
+                millis_behind_latest = response["MillisBehindLatest"]
+                if millis_behind_latest > 0:
+                    caught_up = False
+                elif millis_behind_latest == 0 and not caught_up:
+                    caught_up = True
+                time.sleep(0.2)
+        finally:
+            self.__store_sequence_number_for_shard(shard_id, sequence_number)
+
+    def __process_record(self, record):
+        # Process the record...
+
+    def __store_sequence_number_for_shard(self, shard_id, sequence_number):
+        # Store the Sequence Number against the Shard ID
 ```
+
+*Note:*
+
+- *This example does not account for resharding (i.e. splitting and merging Shards). Such behaviour will change the state of the Stream, something which clients need to accommodate.*
+- *This example does not implement threading. It is expected that the polling of each Shard takes place in its own thread, so that each Shard can be operated upon in parallel.*
 
 This behaviour is described in more detail in the [Metadata Read](#metadata-read) sequence diagram.
 
-When processing messages, the behaviour of the underlying AWS Kinesis is such that it guarantees "at least once" delivery of a message, meaning therefore that it's possible (and probable) that a client should expect to receive duplicate messages.
+When processing Messages, the behaviour of the underlying AWS Kinesis is such that it guarantees "at least once" delivery of a Message, meaning therefore that it's possible (and probable) that a client should expect to receive duplicate Messages.
 
-In order to prevent the processing of duplicate messages, all messages received by a client **MUST** be written to a [Local Data Repository](#local-data-repository), which **MUST** be referenced when deciding whether to process a message. Should the `messageId` of a message already exist in the Local Data Repository, it can be deduced that the message in question has already been processed and thus can be discarded.
+In order to prevent the processing of duplicate Messages, all Messages received by a client **MUST** be written to a [Local Data Repository](#local-data-repository), which **MUST** be referenced when deciding whether to process a Message. Should the `messageId` of a Message already exist in the Local Data Repository, it can be deduced that the Message in question has already been processed and thus can be discarded.
 
 ### Sending
 
-When sending a message, a sender **MUST NOT** consider a message as sent until they receive a successful response to the send request from the underlying AWS Kinesis stream.
+When sending a Message, a sender **MUST NOT** consider a Message as sent until they receive a successful response to the send request from the underlying AWS Kinesis stream.
 
-Similar to receiving messages, a message sent by a client **MUST** be saved in the Local Data Repository with an initial status of `TO_SEND`. Once a successful send operation has been carried out, this **MUST** be changed to `SENT`.
+Similar to receiving Messages, a Message sent by a client **MUST** be saved in the Local Data Repository with an initial status of `TO_SEND`. Once a successful send operation has been carried out, this **MUST** be changed to `SENT`.
 
 ## Local Data Repository
 
-The nature of the AWS Kinesis stream which forms the basis of the messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same message multiple times. This is also true when a client sends a message - they will receive the sent message back again.
+The nature of the AWS Kinesis stream which forms the basis of the Messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same Message multiple times. This is also true when a client sends a Message - they will receive the sent Message back again.
 
-In order to prevent the same message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each message, at a minimum:
+In order to prevent the same Message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
 
 - `messageId`
 - `messageClass`
@@ -386,7 +509,7 @@ If a client attempts to resend a Message, they **MUST** employ an exponential ba
 
 The following Python code describes the algorithm that **SHOULD** be adopted by clients when determining the delay between retries:
 
-```
+```python
 max_retries = 10
 retry = 1
 
@@ -404,7 +527,7 @@ In the event that `max_retries` are exceeded, clients **MUST** write a log entry
 
 ## Message Gateway & Channel Adapter
 
-The messaging system offers applications who wish to send and receive messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adapter](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html).
+The messaging system offers applications who wish to send and receive Messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adapter](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html).
 
 ### Message Gateway
 
@@ -426,7 +549,7 @@ All Message Gateway implementations **MUST** be configurable to support, at a mi
 
 #### Message Gateway Sequence Diagrams
 
-The sequence diagrams below describe the flow of executing through the Message Gateway for both a [Metadata Create](messages/metadata/create/) and a [Metadata Read](messages/metadata/read/) operation (the diagrams can be edited using [Visual Paradigm](https://www.visual-paradigm.com/). The source is provided in the [`message-gateway/sequence-diagrams.vpp`](message-gateway/sequence-diagrams.vpp) file).
+The sequence diagrams below describe the flow of executing through the Message Gateway for both a [Metadata Create](messages/body/metadata/create/) and a [Metadata Read](messages/body/metadata/read/) operation (the diagrams can be edited using [Visual Paradigm](https://www.visual-paradigm.com/). The source is provided in the [`message-gateway/sequence-diagrams.vpp`](message-gateway/sequence-diagrams.vpp) file).
 
 ##### Metadata Create
 
@@ -440,14 +563,17 @@ The creation process is "fire and forget", insomuch that it does not expect a re
 
 In contrast to the Metadata Create operation, the Metadata Read operation requires a response Message.
 
-To model this, the `Message Chanel` lifeline enters the following loop:
+To model this, the `Message Channel` lifeline enters the following loops:
 
-1. Execute `GetRecords` for the current `ShardIterator`
-2. Seach the return `Record`'s for a Message with a `correlationId` that matches the request Message
-3. If found, exit the loop
-4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `1`
-5. Sleep for a predefined period of time
-6. Return to step `1`
+1. Fetch the Shards for the current Stream through `DescribeStreams`.
+2. For each Shard return in step `1`, create a new thread and:
+  * 2.1. Execute the `GetShardIterator` to retrieve the Shard Iterator for the current Shard
+  * 2.1. Execute `GetRecords` for the current `ShardIterator`
+  * 2.2. Search the returned record's for a Message with a `correlationId` that matches the request Message
+  * 2.3. If found, all threads exit their loops
+  * 2.4. Otherwise, update the `ShardIterator` with the `NextShardIterator` value returned in step `2.1`
+  * 2.5. Sleep for a predefined period of time
+  * 2.6. Return to step `2.1`
 
 ### Channel Adapter
 
@@ -463,14 +589,14 @@ All applications that interact with the messaging system, whether as a sender or
 
 Log messages generated by applications must be written to the local syslog service provided by the operating system. Most Unix based operating systems provide a simple utility known as `logger` to interact with the syslog service.
 
-The following example describes how to generate the log message examples provided in the [Log Message Format](#log-message-format) section:
+The following example describes how to generate the log Message examples provided in the [Log Message Format](#log-message-format) section:
 
-```
+```sh
 logger -p local0.info -i "[INFO] Message sent"
 logger -p local0.info -i "[INFO] Message received"
 ```
 
-For informational purposes, the expected format of a raw syslog log message is described in the [Log Message Format](#log-message-format) section.
+For informational purposes, the expected format of a raw syslog log Message is described in the [Log Message Format](#log-message-format) section.
 
 ### Log Message Format
 

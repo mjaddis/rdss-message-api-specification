@@ -60,4 +60,3 @@ Scenario: verify Vocabulary Read message
   When the message is send to the RDSS message channel  
   Then I validate that error code generated as "GENERR01"
   
-

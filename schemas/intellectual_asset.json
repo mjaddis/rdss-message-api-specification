@@ -106,6 +106,9 @@
     "checksum": {
       "type": "object",
       "properties": {
+        "checksumUuid": {
+          "type": "string"
+        },
         "checksumType": {
           "type": "number"
         },
@@ -260,7 +263,7 @@
         "projectCollection": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_asset.json/#/definitions/collection"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/collection"
           },
           "minItems": 1
         },

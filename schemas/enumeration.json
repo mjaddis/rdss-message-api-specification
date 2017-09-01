@@ -100,7 +100,7 @@
     "organisationType": {
       "enum": [
         "charity",
-        "commerical",
+        "commercial",
         "funder",
         "furtherEducation",
         "government",
@@ -137,7 +137,6 @@
         "investigator",
         "producer",
         "projectLeader",
-        "publicationAuthor",
         "publisher",
         "projectMember",
         "relatedPerson",
@@ -147,7 +146,8 @@
         "sponsor",
         "supervisor",
         "other",
-        "author"
+        "author",
+        "depositingUser"
       ]
     },
     "preservationEventType": {
@@ -226,7 +226,6 @@
         "image",
         "journal",
         "learningObject",
-        "metadataRecord",
         "movingImage",
         "musicComposition",
         "other",
