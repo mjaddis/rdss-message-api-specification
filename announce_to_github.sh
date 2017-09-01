@@ -40,7 +40,7 @@ build_announcement_text() {
   echo "A new release of the Message API Specification has been created: <$GITHUB_REPO_URL/releases/tag/${TRAVIS_TAG}|$TRAVIS_TAG>." \
        "%0AYou can infer the impact of this release from the version, see http://semver.org/." \
        "%0AModifications to bring your application up to date with this standard will be dispatched via Sprint Planning, however please reach out via Slack if there's any issues in the mean time." \
-       "%0AIf you would like to influence the develop process for future versions, please get involved via GitHub <$GITHUB_REPO_URL/issues|Issues> and <$GITHUB_REPO_URL/pulls|Pull Requests>."
+       "%0AIf you would like to influence the development process for future versions, please get involved via GitHub <$GITHUB_REPO_URL/issues|Issues> and <$GITHUB_REPO_URL/pulls|Pull Requests>."
 }
 
 execute_announcement () {
