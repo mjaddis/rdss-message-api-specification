@@ -106,6 +106,9 @@
     "checksum": {
       "type": "object",
       "properties": {
+        "checksumUuid": {
+          "type": "string"
+        },
         "checksumType": {
           "type": "number"
         },
