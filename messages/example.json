@@ -162,6 +162,7 @@
         },
         "fileChecksum": [
           {
+            "checksumUuid": "string",
             "checksumType": 1,
             "checksumValue": "string"
           }
