@@ -100,7 +100,7 @@
     "organisationType": {
       "enum": [
         "charity",
-        "commerical",
+        "commercial",
         "funder",
         "furtherEducation",
         "government",
