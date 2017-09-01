@@ -72,11 +72,11 @@ The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 All timestamps provided as part of a JSON payload **MUST** be provided in ISO 8601 format and **MUST** contain both the date and time component:
 
 - Complete date plus hours and minutes:
- - `YYYY-MM-DDThh:mmTZD` (eg `1997-07-16T19:20+01:00`)
+    - `YYYY-MM-DDThh:mmTZD` (eg `1997-07-16T19:20+01:00`)
 - Complete date plus hours, minutes and seconds:
- - `YYYY-MM-DDThh:mm:ssTZD` (eg `1997-07-16T19:20:30+01:00`)
+    - `YYYY-MM-DDThh:mm:ssTZD` (eg `1997-07-16T19:20:30+01:00`)
 - Complete date plus hours, minutes, seconds and a decimal fraction of a second:
- - `YYYY-MM-DDThh:mm:ss.sTZD` (eg `1997-07-16T19:20:30.45+01:00`)
+    - `YYYY-MM-DDThh:mm:ss.sTZD` (eg `1997-07-16T19:20:30.45+01:00`)
 
 _Note with regards to the timezone component of a timestamp, for the purposes of clarity this **MUST** be provided in all instances, either with the UTC designation `Z` or as an hours and minutes offset, e.g. `+01:00`._
 
