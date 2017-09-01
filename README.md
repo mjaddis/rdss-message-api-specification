@@ -8,6 +8,7 @@
 - [Audit Log](#audit-log)
 - [Topology](#topology)
 - [Transactional Behaviour](#transactional-behaviour)
+- [Local Data Repository](#local-data-repository)
 - [Network Failure Behaviour](#network-failure-behaviour)
 - [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
 - [Logging](#logging)
@@ -63,6 +64,21 @@ A complete example of a Message can be found [here](messages/example.json).
 The standard encoding for a Message is [JSON](http://www.json.org/), and the examples provided in this documentation are given in this format.
 
 The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
+
+### Data Types
+
+#### Timestamp
+
+All timestamps provided as part of a JSON payload **MUST** be provided in ISO 8601 format and **MUST** contain both the date and time component:
+
+- Complete date plus hours and minutes:
+    - `YYYY-MM-DDThh:mmTZD` (e.g. `1997-07-16T19:20+01:00`)
+- Complete date plus hours, minutes and seconds:
+    - `YYYY-MM-DDThh:mm:ssTZD` (e.g. `1997-07-16T19:20:30+01:00`)
+- Complete date plus hours, minutes, seconds and a decimal fraction of a second:
+    - `YYYY-MM-DDThh:mm:ss.sTZD` (e.g. `1997-07-16T19:20:30.45+01:00`)
+
+_Note with regards to the timezone component of a timestamp, for the purposes of clarity this **MUST** be provided in all instances, either with the UTC designation `Z` or as an hours and minutes offset, e.g. `+01:00`._
 
 ## Message Header
 
