@@ -490,7 +490,7 @@ Similar to receiving Messages, a Message sent by a client **MUST** be saved in t
 
 The nature of the AWS Kinesis stream which forms the basis of the Messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same Message multiple times. This is also true when a client sends a Message - they will receive the sent Message back again.
 
-In order to prevent the same Message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
+In order to prevent the same Message from being processed multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
 
 - `messageId`
 - `messageClass`
