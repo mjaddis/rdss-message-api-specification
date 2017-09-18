@@ -41,7 +41,7 @@
         "personEntitlement": {
           "type": "array",
           "items": {
-            "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/personRole"
+            "type": "number"
           },
           "minItems": 1
         },

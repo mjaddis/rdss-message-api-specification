@@ -242,11 +242,11 @@ The following example Message payloads are provided in the [`messages/body/`](me
 
 |            | **Vocabulary**                                                                                              | **Metadata**                                                                                                |
 |------------|-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/body/vocabulary/read/`](messages/body/vocabulary/read/) | Message Type: `MetadataRead`Documentation: [`messages/body/metadata/read/`](messages/body/metadata/read/)             |
+| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/body/vocabulary/read/`](messages/body/vocabulary/read/) | Message Type: `MetadataRead`<br>Documentation: [`messages/body/metadata/read/`](messages/body/metadata/read/)             |
 | **Create** | Not Supported                                                                                               | Message Type:   `MetadataCreate`<br>Documentation: [`messages/body/metadata/create/`](messages/body/metadata/create/) |
-| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`Documentation: [`messages/body/metadata/update/`](messages/body/metadata/update/)       |
-| **Patch**  | Message Type: `VocabularyRead`Documentation: [`messages/body/vocabulary/patch/`](messages/body/vocabulary/patch/)     | Not Supported                                                                                               |
-| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
+| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`<br>Documentation: [`messages/body/metadata/update/`](messages/body/metadata/update/)       |
+| **Patch**  | Message Type: `VocabularyPatch`<br>Documentation: [`messages/body/vocabulary/patch/`](messages/body/vocabulary/patch/)     | Not Supported                                                                                               |
+| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`<br>Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
@@ -490,7 +490,7 @@ Similar to receiving Messages, a Message sent by a client **MUST** be saved in t
 
 The nature of the AWS Kinesis stream which forms the basis of the Messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same Message multiple times. This is also true when a client sends a Message - they will receive the sent Message back again.
 
-In order to prevent the same Message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
+In order to prevent the same Message from being processed multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
 
 - `messageId`
 - `messageClass`
