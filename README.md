@@ -314,7 +314,6 @@ The following tables describes the error codes that **MUST** be utilised when a 
 | `GENERR007` | Malformed JSON was detected in the Message Body.                                                             |
 | `GENERR008` | An attempt to roll back a transaction failed.                                                                |
 | `GENERR009` | An unexpected or unknown error occurred.                                                                     |
-| `GENERR010` | Maximum number of Message resend retries exceeded.                                                           |
 
 ### Application Error Codes
 
