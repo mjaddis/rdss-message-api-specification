@@ -3,6 +3,8 @@
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
+- [Message Triggers](#message-triggers)
+- [Multi-Message Sequence](#multi-message-sequence)
 - [Error Queues](#error-queues)
 - [Error Codes](#error-codes)
 - [Audit Log](#audit-log)
@@ -47,7 +49,7 @@ The version of this specification used to generate a given Message can be determ
 
 ### Comformance
 
-The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2219](https://tools.ietf.org/html/rfc2119).
+The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2119](https://tools.ietf.org/html/rfc2119).
 
 ## Message Structure
 
@@ -249,6 +251,35 @@ The following example Message payloads are provided in the [`messages/body/`](me
 | **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`<br>Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
+
+## Message Triggers
+
+The following describes the expected behaviour of applications which publish Messages. These behaviours are designed to accommodate all possible applications.
+
+### Metadata Create
+
+A `MetadataCreate` Message **MUST** be sent when either:
+
+- A new work or item is created within the originating application; or
+- A significant change to the work item is executed, such as changing the title or adding / removing files.
+
+Typically, applications include a workflow or curation process which requires a final approval step before the uploaded work or item is published.
+
+`MetadataCreate` Messages **SHOULD** only be sent for works or items which are intended to be publically available.
+
+### Metadata Update
+
+A `MetadataUpdate` Message **MUST** be sent when a minor modification is made to an item or work within the originating application. This can include for example spelling and grammatical changes to free text metadata text.
+
+Typically, applications include a workflow or curation process which requires a final approval step before the modified work or item is published.
+
+In the event that a Message is modified in such a way as to change its visibility from confidential to public, this should instead be treated as `MetadataCreate` as consumers of the Message **SHOULD NOT** have received a `MetadataCreate` Message for its original creation.
+
+### Metadata Delete
+
+Typically, applications do not delete works or items when a request is made to do so - instead they are hidden from view.
+
+A `MetadataDelete` Message **MUST** be sent when the intention of the originating application is to remove a work or item from either public view, or from the view of regular users of the application, even if this operation does not result in deleting the work or item from the application.
 
 ## Multi-Message Sequence
 
