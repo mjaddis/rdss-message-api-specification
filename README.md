@@ -1,8 +1,11 @@
 # RDSS Message API
 
+- [Introduction](#introduction)
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
+- [Messaging Receiving](#messaging-receiving)
+- [Multi-Message Sequence](#multi-message-sequence)
 - [Error Queues](#error-queues)
 - [Error Codes](#error-codes)
 - [Audit Log](#audit-log)
@@ -249,6 +252,38 @@ The following example Message payloads are provided in the [`messages/body/`](me
 | **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`<br>Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
+
+## Messaging Receiving
+
+This section describes the behaviour that applications which consume Messages from the RDSS messaging system **MUST** exhibit when a Message is received and processed.
+
+The section is split into subsections, depending on the _type_ of application which is processing the received Message.
+
+In all instances, should payloads reference one or more files accessible via S3 or HTTP(S), the following logic **MUST** be adhered to:
+
+- Consumers **MUST** expect - and be capable of handling - substantial datasets. The staging area to which the files are placed during download **MUST** be able to accommodate such files.
+
+- Consumers **MUST** implement a mechanism that allows for resumption of fetching of datasets, to allow for network interruptions to occur without the need for a cold restart.
+
+- When fetching files over HTTPS, applications **MUST** validate certificates to mitigate against connection tampering / man-in-the-middle attacks. Certificates presented by HTTPS hosts will either be provided to consumers, or will be issued by common trusted certificate authorities.
+
+- After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
+
+### Institutional Repositories
+
+Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, an IR **MUST** either create a work or item using the metadata contained within the payload, or update an existing work or item by applying the modified fields within the payload, respectively.
+
+It is possible for a metadata payload to contain no files. This is known as a "metadata only" record, and a work or item **MUST** still be created using the values contained within the payload.
+
+Upon receiving a `MetadataDelete` payload, an IR **MUST** remove the visibility of that work or item from the view of regular users.
+
+To achieve this, it is **RECOMMENDED** that the metadata represented by the payload and its associated files are completely removed from the IR, however it is understood that this is not always feasible and potentially contrary to the purpose of the repository.
+
+### Preservation Systems
+
+Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, a PS **MUST** generate a preservation item which contains both the metadata contained within the payload and any files referenced by that metadata.
+
+`MetadataDelete` payloads **SHOULD** be ignored by PS's, however a PS **MAY** apply a flag or marker to the preserved object in order to indicate that a delete was requested for that particular object.
 
 ## Multi-Message Sequence
 
