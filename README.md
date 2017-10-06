@@ -74,7 +74,7 @@ The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 
 The purpose of using a UUID is to reasonably guarantee that disparate and unconnected systems can independently generate identifiers without the requirement of a centralised registry to ensure conflicts and duplicates do not occur.
 
-All references to UUID (universally unique identifier) in this specification refer explicitly to a 128-bit number, sometimes also referred to as a GUID (globally unique identifier), represented in a textual format, consisted of five groups separated by hyphens in the form `8-4-4-4-12`, providing for a total of 36 characters (32 alphanumeric characters and four hyphens).
+All references to UUID (universally unique identifier) in this specification refer explicitly to a 128-bit number - sometimes also referred to as a GUID (globally unique identifier) - represented in a textual format consisting of five groups separated by hyphens in the form `8-4-4-4-12`, providing for a total of 36 characters (32 alphanumeric characters and four hyphens).
 
 Producers of Messages for publication are free to choose from any of the UUID versions described in [RFC4122](https://tools.ietf.org/html/rfc4122) when generating UUIDs, under the assumption that the implementation used to generate the UUID is _sufficiently random_ so as to guarantee that the probability of generating a duplicate is low enough to be negligible. In this regard, developers **SHOULD** defer to language specific SDKs or established third-party libraries for this functionality.
 
