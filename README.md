@@ -96,7 +96,7 @@ uuid.uuid5(uuid.NAMESPACE_DNS, 'python.org')
 UUID('886313e1-3b8a-5372-9b90-0c9aee199e5d')
 ```
 
-The following regex **MAY** be adopted by both producers and consumers in order to validate a UUID:
+The following regular expression **MAY** be adopted by both producers and consumers in order to validate a UUID:
 
 ```
 ^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
