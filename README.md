@@ -70,7 +70,7 @@ The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 
 ### Data Types
 
-### UUID
+#### UUID
 
 The purpose of using a UUID is to reasonably guarantee that disparate and unconnected systems can independently generate identifiers without the requirement of a centralised registry to ensure conflicts and duplicates do not occur.
 
