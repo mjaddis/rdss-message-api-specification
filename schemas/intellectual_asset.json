@@ -71,7 +71,7 @@
         "fileStorageStatus": {
           "type": "number"
         },
-        "fileLastDownload": {
+        "fileLastDownloaded": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
         },
         "fileTechnicalAttributes": {

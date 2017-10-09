@@ -189,7 +189,7 @@
         ],
         "fileUploadStatus": 1,
         "fileStorageStatus": 1,
-        "fileLastDownload": {
+        "fileLastDownloaded": {
           "dateValue": "string",
           "dateType": 1
         },
