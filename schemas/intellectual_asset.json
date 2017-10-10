@@ -6,19 +6,19 @@
       "type": "object",
       "properties": {
         "fileUuid": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "fileIdentifier": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "fileName": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "fileSize": {
-          "type": "number"
+          "type": "integer"
         },
         "fileLabel": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "fileDateCreated": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
@@ -34,10 +34,10 @@
           "minItems": 1
         },
         "fileFormatType": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "fileCompositionLevel": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "fileHasMimeType": {
           "type": "boolean"
@@ -52,11 +52,13 @@
         "filePuid": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
         "fileUse": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7
         },
         "filePreservationEvent": {
           "type": "array",
@@ -66,10 +68,14 @@
           "minItems": 1
         },
         "fileUploadStatus": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
         },
         "fileStorageStatus": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
         },
         "fileLastDownloaded": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
@@ -77,14 +83,17 @@
         "fileTechnicalAttributes": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
         "fileStorageLocation": {
-          "type": "string"
+          "type": "string",
+          "format": "uri"
         },
         "fileStorageType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2
         }
       },
       "required": [
@@ -101,43 +110,50 @@
         "fileStorageStatus",
         "fileStorageLocation",
         "fileStorageType"
-      ]
+      ],
+      "additionalProperties": false
     },
     "checksum": {
       "type": "object",
       "properties": {
         "checksumUuid": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "checksumType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2
         },
         "checksumValue": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         }
       },
       "required": [
         "checksumType",
         "checksumValue"
-      ]
+      ],
+      "additionalProperties": false
     },
     "preservationEvent": {
       "type": "object",
       "properties": {
         "preservationEventValue": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "preservationEventType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 18
         },
         "preservationEventDetail": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         }
       },
       "required": [
         "preservationEventValue",
         "preservationEventType"
-      ]
+      ],
+      "additionalProperties": false
     },
     "permission": {
       "type": "object",
@@ -160,7 +176,8 @@
         "write",
         "control",
         "append"
-      ]
+      ],
+      "additionalProperties": false
     },
     "filePermission": {
       "type": "object",
@@ -175,19 +192,20 @@
       "required": [
         "permission",
         "file"
-      ]
+      ],
+      "additionalProperties": false
     },
     "group": {
       "type": "object",
       "properties": {
         "groupUuid": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "groupName": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "groupIdentifier": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "groupFilePermission": {
           "type": "array",
@@ -208,16 +226,17 @@
         "groupName",
         "groupIdentifier",
         "groupFilePermission"
-      ]
+      ],
+      "additionalProperties": false
     },
     "grant": {
       "type": "object",
       "properties": {
         "grantUuid": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "grantIdentifier": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "grantFunder": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/organisationRole"
@@ -229,7 +248,7 @@
           "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
         },
         "grantValue": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         }
       },
       "required": [
@@ -239,26 +258,27 @@
         "grantStart",
         "grantEnd",
         "grantValue"
-      ]
+      ],
+      "additionalProperties": false
     },
     "project": {
       "type": "object",
       "properties": {
         "projectUuid": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "projectIdentifier": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           },
           "minItems": 1
         },
         "projectName": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "projectDescription": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "projectCollection": {
           "type": "array",
@@ -296,7 +316,8 @@
         "projectGroup",
         "projectStart",
         "projectEnd"
-      ]
+      ],
+      "additionalProperties": false
     }
   }
 }
