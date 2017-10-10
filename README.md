@@ -108,8 +108,6 @@ Should a consumer encounter an invalid UUID on a Message, that Message **MUST** 
 
 All timestamps provided as part of a JSON payload **MUST** be provided in [RFC3339](https://tools.ietf.org/html/rfc3339) format and **MUST** contain both the date and time component:
 
-- Complete date plus hours and minutes:
-    - `YYYY-MM-DDThh:mmTZD` (e.g. `1997-07-16T19:20+01:00`)
 - Complete date plus hours, minutes and seconds:
     - `YYYY-MM-DDThh:mm:ssTZD` (e.g. `1997-07-16T19:20:30+01:00`)
 - Complete date plus hours, minutes, seconds and a decimal fraction of a second:
