@@ -10,27 +10,27 @@ class AbstractSchemaValidatorTest(TestCase):
     __metaclass__ = ABCMeta
 
     schema_id_path_pairs = [
-            (
-                'https://www.jisc.ac.uk/rdss/schema/enumeration.json/#', 
-                'schemas/enumeration.json'
-            ), 
-            (
-                'https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#',
-                'schemas/intellectual_asset.json'
-            ),
-            (
-                'https://www.jisc.ac.uk/rdss/schema/material_asset.json/#', 
-                'schemas/material_asset.json'
-            ),
-            (
-                'https://www.jisc.ac.uk/rdss/schema/research_object.json/#',
-                'schemas/research_object.json'
-            ),
-            (
-                'https://www.jisc.ac.uk/rdss/schema/types.json/#', 
-                'schemas/types.json'
-            )
-            ]
+        (
+            'https://www.jisc.ac.uk/rdss/schema/enumeration.json/#',
+            'schemas/enumeration.json'
+        ),
+        (
+            'https://www.jisc.ac.uk/rdss/schema/intellectual_asset.json/#',
+            'schemas/intellectual_asset.json'
+        ),
+        (
+            'https://www.jisc.ac.uk/rdss/schema/material_asset.json/#',
+            'schemas/material_asset.json'
+        ),
+        (
+            'https://www.jisc.ac.uk/rdss/schema/research_object.json/#',
+            'schemas/research_object.json'
+        ),
+        (
+            'https://www.jisc.ac.uk/rdss/schema/types.json/#',
+            'schemas/types.json'
+        )
+    ]
 
     # base_path = argv[1]
     # Replaced above with below to pass tests as argv[1] is not set when this is run, change made to gain pass in travis
@@ -54,11 +54,11 @@ class AbstractSchemaValidatorTest(TestCase):
                 '',
                 {},
                 store={
-                    schema_id: self.get_json(schema_path) 
+                    schema_id: self.get_json(schema_path)
                     for schema_id, schema_path in self.schema_id_path_pairs
-                    } 
-                )
+                }
             )
+        )
 
     def get_json(self, file_name):
         with open(self.prepare_file_name(file_name)) as json_data:
