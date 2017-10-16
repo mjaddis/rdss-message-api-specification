@@ -4,6 +4,7 @@
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
+- [Object Versioning](#object-versioning)
 - [Messaging Receiving](#messaging-receiving)
 - [Multi-Message Sequence](#multi-message-sequence)
 - [Error Queues](#error-queues)
