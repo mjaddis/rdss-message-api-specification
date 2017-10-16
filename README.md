@@ -289,6 +289,19 @@ The following example Message payloads are provided in the [`messages/body/`](me
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
+## Object Versioning
+
+Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to significant fields and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
+
+A dataset **MUST** only generate a new version when a _significant field_ is altered. In the event that a new version is generated, a `Create` version of the appropriate Message **MUST** be sent. Modifications that do not result in a new version being generated **MUST** be communicated using the respective `Update` version of the appropriate Message.
+
+At present, the following describes the exhaustive list of significant fields:
+
+- A modification to a file, such that the modification would cause a different checksum to be generated for that file.
+- A modification to the title or description of a file.
+
+Versioning is currently delivered in the form of a whole number, e.g. `1`, `2`, `3`, etc.
+
 ## Messaging Receiving
 
 This section describes the behaviour that applications which consume Messages from the RDSS messaging system **MUST** exhibit when a Message is received and processed.
