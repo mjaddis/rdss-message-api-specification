@@ -1,5 +1,6 @@
 # RDSS Message API
 
+- [Introduction](#introduction)
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
