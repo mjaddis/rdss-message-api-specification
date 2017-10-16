@@ -1,10 +1,10 @@
 # RDSS Message API
 
-- [Introduction](#introduction)
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
 - [Messaging Receiving](#messaging-receiving)
+- [File Download Behaviour](#file-download-behaviour)
 - [Multi-Message Sequence](#multi-message-sequence)
 - [Error Queues](#error-queues)
 - [Error Codes](#error-codes)
@@ -295,16 +295,6 @@ This section describes the behaviour that applications which consume Messages fr
 
 The section is split into subsections, depending on the _type_ of application which is processing the received Message.
 
-In all instances, should payloads reference one or more files accessible via S3 or HTTP(S), the following logic **MUST** be adhered to:
-
-- Consumers **MUST** expect - and be capable of handling - substantial datasets. The staging area to which the files are placed during download **MUST** be able to accommodate such files.
-
-- Consumers **MUST** implement a mechanism that allows for resumption of fetching of datasets, to allow for network interruptions to occur without the need for a cold restart.
-
-- When fetching files over HTTPS, applications **MUST** validate certificates to mitigate against connection tampering / man-in-the-middle attacks. Certificates presented by HTTPS hosts will either be provided to consumers, or will be issued by common trusted certificate authorities.
-
-- After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
-
 ### Institutional Repositories
 
 Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, an IR **MUST** either create a work or item using the metadata contained within the payload, or update an existing work or item by applying the modified fields within the payload, respectively.
@@ -320,6 +310,22 @@ To achieve this, it is **RECOMMENDED** that the metadata represented by the payl
 Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, a PS **MUST** generate a preservation item which contains both the metadata contained within the payload and any files referenced by that metadata.
 
 `MetadataDelete` payloads **SHOULD** be ignored by PS's, however a PS **MAY** apply a flag or marker to the preserved object in order to indicate that a delete was requested for that particular object.
+
+## File Download Behaviour
+
+This section describes the behaviour that consumers **MUST** adopt when retrieving files from producing systems that are referenced within consumed payloads. By adopting this behaviour, consumers can be confident of robust and consistent behaviour.
+
+- Consumers **MUST** expect - and be capable of handling - substantial datasets. The staging area to which the files are placed during download **MUST** be able to accommodate such files.
+
+- Consumers **MUST** implement a mechanism that allows for resumption of fetching of datasets, to allow for network interruptions to occur without the need for a cold restart.
+
+- When fetching files over HTTPS, applications **MUST** validate certificates to mitigate against connection tampering / man-in-the-middle attacks. Certificates presented by HTTPS hosts will either be provided to consumers, or will be issued by common trusted certificate authorities.
+
+- After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
+
+- Consumers **SHOULD** implement a file retrieval mechanism that allows for download resumption in the event of a network interruption occurring.
+
+- Consumers **SHOULD** implement an exponential backoff algorithm when initiating / resuming a download, to allow for brief network errors to be avoided. An example of an exponential backoff algorithm can be found in [Network Failure Behaviour](#network-failure-behaviour).
 
 ## Multi-Message Sequence
 
