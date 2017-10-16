@@ -324,8 +324,6 @@ This section describes the behaviour that consumers **MUST** adopt when retrievi
 
 - After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
 
-- Consumers **SHOULD** implement a file retrieval mechanism that allows for download resumption in the event of a network interruption occurring.
-
 - Consumers **SHOULD** implement an exponential backoff algorithm when initiating / resuming a download, to allow for brief network errors to be avoided. An example of an exponential backoff algorithm can be found in [Network Failure Behaviour](#network-failure-behaviour).
 
 ## Multi-Message Sequence
