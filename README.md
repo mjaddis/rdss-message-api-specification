@@ -298,6 +298,7 @@ A dataset **MUST** only generate a new version when a _significant field_ is alt
 
 At present, the following describes the exhaustive list of significant fields:
 
+- A modification to the title of the dataset / deposit.
 - A modification to any part of a file or its associated metadata, such that the modification would cause a different checksum to be generated for that file.
 - A modification to a collection of files or its associated metadata, even if that modifies simply reorders existing files.
 
