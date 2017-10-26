@@ -6,10 +6,10 @@
       "type": "object",
       "properties": {
         "objectUuid": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "objectTitle": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "objectPersonRole": {
           "type": "array",
@@ -19,7 +19,7 @@
           "minItems": 1
         },
         "objectDescription": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "objectRights": {
           "type": "array",
@@ -38,20 +38,24 @@
         "objectKeywords": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
         "objectCategory": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
         "objectResourceType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 28
         },
         "objectValue": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
         },
         "objectIdentifier": {
           "type": "array",
@@ -95,25 +99,31 @@
         "objectResourceType",
         "objectValue",
         "objectIdentifier"
-      ]
+      ],
+      "additionalProperties": false
     },
     "identifier": {
       "type": "object",
       "properties": {
         "identifierValue": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "identifierType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 18
         },
         "relationType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 37
         }
       },
       "required": [
         "identifierValue",
         "identifierType"
-      ]
+      ],
+      "additionalProperties": false
     },
     "rights": {
       "type": "object",
@@ -121,14 +131,14 @@
         "rightsStatement": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           },
           "minItems": 1
         },
         "rightsHolder": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           },
           "minItems": 1
         },
@@ -152,45 +162,50 @@
         "rightsHolder",
         "licence",
         "access"
-      ]
+      ],
+      "additionalProperties": false
     },
     "licence": {
       "type": "object",
       "properties": {
         "licenceName": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "licenceIdentifier": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         }
       },
       "required": [
         "licenceName",
         "licenceIdentifier"
-      ]
+      ],
+      "additionalProperties": false
     },
     "access": {
       "type": "object",
       "properties": {
         "accessType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
         },
         "accessStatement": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         }
       },
       "required": [
         "accessType"
-      ]
+      ],
+      "additionalProperties": false
     },
     "collection": {
       "type": "object",
       "properties": {
         "collectionUuid": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "collectionName": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "collectionObject": {
           "type": "array",
@@ -201,19 +216,19 @@
         "collectionKeywords": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
         "collectionCategory": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
         "collectionDescription": {
           "type": "array",
           "items": {
-            "type": "string"
+            "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           },
           "minItems": 1
         },
@@ -254,7 +269,8 @@
         "collectionName",
         "collectionDescription",
         "collectionRights"
-      ]
+      ],
+      "additionalProperties": false
     },
     "organisationRole": {
       "type": "object",
@@ -263,13 +279,16 @@
           "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/organisation"
         },
         "role": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
         }
       },
       "required": [
         "organisation",
         "role"
-      ]
+      ],
+      "additionalProperties": false
     },
     "personRole": {
       "type": "object",
@@ -278,28 +297,35 @@
           "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
         },
         "role": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 22
         }
       },
       "required": [
         "person",
         "role"
-      ]
+      ],
+      "additionalProperties": false
     },
     "date": {
       "type": "object",
       "properties": {
         "dateValue": {
-          "type": "string"
+          "type": "string",
+          "format": "date-time"
         },
         "dateType": {
-          "type": "number"
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10
         }
       },
       "required": [
         "dateValue",
         "dateType"
-      ]
+      ],
+      "additionalProperties": false
     }
   }
 }

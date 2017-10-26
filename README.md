@@ -1,9 +1,12 @@
 # RDSS Message API
 
+- [Introduction](#introduction)
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
 - [Message Triggers](#message-triggers)
+- [Messaging Receiving](#messaging-receiving)
+- [File Download Behaviour](#file-download-behaviour)
 - [Multi-Message Sequence](#multi-message-sequence)
 - [Error Queues](#error-queues)
 - [Error Codes](#error-codes)
@@ -69,18 +72,54 @@ The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 
 ### Data Types
 
+#### UUID
+
+The purpose of using a UUID is to reasonably guarantee that disparate and unconnected systems can independently generate identifiers without the requirement of a centralised registry to ensure conflicts and duplicates do not occur.
+
+All references to UUID (universally unique identifier) in this specification refer explicitly to a 128-bit number - sometimes also referred to as a GUID (globally unique identifier) - represented in a textual format consisting of five groups separated by hyphens in the form `8-4-4-4-12`, providing for a total of 36 characters (32 alphanumeric characters and four hyphens).
+
+Producers of Messages for publication are free to choose from any of the UUID versions described in [RFC4122](https://tools.ietf.org/html/rfc4122) when generating UUIDs, under the assumption that the implementation used to generate the UUID is _sufficiently random_ so as to guarantee that the probability of generating a duplicate is low enough to be negligible. In this regard, developers **SHOULD** defer to language specific SDKs or established third-party libraries for this functionality.
+
+The following block of code demonstrates how to generate UUIDs using Python:
+
+```python
+import uuid
+
+uuid.uuid1()
+UUID('bc0ca89e-a90d-11e7-9537-f859711e6643')
+
+uuid.uuid3(uuid.NAMESPACE_DNS, 'python.org')
+UUID('6fa459ea-ee8a-3ca4-894e-db77e160355e')
+
+uuid.uuid4()
+UUID('00578f5d-bca4-4e46-a48a-3739db0070ec')
+
+uuid.uuid5(uuid.NAMESPACE_DNS, 'python.org')
+UUID('886313e1-3b8a-5372-9b90-0c9aee199e5d')
+```
+
+The following regular expression **MAY** be adopted by both producers and consumers in order to validate a UUID:
+
+```
+^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+```
+
+Should a consumer encounter an invalid UUID on a Message, that Message **MUST** be moved to the [Invalid Message Queue](#invalid-message-queue) with the error code [`GENERR010`](#general-error-codes).
+
 #### Timestamp
 
-All timestamps provided as part of a JSON payload **MUST** be provided in ISO 8601 format and **MUST** contain both the date and time component:
+All timestamps provided as part of a JSON payload **MUST** be provided in [RFC3339](https://tools.ietf.org/html/rfc3339) format and **MUST** contain both the date and time component:
 
-- Complete date plus hours and minutes:
-    - `YYYY-MM-DDThh:mmTZD` (e.g. `1997-07-16T19:20+01:00`)
 - Complete date plus hours, minutes and seconds:
     - `YYYY-MM-DDThh:mm:ssTZD` (e.g. `1997-07-16T19:20:30+01:00`)
 - Complete date plus hours, minutes, seconds and a decimal fraction of a second:
     - `YYYY-MM-DDThh:mm:ss.sTZD` (e.g. `1997-07-16T19:20:30.45+01:00`)
 
 _Note with regards to the timezone component of a timestamp, for the purposes of clarity this **MUST** be provided in all instances, either with the UTC designation `Z` or as an hours and minutes offset, e.g. `+01:00`._
+
+#### Email Address
+
+All email addresses provided as part of a JSON payload **MUST** be provided in [RFC5322 Section 3.4.1](https://tools.ietf.org/html/rfc5322#section-3.4.1) format.
 
 ## Message Header
 
@@ -93,7 +132,7 @@ An example Message Header can be found [here](messages/header/example.json).
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
-System wide unique identifier describing the Message. It is expected that this will be a 128-bit [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
+System wide unique identifier describing the Message, as described in the [UUID](#uuid) section.
 
 ### `correlationId`
 
@@ -156,7 +195,7 @@ Describes whether or not this Message is part of a larger sequence of Messages a
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
-System wide unique identifier that distinguishes this sequence of Messages from others. It is expected that this will be a 128-bit [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
+System wide unique identifier that distinguishes this sequence of Messages from others, as described in the [UUID](#uuid) section.
 
 #### `position`
 
@@ -281,6 +320,42 @@ Typically, applications do not delete works or items when a request is made to d
 
 A `MetadataDelete` Message **MUST** be sent when the intention of the originating application is to remove a work or item from either public view, or from the view of regular users of the application, even if this operation does not result in deleting the work or item from the application.
 
+## Messaging Receiving
+
+This section describes the behaviour that applications which consume Messages from the RDSS messaging system **MUST** exhibit when a Message is received and processed.
+
+The section is split into subsections, depending on the _type_ of application which is processing the received Message.
+
+### Institutional Repositories
+
+Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, an IR **MUST** either create a work or item using the metadata contained within the payload, or update an existing work or item by applying the modified fields within the payload, respectively.
+
+It is possible for a metadata payload to contain no files. This is known as a "metadata only" record, and a work or item **MUST** still be created using the values contained within the payload.
+
+Upon receiving a `MetadataDelete` payload, an IR **MUST** remove the visibility of that work or item from the view of regular users.
+
+To achieve this, it is **RECOMMENDED** that the metadata represented by the payload and its associated files are completely removed from the IR, however it is understood that this is not always feasible and potentially contrary to the purpose of the repository.
+
+### Preservation Systems
+
+Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, a PS **MUST** generate a preservation item which contains both the metadata contained within the payload and any files referenced by that metadata.
+
+`MetadataDelete` payloads **SHOULD** be ignored by PS's, however a PS **MAY** apply a flag or marker to the preserved object in order to indicate that a delete was requested for that particular object.
+
+## File Download Behaviour
+
+This section describes the behaviour that consumers **MUST** adopt when retrieving files from producing systems that are referenced within consumed payloads. By adopting this behaviour, consumers can be confident of robust and consistent behaviour.
+
+- Consumers **MUST** expect - and be capable of handling - substantial datasets. The staging area to which the files are placed during download **MUST** be able to accommodate such files.
+
+- Consumers **MUST** implement a mechanism that allows for resumption of fetching of datasets, to allow for network interruptions to occur without the need for a cold restart.
+
+- When fetching files over HTTPS, applications **MUST** validate certificates to mitigate against connection tampering / man-in-the-middle attacks. Certificates presented by HTTPS hosts will either be provided to consumers, or will be issued by common trusted certificate authorities.
+
+- After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
+
+- Consumers **SHOULD** implement an exponential backoff algorithm when initiating / resuming a download, to allow for brief network errors to be avoided. An example of an exponential backoff algorithm can be found in [Network Failure Behaviour](#network-failure-behaviour).
+
 ## Multi-Message Sequence
 
 The underlying AWS Kinesis Stream enforces a limit of 1000KB on the size of a single Message, this limit may prevent the entire body of a Message from being contained within a single Message. In order to provide for Messages that are greater than 1000KB in size, all consumers and producers **MUST** support Message sequences.
@@ -345,6 +420,7 @@ The following tables describes the error codes that **MUST** be utilised when a 
 | `GENERR007` | Malformed JSON was detected in the Message Body.                                                             |
 | `GENERR008` | An attempt to roll back a transaction failed.                                                                |
 | `GENERR009` | An unexpected or unknown error occurred.                                                                     |
+| `GENERR010` | Received an invalid / malformed UUID.                                                                        |
 
 ### Application Error Codes
 
