@@ -5,7 +5,9 @@
 - [Message Header](#message-header)
 - [Message Body](#message-body)
 - [Object Versioning](#object-versioning)
+- [Message Triggers](#message-triggers)
 - [Messaging Receiving](#messaging-receiving)
+- [File Download Behaviour](#file-download-behaviour)
 - [Multi-Message Sequence](#multi-message-sequence)
 - [Error Queues](#error-queues)
 - [Error Codes](#error-codes)
@@ -51,7 +53,7 @@ The version of this specification used to generate a given Message can be determ
 
 ### Comformance
 
-The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2219](https://tools.ietf.org/html/rfc2119).
+The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2119](https://tools.ietf.org/html/rfc2119).
 
 ## Message Structure
 
@@ -304,21 +306,40 @@ At present, the following describes the exhaustive list of significant fields:
 
 Versioning is currently delivered in the form of a whole number, e.g. `1`, `2`, `3`, etc.
 
+## Message Triggers
+
+The following describes the expected behaviour of applications which publish Messages. These behaviours are designed to accommodate all possible applications.
+
+### Metadata Create
+
+A `MetadataCreate` Message **MUST** be sent when either:
+
+- A new work or item is created within the originating application; or
+- A significant change to the work item is executed, such as changing the title or adding / removing files.
+
+Typically, applications include a workflow or curation process which requires a final approval step before the uploaded work or item is published.
+
+`MetadataCreate` Messages **SHOULD** only be sent for works or items which are intended to be publically available.
+
+### Metadata Update
+
+A `MetadataUpdate` Message **MUST** be sent when a minor modification is made to an item or work within the originating application. This can include for example spelling and grammatical changes to free text metadata text.
+
+Typically, applications include a workflow or curation process which requires a final approval step before the modified work or item is published.
+
+In the event that a Message is modified in such a way as to change its visibility from confidential to public, this should instead be treated as `MetadataCreate` as consumers of the Message **SHOULD NOT** have received a `MetadataCreate` Message for its original creation.
+
+### Metadata Delete
+
+Typically, applications do not delete works or items when a request is made to do so - instead they are hidden from view.
+
+A `MetadataDelete` Message **MUST** be sent when the intention of the originating application is to remove a work or item from either public view, or from the view of regular users of the application, even if this operation does not result in deleting the work or item from the application.
+
 ## Messaging Receiving
 
 This section describes the behaviour that applications which consume Messages from the RDSS messaging system **MUST** exhibit when a Message is received and processed.
 
 The section is split into subsections, depending on the _type_ of application which is processing the received Message.
-
-In all instances, should payloads reference one or more files accessible via S3 or HTTP(S), the following logic **MUST** be adhered to:
-
-- Consumers **MUST** expect - and be capable of handling - substantial datasets. The staging area to which the files are placed during download **MUST** be able to accommodate such files.
-
-- Consumers **MUST** implement a mechanism that allows for resumption of fetching of datasets, to allow for network interruptions to occur without the need for a cold restart.
-
-- When fetching files over HTTPS, applications **MUST** validate certificates to mitigate against connection tampering / man-in-the-middle attacks. Certificates presented by HTTPS hosts will either be provided to consumers, or will be issued by common trusted certificate authorities.
-
-- After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
 
 ### Institutional Repositories
 
@@ -335,6 +356,20 @@ To achieve this, it is **RECOMMENDED** that the metadata represented by the payl
 Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, a PS **MUST** generate a preservation item which contains both the metadata contained within the payload and any files referenced by that metadata.
 
 `MetadataDelete` payloads **SHOULD** be ignored by PS's, however a PS **MAY** apply a flag or marker to the preserved object in order to indicate that a delete was requested for that particular object.
+
+## File Download Behaviour
+
+This section describes the behaviour that consumers **MUST** adopt when retrieving files from producing systems that are referenced within consumed payloads. By adopting this behaviour, consumers can be confident of robust and consistent behaviour.
+
+- Consumers **MUST** expect - and be capable of handling - substantial datasets. The staging area to which the files are placed during download **MUST** be able to accommodate such files.
+
+- Consumers **MUST** implement a mechanism that allows for resumption of fetching of datasets, to allow for network interruptions to occur without the need for a cold restart.
+
+- When fetching files over HTTPS, applications **MUST** validate certificates to mitigate against connection tampering / man-in-the-middle attacks. Certificates presented by HTTPS hosts will either be provided to consumers, or will be issued by common trusted certificate authorities.
+
+- After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
+
+- Consumers **SHOULD** implement an exponential backoff algorithm when initiating / resuming a download, to allow for brief network errors to be avoided. An example of an exponential backoff algorithm can be found in [Network Failure Behaviour](#network-failure-behaviour).
 
 ## Multi-Message Sequence
 
