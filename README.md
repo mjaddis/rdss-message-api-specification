@@ -4,6 +4,7 @@
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
+- [Object Versioning](#object-versioning)
 - [Message Triggers](#message-triggers)
 - [Messaging Receiving](#messaging-receiving)
 - [File Download Behaviour](#file-download-behaviour)
@@ -290,6 +291,20 @@ The following example Message payloads are provided in the [`messages/body/`](me
 | **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`<br>Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
+
+## Object Versioning
+
+Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to significant fields and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
+
+A dataset **MUST** only generate a new version when a _significant field_ is altered. In the event that a new version is generated, a `Create` version of the appropriate Message **MUST** be sent. Modifications that do not result in a new version being generated **MUST** be communicated using the respective `Update` version of the appropriate Message.
+
+At present, the following describes the exhaustive list of significant fields:
+
+- A modification to the title of the dataset / deposit.
+- A modification to any part of a file or its associated metadata, such that the modification would cause a different checksum to be generated for that file.
+- A modification to a collection of files or its associated metadata, even if that modifies simply reorders existing files.
+
+Versioning is currently delivered in the form of a whole number, e.g. `1`, `2`, `3`, etc.
 
 ## Message Triggers
 
