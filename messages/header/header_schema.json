@@ -29,12 +29,12 @@
         "publishedstring": {
           "description" : "Point in time when message was dispatched",
           "type" : "string",
-          "pattern" : "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]{2})?\\+[0-9]{2}:[0-9]{2}"
+          "pattern" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]{2})?\\+[0-9]{2}:[0-9]{2}$"
         },
         "expirationstring" : {
           "description" : "Point in time when message expires",
           "type": "string",
-          "pattern" : "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]{2})?\\+[0-9]{2}:[0-9]{2}"
+          "pattern" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]{2})?\\+[0-9]{2}:[0-9]{2}$"
         }
       }
     },
@@ -44,8 +44,7 @@
       "type": "object",
       "properties": {
         "sequence": {
-          "description": "System wide identifier for message",
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
         },
         "position": {
           "description": "Position in the sequence to which the message belongs",
