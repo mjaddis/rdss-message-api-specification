@@ -1,93 +1,96 @@
 {
   "id": "https://www.jisc.ac.uk/rdss/schema/messages/header/header_schema.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Message Header",
-  "description": "Header containing message metadata",
-  "type": "object",
-  "properties": {
-    "messageId": {
-      "description": "System wide unique identifier describing the message",
-      "type": "string"
-    },
-    "correlationId": {
-      "description": "In the response message, the messageId of the original message",
-      "type": "string"
-    },
-    "messageClass" : {
-      "enum" : ["Command", "Event", "Document"]
-    },
-    "messageType" : {
-      "enum": ["MetadataCreate", "MetadataUpdate", "MetadataDelete", "MetadataRead", "VocabularyRead", "VocabularyPatch"]
-    },
-    "returnAddress": {
-      "type" : "string"
-    },
-    "messageTimings": {
-      "description" : "Message timings",
-      "type" : "object",
-      "properties": {
-        "publishedstring": {
-          "description" : "Point in time when message was dispatched",
-          "type" : "string",
-          "format" : "date-time"
-        },
-        "expirationstring" : {
-          "description" : "Point in time when message expires",
-          "type": "string",
-          "pattern" : "date-time"
-        }
-      }
-    },
-
-    "messageSequence" : {
-      "description": "If the message is part of a sequence, the location of the message in that sequence",
+  "definitions" : {
+    "object" : {
       "type": "object",
       "properties": {
-        "sequence": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
-        },
-        "position": {
-          "description": "Position in the sequence to which the message belongs",
-          "type": "integer"
-        },
-        "total": {
-          "description": "Total number of messages in the sequence",
-          "type": "integer"
-        }
-      }
-    },
-
-    "messageHistory" : {
-      "description" : "The route of the message up to and including this point in time",
-      "type" : "object",
-      "properties" : {
-        "machineId" : {
-          "description": "ID of the machine that generated the history entry",
-          "type" : "string"
-        },
-        "machineAddress" : {
-          "description" : "Hostname, IP or other identifying network address of the generating machine",
+        "messageId": {
+          "description": "System wide unique identifier describing the message",
           "type": "string"
         },
-        "string" : {
-          "description" : "Time at which this history entry was generates",
+        "correlationId": {
+          "description": "In the response message, the messageId of the original message",
+          "type": "string"
+        },
+        "messageClass" : {
+          "enum" : ["Command", "Event", "Document"]
+        },
+        "messageType" : {
+          "enum": ["MetadataCreate", "MetadataUpdate", "MetadataDelete", "MetadataRead", "VocabularyRead", "VocabularyPatch"]
+        },
+        "returnAddress": {
+          "type" : "string"
+        },
+        "messageTimings": {
+          "description" : "Message timings",
+          "type" : "object",
+          "properties": {
+            "publishedstring": {
+              "description" : "Point in time when message was dispatched",
+              "type" : "string",
+              "format" : "date-time"
+            },
+            "expirationstring" : {
+              "description" : "Point in time when message expires",
+              "type": "string",
+              "pattern" : "date-time"
+            }
+          }
+        },
+
+        "messageSequence" : {
+          "description": "If the message is part of a sequence, the location of the message in that sequence",
+          "type": "object",
+          "properties": {
+            "sequence": {
+              "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
+            },
+            "position": {
+              "description": "Position in the sequence to which the message belongs",
+              "type": "integer"
+            },
+            "total": {
+              "description": "Total number of messages in the sequence",
+              "type": "integer"
+            }
+          }
+        },
+
+        "messageHistory" : {
+          "description" : "The route of the message up to and including this point in time",
+          "type" : "object",
+          "properties" : {
+            "machineId" : {
+              "description": "ID of the machine that generated the history entry",
+              "type" : "string"
+            },
+            "machineAddress" : {
+              "description" : "Hostname, IP or other identifying network address of the generating machine",
+              "type": "string"
+            },
+            "string" : {
+              "description" : "Time at which this history entry was generates",
+              "type" : "string"
+            }
+          }
+        },
+        "version": {
+          "description" : "version of the Messaging API specification",
+          "type" : "string"
+        },
+        "errorCode" : {
+          "description" : "Code representing the error that occurred",
+          "type" : "string"
+        },
+        "errorDescription" : {
+          "description" : "Meaningful description of error",
           "type" : "string"
         }
+
+
       }
-    },
-    "version": {
-      "description" : "version of the Messaging API specification",
-      "type" : "string"
-    },
-    "errorCode" : {
-      "description" : "Code representing the error that occurred",
-      "type" : "string"
-    },
-    "errorDescription" : {
-      "description" : "Meaningful description of error",
-      "type" : "string"
     }
-
-
   }
+
 }
