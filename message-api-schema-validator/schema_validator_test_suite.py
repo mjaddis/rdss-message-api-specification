@@ -2,6 +2,7 @@ from unittest import TestSuite, TextTestRunner
 from tests.header import HeaderValidateTest
 from tests.metadata import MetadataCreateRequestTest, MetadataReadRequestTest, MetadataReadResponseTest, \
     MetadataUpdateRequestTest, MetadataDeleteRequestTest
+from tests.structure import MessageStructureTest
 from tests.vocabulary import VocabularyReadRequestTest, VocabularyReadResponseTest, VocabularyPatchRequestTest
 
 
@@ -19,6 +20,8 @@ def suite():
     suite.addTest(VocabularyPatchRequestTest())
 
     suite.addTest(HeaderValidateTest())
+
+    suite.addTest(MessageStructureTest())
 
     return suite
 
