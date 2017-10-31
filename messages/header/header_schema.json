@@ -29,12 +29,12 @@
         "publishedstring": {
           "description" : "Point in time when message was dispatched",
           "type" : "string",
-          "pattern" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]{2})?\\+[0-9]{2}:[0-9]{2}$"
+          "format" : "date-time"
         },
         "expirationstring" : {
           "description" : "Point in time when message expires",
           "type": "string",
-          "pattern" : "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(.[0-9]{2})?\\+[0-9]{2}:[0-9]{2}$"
+          "pattern" : "date-time"
         }
       }
     },
