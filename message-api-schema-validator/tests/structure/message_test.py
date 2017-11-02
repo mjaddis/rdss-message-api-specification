@@ -7,4 +7,4 @@ class MessageTest(AbstractSchemaValidatorTest, TestCase):
         return 'messages/message_schema.json'
 
     def runTest(self):
-        self.validate_json('messages/example.json')
+        self.validate_json('messages/message.json')
