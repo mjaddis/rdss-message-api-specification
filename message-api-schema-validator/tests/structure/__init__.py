@@ -1,1 +1,1 @@
-from tests.structure.message_structure_test import MessageStructureTest
+from tests.structure.message_structure_test import MessageTest
