@@ -1,8 +1,6 @@
 {
   "id": "https://www.jisc.ac.uk/rdss/schema/messages/message_schema.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title" : "Message Structure",
-  "description" : "Message with a header and body",
   "type": "object",
   "properties" : {
     "messageHeader" : {
