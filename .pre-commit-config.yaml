@@ -19,7 +19,7 @@
     -   id: name-tests-test
     -   id: requirements-txt-fixer
 
--   repo: git@github.com:detailyang/pre-commit-shell.git
+-   repo: git://github.com/detailyang/pre-commit-shell
     sha: 75af325c913743d7abf2ff6fd71dfbf9490bd8b4
     hooks:
     -   id: shell-lint
