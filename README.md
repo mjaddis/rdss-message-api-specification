@@ -1,8 +1,14 @@
 # RDSS Message API
 
+- [Introduction](#introduction)
 - [Message Structure](#message-structure)
 - [Message Header](#message-header)
 - [Message Body](#message-body)
+- [Object Versioning](#object-versioning)
+- [Message Triggers](#message-triggers)
+- [Messaging Receiving](#messaging-receiving)
+- [File Download Behaviour](#file-download-behaviour)
+- [Multi-Message Sequence](#multi-message-sequence)
 - [Error Queues](#error-queues)
 - [Error Codes](#error-codes)
 - [Audit Log](#audit-log)
@@ -18,13 +24,13 @@
 
 This repository documents the RDSS Message API and describes the format and structure of Messages sent within the RDSS project, and architectural designs and patterns for the underlying messaging system.
 
-The API, format, structures and patterns are derived from material from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
-
-### Audience
-
-The following describes the audience to which this Message API Specification is intended for consumption:
+All internal integration between services that compose RDSS is done using the messages specified below.
 
 #### Engineering
+
+The API, format, structures and patterns are derived from material from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
+
+The rationale for this approach is documented in detail in report on [Initial Technical Architecture and Delivery Proposals](https://zenodo.org/record/344877#.WlM9k1SFi7Y).
 
 Including application developers and vendors responsible for delivering code and products that will produce and / or consume Messages required to conform to this specification. All engineers **MUST** ensure that where deliverables interact with the messaging system, those deliverables conform to this specification.
 
@@ -38,7 +44,7 @@ Including test engineers and quality assurance specialists responsible for ensur
 
 #### Versioning
 
-- Specification version:&nbsp;&nbsp;`1.1.3-SNAPSHOT`
+- Specification version:&nbsp;&nbsp;`1.2.2-SNAPSHOT`
 - Data model version:&nbsp;&nbsp;&nbsp; [`1.1.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.1.0)
 
 Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
@@ -55,7 +61,7 @@ The version of this specification used to generate a given Message can be determ
 
 ### Conformance
 
-The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2219](https://tools.ietf.org/html/rfc2119).
+The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2119](https://tools.ietf.org/html/rfc2119).
 
 ## Authentication
 
@@ -74,6 +80,7 @@ A Message is broken into two parts:
 - The [Message Body](#message-body)
 
 A complete example of a Message can be found [here](messages/example.json).
+The JSON schema for a complete message can be found [here](messages/message_schema.json)
 
 The standard encoding for a Message is [JSON](http://www.json.org/), and the examples provided in this documentation are given in this format.
 
@@ -81,12 +88,44 @@ The maximum size of a serialised JSON Message **MUST NOT** exceed 1000KB.
 
 ### Data Types
 
+#### UUID
+
+The purpose of using a UUID is to reasonably guarantee that disparate and unconnected systems can independently generate identifiers without the requirement of a centralised registry to ensure conflicts and duplicates do not occur.
+
+All references to UUID (universally unique identifier) in this specification refer explicitly to a 128-bit number - sometimes also referred to as a GUID (globally unique identifier) - represented in a textual format consisting of five groups separated by hyphens in the form `8-4-4-4-12`, providing for a total of 36 characters (32 alphanumeric characters and four hyphens).
+
+Producers of Messages for publication are free to choose from any of the UUID versions described in [RFC4122](https://tools.ietf.org/html/rfc4122) when generating UUIDs, under the assumption that the implementation used to generate the UUID is _sufficiently random_ so as to guarantee that the probability of generating a duplicate is low enough to be negligible. In this regard, developers **SHOULD** defer to language specific SDKs or established third-party libraries for this functionality.
+
+The following block of code demonstrates how to generate UUIDs using Python:
+
+```python
+import uuid
+
+uuid.uuid1()
+UUID('bc0ca89e-a90d-11e7-9537-f859711e6643')
+
+uuid.uuid3(uuid.NAMESPACE_DNS, 'python.org')
+UUID('6fa459ea-ee8a-3ca4-894e-db77e160355e')
+
+uuid.uuid4()
+UUID('00578f5d-bca4-4e46-a48a-3739db0070ec')
+
+uuid.uuid5(uuid.NAMESPACE_DNS, 'python.org')
+UUID('886313e1-3b8a-5372-9b90-0c9aee199e5d')
+```
+
+The following regular expression **MAY** be adopted by both producers and consumers in order to validate a UUID:
+
+```
+^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$
+```
+
+Should a consumer encounter an invalid UUID on a Message, that Message **MUST** be moved to the [Invalid Message Queue](#invalid-message-queue) with the error code [`GENERR010`](#general-error-codes).
+
 #### Timestamp
 
-All timestamps provided as part of a JSON payload **MUST** be provided in ISO 8601 format and **MUST** contain both the date and time component:
+All timestamps provided as part of a JSON payload **MUST** be provided in [RFC3339](https://tools.ietf.org/html/rfc3339) format and **MUST** contain both the date and time component:
 
-- Complete date plus hours and minutes:
-    - `YYYY-MM-DDThh:mmTZD` (e.g. `1997-07-16T19:20+01:00`)
 - Complete date plus hours, minutes and seconds:
     - `YYYY-MM-DDThh:mm:ssTZD` (e.g. `1997-07-16T19:20:30+01:00`)
 - Complete date plus hours, minutes, seconds and a decimal fraction of a second:
@@ -94,18 +133,23 @@ All timestamps provided as part of a JSON payload **MUST** be provided in ISO 86
 
 _Note with regards to the timezone component of a timestamp, for the purposes of clarity this **MUST** be provided in all instances, either with the UTC designation `Z` or as an hours and minutes offset, e.g. `+01:00`._
 
+#### Email Address
+
+All email addresses provided as part of a JSON payload **MUST** be provided in [RFC5322 Section 3.4.1](https://tools.ietf.org/html/rfc5322#section-3.4.1) format.
+
 ## Message Header
 
 The Message Header contains important metadata describing the Message itself, including the type of Message, routing information, timings, sequencing, and so forth.
 
 An example Message Header can be found [here](messages/header/example.json).
+The JSON schema of the Message Header can be found [here](messages/header/header_schema.json).
 
 ### `messageId`
 
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
-System wide unique identifier describing the Message. It is expected that this will be a 128-bit [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
+System wide unique identifier describing the Message, as described in the [UUID](#uuid) section.
 
 ### `correlationId`
 
@@ -168,7 +212,7 @@ Describes whether or not this Message is part of a larger sequence of Messages a
 - Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
-System wide unique identifier that distinguishes this sequence of Messages from others. It is expected that this will be a 128-bit [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
+System wide unique identifier that distinguishes this sequence of Messages from others, as described in the [UUID](#uuid) section.
 
 #### `position`
 
@@ -256,13 +300,92 @@ The following example Message payloads are provided in the [`messages/body/`](me
 
 |            | **Vocabulary**                                                                                              | **Metadata**                                                                                                |
 |------------|-------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/body/vocabulary/read/`](messages/body/vocabulary/read/) | Message Type: `MetadataRead`Documentation: [`messages/body/metadata/read/`](messages/body/metadata/read/)             |
+| **Read**   | Message Type:   `VocabularyRead`<br>Documentation: [`messages/body/vocabulary/read/`](messages/body/vocabulary/read/) | Message Type: `MetadataRead`<br>Documentation: [`messages/body/metadata/read/`](messages/body/metadata/read/)             |
 | **Create** | Not Supported                                                                                               | Message Type:   `MetadataCreate`<br>Documentation: [`messages/body/metadata/create/`](messages/body/metadata/create/) |
-| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`Documentation: [`messages/body/metadata/update/`](messages/body/metadata/update/)       |
-| **Patch**  | Message Type: `VocabularyRead`Documentation: [`messages/body/vocabulary/patch/`](messages/body/vocabulary/patch/)     | Not Supported                                                                                               |
-| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
+| **Update** | Not Supported                                                                                               | Message Type: `MetadataUpdate`<br>Documentation: [`messages/body/metadata/update/`](messages/body/metadata/update/)       |
+| **Patch**  | Message Type: `VocabularyPatch`<br>Documentation: [`messages/body/vocabulary/patch/`](messages/body/vocabulary/patch/)     | Not Supported                                                                                               |
+| **Delete** | Not Supported                                                                                               | Message Type: `MetadataDelete`<br>Documentation: [`messages/body/metadata/delete/`](messages/body/metadata/delete/)       |
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
+
+## Object Versioning
+
+Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to significant fields and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
+
+A dataset **MUST** only generate a new version when a _significant field_ is altered. In the event that a new version is generated, a `Create` version of the appropriate Message **MUST** be sent. Modifications that do not result in a new version being generated **MUST** be communicated using the respective `Update` version of the appropriate Message.
+
+At present, the following describes the exhaustive list of significant fields:
+
+- A modification to the title of the dataset / deposit.
+- A modification to any part of a file or its associated metadata, such that the modification would cause a different checksum to be generated for that file.
+- A modification to a collection of files or its associated metadata, even if that modifies simply reorders existing files.
+
+Versioning is currently delivered in the form of a whole number, e.g. `1`, `2`, `3`, etc.
+
+## Message Triggers
+
+The following describes the expected behaviour of applications which publish Messages. These behaviours are designed to accommodate all possible applications.
+
+### Metadata Create
+
+A `MetadataCreate` Message **MUST** be sent when either:
+
+- A new work or item is created within the originating application; or
+- A significant change to the work item is executed, such as changing the title or adding / removing files.
+
+Typically, applications include a workflow or curation process which requires a final approval step before the uploaded work or item is published.
+
+`MetadataCreate` Messages **SHOULD** only be sent for works or items which are intended to be publically available.
+
+### Metadata Update
+
+A `MetadataUpdate` Message **MUST** be sent when a minor modification is made to an item or work within the originating application. This can include for example spelling and grammatical changes to free text metadata text.
+
+Typically, applications include a workflow or curation process which requires a final approval step before the modified work or item is published.
+
+In the event that a Message is modified in such a way as to change its visibility from confidential to public, this should instead be treated as `MetadataCreate` as consumers of the Message **SHOULD NOT** have received a `MetadataCreate` Message for its original creation.
+
+### Metadata Delete
+
+Typically, applications do not delete works or items when a request is made to do so - instead they are hidden from view.
+
+A `MetadataDelete` Message **MUST** be sent when the intention of the originating application is to remove a work or item from either public view, or from the view of regular users of the application, even if this operation does not result in deleting the work or item from the application.
+
+## Messaging Receiving
+
+This section describes the behaviour that applications which consume Messages from the RDSS messaging system **MUST** exhibit when a Message is received and processed.
+
+The section is split into subsections, depending on the _type_ of application which is processing the received Message.
+
+### Institutional Repositories
+
+Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, an IR **MUST** either create a work or item using the metadata contained within the payload, or update an existing work or item by applying the modified fields within the payload, respectively.
+
+It is possible for a metadata payload to contain no files. This is known as a "metadata only" record, and a work or item **MUST** still be created using the values contained within the payload.
+
+Upon receiving a `MetadataDelete` payload, an IR **MUST** remove the visibility of that work or item from the view of regular users.
+
+To achieve this, it is **RECOMMENDED** that the metadata represented by the payload and its associated files are completely removed from the IR, however it is understood that this is not always feasible and potentially contrary to the purpose of the repository.
+
+### Preservation Systems
+
+Upon receiving a `MetadataCreate` or `MetadataUpdate` payload, a PS **MUST** generate a preservation item which contains both the metadata contained within the payload and any files referenced by that metadata.
+
+`MetadataDelete` payloads **SHOULD** be ignored by PS's, however a PS **MAY** apply a flag or marker to the preserved object in order to indicate that a delete was requested for that particular object.
+
+## File Download Behaviour
+
+This section describes the behaviour that consumers **MUST** adopt when retrieving files from producing systems that are referenced within consumed payloads. By adopting this behaviour, consumers can be confident of robust and consistent behaviour.
+
+- Consumers **MUST** expect - and be capable of handling - substantial datasets. The staging area to which the files are placed during download **MUST** be able to accommodate such files.
+
+- Consumers **MUST** implement a mechanism that allows for resumption of fetching of datasets, to allow for network interruptions to occur without the need for a cold restart.
+
+- When fetching files over HTTPS, applications **MUST** validate certificates to mitigate against connection tampering / man-in-the-middle attacks. Certificates presented by HTTPS hosts will either be provided to consumers, or will be issued by common trusted certificate authorities.
+
+- After fetching of the file is complete, the file **MUST** be validated against the associated checksum(s), should they be provided in the metadata payload.
+
+- Consumers **SHOULD** implement an exponential backoff algorithm when initiating / resuming a download, to allow for brief network errors to be avoided. An example of an exponential backoff algorithm can be found in [Network Failure Behaviour](#network-failure-behaviour).
 
 ## Multi-Message Sequence
 
@@ -330,7 +453,7 @@ The following tables describes the error codes that **MUST** be utilised when a 
 | `GENERR007` | Malformed JSON was detected in the Message Body.                                                             |
 | `GENERR008` | An attempt to roll back a transaction failed.                                                                |
 | `GENERR009` | An unexpected or unknown error occurred.                                                                     |
-| `GENERR010` | Maximum number of Message resend retries exceeded.                                                           |
+| `GENERR010` | Received an invalid / malformed UUID.                                                                        |
 
 ### Application Error Codes
 
@@ -505,7 +628,7 @@ Similar to receiving Messages, a Message sent by a client **MUST** be saved in t
 
 The nature of the AWS Kinesis stream which forms the basis of the Messages queues guarantee an "at least once" delivery system, meaning therefore that it's possible (and likely) that a single consumer may receive the same Message multiple times. This is also true when a client sends a Message - they will receive the sent Message back again.
 
-In order to prevent the same Message from being multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
+In order to prevent the same Message from being processed multiple times, clients **MUST** maintain a local data repository. This repository will store, for each Message, at a minimum:
 
 - `messageId`
 - `messageClass`
