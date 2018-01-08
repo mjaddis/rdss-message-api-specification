@@ -28,14 +28,6 @@ The following describes the audience to which this Message API Specification is 
 
 Including application developers and vendors responsible for delivering code and products that will produce and / or consume Messages required to conform to this specification. All engineers **MUST** ensure that where deliverables interact with the messaging system, those deliverables conform to this specification.
 
-#### Operations
-
-Including those responsible for the day to day running of the RDSS systems and analysis and actioning of operational issues. Operational personnel will use the contents of this specification to assist in the process of debugging and analysing issues that arise with the RDSS system and the Messages dispatched within it.
-
-#### Quality Assurance
-
-Including test engineers and quality assurance specialists responsible for ensuring the high standards of quality in the RDSS deliverables. These test engineers and QA specialists will ensure that deliverables and applications developed and deployed as part of the RDSS project conform to this specification.
-
 #### Versioning
 
 - Specification version:&nbsp;&nbsp;`1.1.3-SNAPSHOT`
