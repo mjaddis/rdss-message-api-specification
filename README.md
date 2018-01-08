@@ -16,7 +16,7 @@
 - [Transactional Behaviour](#transactional-behaviour)
 - [Local Data Repository](#local-data-repository)
 - [Network Failure Behaviour](#network-failure-behaviour)
-- [Message Gateway & Channel Adapter](#message-gateway-channel-adapter)
+- [Message Gateway & Channel Adaptor](#message-gateway-channel-adaptor)
 - [Logging](#logging)
 - [Non-Functional Requirements](#non-functional-requirements)
 
@@ -26,11 +26,15 @@ This repository documents the RDSS Message API and describes the format and stru
 
 All internal integration between services that compose RDSS is done using the messages specified below.
 
+#### Engineering
+
 The API, format, structures and patterns are derived from material from [Enterprise Integration Patterns](http://www.enterpriseintegrationpatterns.com/).
 
 The rationale for this approach is documented in detail in report on [Initial Technical Architecture and Delivery Proposals](https://zenodo.org/record/344877#.WlM9k1SFi7Y).
 
-### Versioning
+Including application developers and vendors responsible for delivering code and products that will produce and / or consume Messages required to conform to this specification. All engineers **MUST** ensure that where deliverables interact with the messaging system, those deliverables conform to this specification.
+
+#### Versioning
 
 - Specification version:&nbsp;&nbsp;`1.2.2-SNAPSHOT`
 - Data model version:&nbsp;&nbsp;&nbsp; [`1.1.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.1.0)
@@ -47,9 +51,15 @@ Vendors implementing this specification **SHOULD** make a best effort to impleme
 
 The version of this specification used to generate a given Message can be determined by inspecting the `version` header (as described in the [Message Header](#message-header)) section.
 
-### Comformance
+### Conformance
 
 The keywords **MAY**, **MUST**, **MUST NOT**, **NOT RECOMMENDED**, **RECOMMENDED**, **SHOULD** and **SHOULD NOT** are to be interpreted as described in [RFC2119](https://tools.ietf.org/html/rfc2119).
+
+## Authentication
+
+The messaging system does not support any direct authentication as part of the Message header or payloads, or against any of the various endpoints.
+
+Instead, access to the messaging system is managed through restricting access to the Kinesis Streams and other AWS components that underpin the systems infrastructure. Consumers and producers of Messages which interact with the messaging system will be provided with the necessary keys to achieve this interaction.
 
 ## Message Structure
 
@@ -375,7 +385,7 @@ The underlying AWS Kinesis Stream enforces a limit of 1000KB on the size of a si
 
 Messaging sequencing information is conveyed through the `messageSequence` object as described in the [Message Header](#message-header): `sequence`, `position` and `total`.
 
-The following Python describes the process of splitting a larger `messageBody` into smaller constituent parts which, when inserted into a Message that contains both the `messageHeader`, the `messageHeader` and `messageBody` JSON keys, and the wrapping JSON `{}` braces, will be less than 1000KB in size:
+The following Python code snippet describes the process of splitting a larger `messageBody` into smaller constituent parts which, when inserted into a Message that contains both the `messageHeader`, the `messageHeader` and `messageBody` JSON keys, and the wrapping JSON `{}` braces, will be less than 1000KB in size:
 
 ```python
 import json
@@ -401,6 +411,8 @@ sequences = split_payload(available_size, message['messageBody'])
 When a consumer receives a Message, they **MUST** inspect the `messageSequence` header to determine whether there are more than 1 Messages in the sequences (i.e. `total > 1`). In this case, the consumer **MUST** wait for all constituent Messages to arrive before reconstructing the overall payload and processing it.
 
 ## Error Queues
+
+There are a number of queues defined which are responsible for processing erroneous Messages from both consumers and producers of the system. These queues will route these Messages to respective S3 Buckets, where they will be persisted for analysis by the appropriate parties (e.g. SysOps and DevOps).
 
 All Messages placed on the Error Message Queue or Invalid Message Queue **MUST** contain the `errorCode` and `errorDescription` fields within the `messageHeader` of the Message.
 
@@ -455,7 +467,7 @@ The following sections describe the error codes that **MUST** be utilised when a
 
 ## Audit Log
 
-The Audit Log is a destination for Messages that every Message sent through the system will arrive at.
+The Audit Log is a component of the system through which every Message dispatched into the system will be routed. Messages that are provided to the Audit Log will be persisted to an S3 Bucket, where they will be made available to the appropriate parties for analysis (for example, SysOps and DeOps staff).
 
 It is delivered in the form of an [AWS Kinesis Stream](https://aws.amazon.com/kinesis/streams/), which in turn loads the data into an [Amazon S3](https://aws.amazon.com/s3/) via an [AWS Lambda Function](https://aws.amazon.com/lambda/). The data is then made available for consumption and processing by other systems (e.g reporting).
 
@@ -467,22 +479,21 @@ The following diagram describes the topology of the Messaging system (the diagra
 
 [Hohpe EID Stencils](http://www.enterpriseintegrationpatterns.com/downloads.html) is used in the creation of the topology diagram.
 
-|                             EIP Key                              | Description             
-|:----------------------------------------------------------------:|-------------------------
-|     ![Directional Channel](topology/directional-channel.png)     | Directional Channel     |
-| ![Invalid Message Channel](topology/invalid-message-channel.png) | Invalid Message Channel |
-|   ![Error Message Channel](topology/error-message-channel.png)   | Error Message Channel   |
-|         ![Channel Adapter](topology/channel-adapter.png)         | Channel Adapter         |
-|          ![Message Broker](topology/message-broker.png)          | Message Broker          |
-|    ![Content Based Router](topology/content-based-router.png)    | Content Based Router    |
-
+|                           EIP Key                            | Description           |
+|:------------------------------------------------------------:|-----------------------|
+|     ![Directional Queue](topology/directional-queue.png)     | Directional Queue     |
+| ![Invalid Message Queue](topology/invalid-message-queue.png) | Invalid Message Queue |
+|   ![Error Message Queue](topology/error-message-queue.png)   | Error Message Queue   |
+|       ![Channel Adaptor](topology/channel-adaptor.png)       | Channel Adaptor       |
+|        ![Message Broker](topology/message-broker.png)        | Message Broker        |
+|  ![Content Based Router](topology/content-based-router.png)  | Content Based Router  |
 
 ![Topology](topology/topology.png)
 _(click the diagram to view in high resolution)_
 
-- [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adapters](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
+- [Message Routers](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageRouter.html) and [Channel Adaptors](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdaptor.html) are implemented as [AWS Lambda](https://aws.amazon.com/lambda/) services.
 - [Message Channels](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessageChannel.html) are implemented using [AWS Kinesis Streams](https://aws.amazon.com/kinesis/streams/).
-- Logs are implemented using [Amazon S3](https://aws.amazon.com/s3/).
+- Message log stores are implemented using [Amazon S3](https://aws.amazon.com/s3/).
 
 ## Transactional Behaviour
 
@@ -498,7 +509,7 @@ In doing so, this permits the client to restart the polling of the Kinesis Strea
 
 The process for reading records from a Stream (including the handling of the respective Shards) is detailed in the [Message Gateway Sequence Diagrams](#message-gateway-sequence-diagrams) section.
 
-The following Python describes the behaviour that clients **SHOULD** adopt when consuming Messages from a queue in order to achieve transactional behaviour:
+The following Python code snippet describes the behaviour that clients **SHOULD** adopt when consuming Messages from a queue in order to achieve transactional behaviour:
 
 ```python
 import boto3
@@ -644,13 +655,15 @@ if(retry > max_retries):
 
 In the event that `max_retries` are exceeded, clients **MUST** write a log entry (as per [Logging](#logging)) with the special error code `GENERR010`.
 
-## Message Gateway & Channel Adapter
+## Message Gateway & Channel Adaptor
 
-The messaging system offers applications who wish to send and receive Messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adapter](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdapter.html).
+The messaging system offers applications who wish to send and receive Messages two mechanisms of interaction: a [Message Gateway](http://www.enterpriseintegrationpatterns.com/patterns/messaging/MessagingGateway.html) and a [Channel Adaptor](http://www.enterpriseintegrationpatterns.com/patterns/messaging/ChannelAdaptor.html).
+
+A Message Gateway offers a preferred approach to interfacing with the messaging system, whereas the Channel Adaptor exists outside of, and independently from, the application and therefore can be utilised by applications where modification of the application code is not feasible (however, such applications **MUST** still expose a mechanism for programmatic access and querying of the application).
 
 ### Message Gateway
 
-The Message Gateway offers the preferred interface to the messaging system. It exists within the application itself and encapsulates the code specific to the messaging system whilst exposing APIs for interaction.
+The Message Gateway offers the preferred interface to the messaging system. It exists within the Message consuming / producing application itself and encapsulates the code specific to the messaging system whilst exposing APIs for interaction.
 
 The following diagram describes the class structure of a Message Gateway (the diagram can be edited using [StarUML](http://staruml.io/). The source is provided in the [`message-gateway/message-gateway-simple.mdj`](message-gateway/message-gateway-simple.mdj) file).
 
@@ -674,7 +687,7 @@ The sequence diagrams below describe the flow of executing through the Message G
 
 ![Message Gateway Metadata Create](message-gateway/metadata-create.png)
 
-The creation process is "fire and forget", insomuch that it does not expect a return Message in response to the Message that is puts on the queue.
+The creation process is "fire and forget", insomuch that it does not expect a return Message in response to the Message that it puts on the queue.
 
 ##### Metadata Read
 
@@ -694,11 +707,15 @@ To model this, the `Message Channel` lifeline enters the following loops:
   * 2.5. Sleep for a predefined period of time
   * 2.6. Return to step `2.1`
 
-### Channel Adapter
+### Channel Adaptor
 
-The alternative interface to the messaging system is the Channel Adapter, which does not require code implementation as part of the application. Instead, the Channel Adapter exists as a separate component and acts as a middle man between the channel and the application, leveraging synchronous APIs that the application exposes.
+The alternative interface to the messaging system is the Channel Adaptor, which does not require modification of the application itself. Instead, the Channel Adaptor exists as a separate component and acts as a middle man between the queues and the application, leveraging synchronous APIs that the application exposes.
 
-![Channel Adapter](channel-adapter/channel-adapter.png)
+![Channel Adaptor](channel-adaptor/channel-adaptor.png)
+
+The typical implementation of a Channel Adaptor would be a pull mechanism which periodically polls the APIs exposed by the application, probing for newly created datasets and objects.
+
+The Channel Adaptor would then convert the retrieved data to a format compatible with the messaging system (as specified by this API), before adding to the relevant queue for consumption and processing by other components and applications.
 
 ## Logging
 
@@ -719,7 +736,7 @@ For informational purposes, the expected format of a raw syslog log Message is d
 
 ### Log Message Format
 
-Log messages delivered in syslog format consist of three parts:
+Log messages delivered in syslog format consist of two parts:
 
 - [Log Message Header](#log-message-header)
 - [Log Message](#log-message)
@@ -780,6 +797,10 @@ All Messages sent and received by the application **MUST** be logged and **MUST*
 
 ## Non-Functional Requirements
 
+The following sections describe the requirements and limitations imposed by the underlying technologies and infrastructure utilised by the messaging system. All consumers and producers of Messages in the system **MUST** ensure that they are operating within these requirements and limitations.
+
+The vast majority of technologies and infrastructure that drives the messaging system are provided by Amazon AWS, more details on the limitations imposed by AWS not described below can be found in [AWS Service Limits](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html).
+
 ### Messages
 
 | Requirement  | Value  | Description                                                                                |
@@ -793,7 +814,7 @@ All Messages sent and received by the application **MUST** be logged and **MUST*
 | Time To Live | 168 hours                         | AWS Kinesis Stream has a maximum retention period of 168 hours, thereby giving our Message Channels a TTL of 168 hours.                                                              |
 | Throughput   | Per shard: 1MB/s in and 4MB/s out | Each AWS Kinesis Stream can by default support up to 50 shards in US East, ES West and EU Ireland, and 25 shards in other regions. These values can be increased with justification. |
 
-### Audit Logs & Invalid Message Channels
+### Audit Logs & Error Message Queues
 
 | Requirement   | Value                                                  | Description                                                                                                                                                       |
 |---------------|--------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -801,7 +822,7 @@ All Messages sent and received by the application **MUST** be logged and **MUST*
 | Time To Live  | 24 hours with a retry of 0 to 7200 seconds             | Should the delivery destination be unavailable, AWS Kinesis Firehose will retain records for a maximum of 24 hours and can retry delivery from 0 to 7200 seconds. |
 | Throughput    | 200 transactions/second, 5000 records/second and 5MB/s | These values can be increased with justification.                                                                                                                 |
 | Buffer        | 1MB to 128MB and 60 to 900 seconds                     | Buffer sizes can range from 1MB to 128MB with intervals of 60 to 900 seconds.                                                                                     |
-| Compression   | GZIP, ZIP and SNAPPY                                   | Data provided to the AWS Kinesis Firehose can be compressed using GZIP, ZIP and SNAPPY. However, the uncompressed size cannot exceeed 1000KB.                     |
+| Compression   | GZIP, ZIP and SNAPPY                                   | Data provided to the AWS Kinesis Firehose can be compressed using GZIP, ZIP and SNAPPY. However, the uncompressed size cannot exceeded 1000KB.                     |
 
 ### Log Messages
 
