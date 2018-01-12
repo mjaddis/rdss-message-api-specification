@@ -157,7 +157,7 @@ Provided on a return Message, containing the [`messageId`](#messageid) of the or
 
 One of `Command`, `Event` or `Document`, as described by the following rules:
 
-- `Command`: used for Message payloads that are explicitly instructing a consumer to carry out and activity and respond with a subsequent Message for consumption by the producer or others.
+- `Command`: used for Message payloads that are explicitly instructing a consumer to carry out an activity and respond with a subsequent Message for consumption by the producer or others.
 - `Event`: used for Message payloads which inform consumers of a specific event having occurred, where that event was not in response to a `Command` and does not contain a substantial payload of data.
 - `Document`: used for Message payloads that contain a payload of information for consumption, typically triggered in response to a `Command`.
 
