@@ -5,8 +5,8 @@
   "messageType": "MetadataCreate",
   "returnAddress": "string",
   "messageTimings": {
-    "publishedTimestamp": "",
-    "expirationTimestamp": ""
+    "publishedTimestamp": "2004-08-01T10:00:00-00:00",
+    "expirationTimestamp": "2004-08-01T10:00:00-00:00"
   },
   "messageSequence": {
     "sequence": "570e54de-ddeb-47a9-b629-2a1ec2f85726",
