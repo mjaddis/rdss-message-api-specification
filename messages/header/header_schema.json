@@ -1,8 +1,8 @@
 {
   "id": "https://www.jisc.ac.uk/rdss/schema/messages/header/header_schema.json/#",
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "definitions" : {
-    "object" : {
+  "definitions": {
+    "object": {
       "type": "object",
       "properties": {
         "messageId": {
@@ -11,31 +11,40 @@
         "correlationId": {
           "type": "string"
         },
-        "messageClass" : {
-          "enum" : ["Command", "Event", "Document"]
+        "messageClass": {
+          "enum": [
+            "Command",
+            "Event",
+            "Document"
+          ]
         },
-        "messageType" : {
-          "enum": ["MetadataCreate", "MetadataUpdate", "MetadataDelete", "MetadataRead", "VocabularyRead", "VocabularyPatch"]
+        "messageType": {
+          "enum": [
+            "MetadataCreate",
+            "MetadataUpdate",
+            "MetadataDelete",
+            "MetadataRead",
+            "VocabularyRead",
+            "VocabularyPatch"
+          ]
         },
         "returnAddress": {
-          "type" : "string"
+          "type": "string"
         },
         "messageTimings": {
-          "type" : "object",
+          "type": "object",
           "properties": {
-            "publishedstring": {
-              "description" : "Point in time when message was dispatched",
-              "type" : "string",
-              "format" : "date-time"
-            },
-            "expirationstring" : {
+            "publishedTimestamp": {
               "type": "string",
-              "pattern" : "date-time"
+              "format": "date-time"
+            },
+            "expirationTimestamp": {
+              "type": "string",
+              "format": "date-time"
             }
           }
         },
-
-        "messageSequence" : {
+        "messageSequence": {
           "type": "object",
           "properties": {
             "sequence": {
@@ -49,31 +58,33 @@
             }
           }
         },
-
-        "messageHistory" : {
-          "type" : "object",
-          "properties" : {
-            "machineId" : {
-              "type" : "string"
-            },
-            "machineAddress" : {
-              "type": "string"
-            },
-            "string" : {
-              "type" : "string"
+        "messageHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "machineId": {
+                "type": "string"
+              },
+              "machineAddress": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              }
             }
           }
         },
         "version": {
-          "type" : "string"
+          "type": "string"
         },
-        "errorCode" : {
-          "type" : "string"
+        "errorCode": {
+          "type": "string"
         },
-        "errorDescription" : {
-          "type" : "string"
+        "errorDescription": {
+          "type": "string"
         }
-
       }
     }
   }
