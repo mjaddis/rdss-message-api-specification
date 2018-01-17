@@ -90,10 +90,8 @@
           "type": "string",
           "format": "uri"
         },
-        "fileStorageType": {
-          "type": "integer",
-          "minimum": 1,
-          "maximum": 2
+        "fileStoragePlatform": {
+          "$ref": "#/definitions/storagePlatform"
         }
       },
       "required": [
@@ -109,7 +107,33 @@
         "fileUploadStatus",
         "fileStorageStatus",
         "fileStorageLocation",
-        "fileStorageType"
+        "fileStoragePlatform"
+      ],
+      "additionalProperties": false
+    },
+    "storagePlatform": {
+      "type": "object",
+      "properties": {
+        "storagePlatformUuid": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
+        },
+        "storagePlatformName": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
+        },
+        "storagePlatformType": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2
+        },
+        "storagePlatformCost": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
+        }
+      },
+      "required": [
+        "storagePlatformUuid",
+        "storagePlatformName",
+        "storagePlatformType",
+        "storagePlatformCost"
       ],
       "additionalProperties": false
     },
@@ -129,6 +153,7 @@
         }
       },
       "required": [
+        "checksumUuid",
         "checksumType",
         "checksumValue"
       ],
@@ -256,8 +281,7 @@
         "grantIdentifier",
         "grantFunder",
         "grantStart",
-        "grantEnd",
-        "grantValue"
+        "grantEnd"
       ],
       "additionalProperties": false
     },
