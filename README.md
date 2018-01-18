@@ -37,7 +37,7 @@ Including application developers and vendors responsible for delivering code and
 #### Versioning
 
 - Specification version:&nbsp;&nbsp;`1.2.2-SNAPSHOT`
-- Data model version:&nbsp;&nbsp;&nbsp; [`2.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/1.3.0)
+- Data model version:&nbsp;&nbsp;&nbsp; [`2.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/2.0.0)
 
 Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
 
