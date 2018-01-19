@@ -41,14 +41,6 @@
           "personEntitlement": [
             1
           ],
-          "personOrganisation": [
-            {
-              "organisationJiscId": 1,
-              "organisationName": "string",
-              "organisationType": 1,
-              "organisationAddress": "string"
-            }
-          ],
           "personAffiliation": [
             1
           ],
@@ -57,7 +49,16 @@
           "personSn": "string",
           "personTelephoneNumber": "string",
           "personMail": "string",
-          "personOu": "string"
+          "personOrganisationUnit": {
+            "organisationUnitUuid": "28be7f16-0e70-461f-a2db-d9d7c64a8f17",
+            "organisationUnitName": "string",
+            "organisation": {
+              "organisationJiscId": 1,
+              "organisationName": "string",
+              "organisationType": 1,
+              "organisationAddress": "string"
+            }
+          }
         },
         "role": 1
       }
@@ -199,7 +200,12 @@
           "string"
         ],
         "fileStorageLocation": "https://tools.ietf.org/html/rfc3986",
-        "fileStorageType": 1
+        "fileStoragePlatform": {
+          "storagePlatformUuid": "f2939501-2b2d-4e5c-9197-0daa57ccb621",
+          "storagePlatformName": "string",
+          "storagePlatformType": 1,
+          "storagePlatformCost": "string"
+        }
       }
     ]
   }

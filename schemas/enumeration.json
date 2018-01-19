@@ -71,6 +71,7 @@
         "PMID",
         "PUID",
         "PURL",
+        "SourceID",
         "UPC",
         "URL",
         "URN"
