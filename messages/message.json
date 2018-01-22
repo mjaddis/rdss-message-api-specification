@@ -48,7 +48,7 @@
           "personCn": "string",
           "personSn": "string",
           "personTelephoneNumber": "string",
-          "personMail": "string",
+          "personMail": "person@net",
           "personOrganisationUnit": {
             "organisationUnitUuid": "28be7f16-0e70-461f-a2db-d9d7c64a8f17",
             "organisationUnitName": "string",
