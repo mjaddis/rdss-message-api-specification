@@ -78,7 +78,7 @@
           "format": "email"
         },
         "personOrganisationUnit": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
+          "$ref": "#/definitions/organisationUnit"
         }
       },
       "required": [
