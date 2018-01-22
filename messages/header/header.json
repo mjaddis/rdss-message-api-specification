@@ -1,5 +1,5 @@
 {
-  "messageId": "string",
+  "messageId": "c677641b-c70e-4a7f-9807-ea20742c346e",
   "correlationId": "string",
   "messageClass": "Command",
   "messageType": "MetadataCreate",

@@ -6,7 +6,7 @@
       "type": "object",
       "properties": {
         "messageId": {
-          "type": "string"
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
         },
         "correlationId": {
           "type": "string"

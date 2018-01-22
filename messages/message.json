@@ -1,6 +1,6 @@
 {
   "messageHeader": {
-    "messageId": "string",
+    "messageId": "efac164a-c9bd-45e0-8991-1c505e4f45c2",
     "correlationId": "string",
     "messageClass": "Command",
     "messageType": "MetadataCreate",
