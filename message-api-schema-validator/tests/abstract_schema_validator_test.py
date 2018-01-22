@@ -1,5 +1,5 @@
 from json import load
-from jsonschema import validate, RefResolver
+from jsonschema import validate, FormatChecker, RefResolver
 from abc import ABCMeta, abstractmethod
 from sys import argv
 from unittest import TestCase
@@ -29,6 +29,10 @@ class AbstractSchemaValidatorTest(TestCase):
         (
             'https://www.jisc.ac.uk/rdss/schema/types.json/#',
             'schemas/types.json'
+        ),
+        (
+            'https://www.jisc.ac.uk/rdss/schema/messages/header/header_schema.json/#',
+            'messages/header/header_schema.json'
         )
     ]
 
@@ -57,7 +61,8 @@ class AbstractSchemaValidatorTest(TestCase):
                     schema_id: self.get_json(schema_path)
                     for schema_id, schema_path in self.schema_id_path_pairs
                 }
-            )
+            ),
+            format_checker=FormatChecker()
         )
 
     def get_json(self, file_name):
