@@ -14,7 +14,7 @@
         "objectPersonRole": {
           "type": "array",
           "items": {
-            "ref": "#/definitions/personRole"
+            "$ref": "#/definitions/personRole"
           },
           "minItems": 1
         },
