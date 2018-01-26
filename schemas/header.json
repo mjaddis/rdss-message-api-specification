@@ -1,0 +1,117 @@
+{
+  "id": "https://www.jisc.ac.uk/rdss/schema/messages/header/header_schema.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "header": {
+      "type": "object",
+      "properties": {
+        "messageId": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
+        },
+        "correlationId": {
+          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
+        },
+        "messageClass": {
+          "enum": [
+            "Command",
+            "Event",
+            "Document"
+          ]
+        },
+        "messageType": {
+          "enum": [
+            "MetadataCreate",
+            "MetadataUpdate",
+            "MetadataDelete",
+            "MetadataRead",
+            "VocabularyRead",
+            "VocabularyPatch"
+          ]
+        },
+        "returnAddress": {
+          "type": "string"
+        },
+        "messageTimings": {
+          "type": "object",
+          "properties": {
+            "publishedTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "expirationTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          "required": [
+            "publishedTimestamp",
+            "expirationTimestamp"
+          ],
+          "additionalProperties": false
+        },
+        "messageSequence": {
+          "type": "object",
+          "properties": {
+            "sequence": {
+              "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/uuid"
+            },
+            "position": {
+              "type": "integer"
+            },
+            "total": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "sequence",
+            "position",
+            "total"
+          ],
+          "additionalProperties": false
+        },
+        "messageHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "machineId": {
+                "type": "string"
+              },
+              "machineAddress": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              }
+            },
+            "required": [
+              "machineId",
+              "machineAddress",
+              "timestamp"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "version": {
+          "type": "string"
+        },
+        "errorCode": {
+          "type": "string"
+        },
+        "errorDescription": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "messageId",
+        "messageClass",
+        "messageType",
+        "messageTimings",
+        "messageSequence",
+        "version"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
