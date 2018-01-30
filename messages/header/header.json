@@ -1,6 +1,6 @@
 {
   "messageId": "c677641b-c70e-4a7f-9807-ea20742c346e",
-  "correlationId": "string",
+  "correlationId": "4501437a-ce95-4372-be5c-277cb6a826eb",
   "messageClass": "Command",
   "messageType": "MetadataCreate",
   "returnAddress": "string",
@@ -20,7 +20,7 @@
       "timestamp": "2004-08-01T10:00:00-00:00"
     }
   ],
-  "version": "",
+  "version": "1.2.3-pre.release-1+bui.ld-2",
   "errorCode": "GENERR001",
   "errorDescription": "string"
 }

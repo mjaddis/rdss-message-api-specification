@@ -32,7 +32,7 @@ class AbstractSchemaValidatorTest(TestCase):
         ),
         (
             'https://www.jisc.ac.uk/rdss/schema/messages/header/header_schema.json/#',
-            'messages/header/header_schema.json'
+            'schemas/header.json'
         )
     ]
 
