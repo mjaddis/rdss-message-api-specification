@@ -23,7 +23,8 @@
     ],
     "version": "1.2.3",
     "errorCode": "GENERR001",
-    "errorDescription": "string"
+    "errorDescription": "string",
+    "generator": "string"
   },
   "messageBody": {
     "objectUuid": "5680e8e0-28a5-4b20-948e-fd0d08781e0b",

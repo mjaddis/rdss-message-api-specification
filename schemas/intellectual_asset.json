@@ -28,6 +28,7 @@
         },
         "fileChecksum": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/checksum"
           },
@@ -44,6 +45,7 @@
         },
         "fileDateModified": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/date"
           },
@@ -51,6 +53,7 @@
         },
         "filePuid": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
@@ -62,6 +65,7 @@
         },
         "filePreservationEvent": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/preservationEvent"
           },
@@ -82,6 +86,7 @@
         },
         "fileTechnicalAttributes": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
@@ -234,6 +239,7 @@
         },
         "groupFilePermission": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/filePermission"
           },
@@ -241,6 +247,7 @@
         },
         "groupMembers": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/material_asset.json/#/definitions/person"
           }
@@ -293,6 +300,7 @@
         },
         "projectIdentifier": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           },
@@ -306,6 +314,7 @@
         },
         "projectCollection": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "https://www.jisc.ac.uk/rdss/schema/research_object.json/#/definitions/collection"
           },
@@ -313,6 +322,7 @@
         },
         "projectGroup": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/group"
           },
@@ -320,6 +330,7 @@
         },
         "projectGrant": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/grant"
           }
