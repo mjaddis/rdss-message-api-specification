@@ -36,7 +36,7 @@ Including application developers and vendors responsible for delivering code and
 
 #### Versioning
 
-- Specification version:&nbsp;&nbsp;`1.4.0`
+- Specification version:&nbsp;&nbsp;`1.4.1-SNAPSHOT`
 - Data model version:&nbsp;&nbsp;&nbsp; [`2.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/2.0.0)
 
 Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
@@ -276,6 +276,13 @@ The value **MUST** be one of the error codes defined in the [Error Codes](#error
 - Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
 
 A free text field that clients and applications **SHOULD** populate with a meaningful description of the error that occurred when a message is moved to the Invalid Message Queue or Error Message Queue.
+
+### `generator`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+The identifier of the application that generated the message.
 
 ## Message Body
 

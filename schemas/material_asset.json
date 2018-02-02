@@ -36,6 +36,7 @@
         },
         "personIdentifier": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "$ref": "#/definitions/personIdentifier"
           },
@@ -43,23 +44,23 @@
         },
         "personEntitlement": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "type": "integer",
             "minimum": 1,
             "maximum": 22
           },
-          "minItems": 1,
-          "uniqueItems": true
+          "minItems": 1
         },
         "personAffiliation": {
           "type": "array",
+          "uniqueItems": true,
           "items": {
             "type": "integer",
             "minimum": 1,
             "maximum": 8
           },
-          "minItems": 1,
-          "uniqueItems": true
+          "minItems": 1
         },
         "personGivenName": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
@@ -78,7 +79,7 @@
           "format": "email"
         },
         "personOrganisationUnit": {
-          "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
+          "$ref": "#/definitions/organisationUnit"
         }
       },
       "required": [

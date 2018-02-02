@@ -1,7 +1,7 @@
 {
   "messageHeader": {
-    "messageId": "string",
-    "correlationId": "string",
+    "messageId": "efac164a-c9bd-45e0-8991-1c505e4f45c2",
+    "correlationId": "4501437a-ce95-4372-be5c-277cb6a826eb",
     "messageClass": "Command",
     "messageType": "MetadataCreate",
     "returnAddress": "string",
@@ -17,13 +17,14 @@
     "messageHistory": [
       {
         "machineId": "string",
-        "machineAddress": "string",
+        "machineAddress": "machine.example.com",
         "timestamp": "2004-08-01T10:00:00-00:00"
       }
     ],
-    "version": "",
+    "version": "1.2.3",
     "errorCode": "GENERR001",
-    "errorDescription": "string"
+    "errorDescription": "string",
+    "generator": "string"
   },
   "messageBody": {
     "objectUuid": "5680e8e0-28a5-4b20-948e-fd0d08781e0b",
@@ -48,7 +49,7 @@
           "personCn": "string",
           "personSn": "string",
           "personTelephoneNumber": "string",
-          "personMail": "string",
+          "personMail": "person@net",
           "personOrganisationUnit": {
             "organisationUnitUuid": "28be7f16-0e70-461f-a2db-d9d7c64a8f17",
             "organisationUnitName": "string",

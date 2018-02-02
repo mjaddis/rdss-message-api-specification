@@ -77,6 +77,23 @@
         "URN"
       ]
     },
+    "messageClass": {
+      "enum": [
+        "Command",
+        "Event",
+        "Document"
+      ]
+    },
+    "messageType": {
+      "enum": [
+        "MetadataCreate",
+        "MetadataUpdate",
+        "MetadataDelete",
+        "MetadataRead",
+        "VocabularyRead",
+        "VocabularyPatch"
+      ]
+    },
     "objectValue": {
       "enum": [
         "normal",
