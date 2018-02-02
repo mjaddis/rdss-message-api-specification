@@ -277,6 +277,13 @@ The value **MUST** be one of the error codes defined in the [Error Codes](#error
 
 A free text field that clients and applications **SHOULD** populate with a meaningful description of the error that occurred when a message is moved to the Invalid Message Queue or Error Message Queue.
 
+### `generator`
+
+- Multiplicity:&nbsp;&nbsp;&nbsp;&nbsp;`1`
+- Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;`String`
+
+The identifier of the application that generated the message.
+
 ## Message Body
 
 ### JSON Schema

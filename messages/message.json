@@ -17,13 +17,14 @@
     "messageHistory": [
       {
         "machineId": "string",
-        "machineAddress": "string",
+        "machineAddress": "machine.example.com",
         "timestamp": "2004-08-01T10:00:00-00:00"
       }
     ],
     "version": "1.2.3",
     "errorCode": "GENERR001",
-    "errorDescription": "string"
+    "errorDescription": "string",
+    "generator": "string"
   },
   "messageBody": {
     "objectUuid": "5680e8e0-28a5-4b20-948e-fd0d08781e0b",
