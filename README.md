@@ -313,25 +313,29 @@ The following example Message payloads are provided in the [`messages/body/`](me
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
-### Message Identification
+## Digital Objects
 
-Every dataset published by a producer **MUST** contain a unique `objectUuid` field. This field uniquely identifies a specific datatset under a specific version, and **MUST NOT** be duplicated when publishing subsequent versions of the same dataset.
+The following section applies to the management of digital objects, which form the core of metadata payloads.
 
-## Object Versioning
+### Digital Object Identification
 
-Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to fields of that Message and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
+Every digital object published by a producer **MUST** contain a unique `objectUuid` field. This field uniquely identifies a specific digital object under a specific version, and **MUST NOT** be duplicated when publishing subsequent versions of the same digital object.
 
-A dataset **MUST** generate a new version when any file or property of the dataset is altered, and in such circumstances the `Update` version of the appropriate Message is used to distribute the updated payload.
+### Digital Object Versioning
 
-It is the decision of to the consuming application to decide what constitutes a major and a minor change to a dataset. For example, the following rules **MAY** be adopted by a consumer to determine what constitutes a major change:
+Digital objects **MAY** have a version associated with them. Versioning allows both producers and consumers of Messages to identify changes to the fields of a digital object and thus allow those changes to be persisted and / or processed in addition to previous versions of that digital object.
 
-- A modification to the title of the dataset / deposit.
+A digital object **MUST** generate a new version when any file or property of the digital object is altered, and in such circumstances the `MetadataUpdate` type is used to distribute the updated digital object(s).
+
+It is the decision of to the consuming application to decide what constitutes a major and a minor change to a digital object. For example, the following rules **MAY** be adopted by a consumer to determine what constitutes a major change:
+
+- A modification to the title of the digital object / deposit.
 - A modification to any part of a file or its associated metadata, such that the modification would cause a different checksum to be generated for that file.
 - A modification to a collection of files or its associated metadata, even if that modifies simply reorders existing files.
 
-In order to communicate a new version of a dataset to consuming applications, the producer **MUST** utilise the `objectRelatedIdentifier` field of the payload, with a relationship type of `isNewVersionOf` and a reference to the previous versions `objectUuid` value.
+In order to communicate a new version of a digital object to consuming applications, the producer **MUST** utilise the `objectRelatedIdentifier` field of the payload, with a relationship type of `isNewVersionOf` and a reference to the previous versions `objectUuid` value.
 
-When republishing a previously published dataset, a producer **MAY** also choose to utilise the `objectRelatedIdentifier` field with a relationship type of `isPreviousVersionOf`. This functionality may be used by consumers who underwent an outage, and are attempting to "catch up" with missed Messages.
+When republishing a previously published digital object, a producer **MAY** also choose to utilise the `objectRelatedIdentifier` field with a relationship type of `isPreviousVersionOf`. This functionality may be used by consumers who underwent an outage, and are attempting to "catch up" with missed Messages.
 
 ## Message Triggers
 
