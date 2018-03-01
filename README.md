@@ -343,10 +343,7 @@ The following describes the expected behaviour of applications which publish Mes
 
 ### Metadata Create
 
-A `MetadataCreate` Message **MUST** be sent when either:
-
-- A new work or item is created within the originating application; or
-- A significant change to the work item is executed, such as changing the title or adding / removing files.
+A `MetadataCreate` Message **MUST** be sent when a new work or item is created within the originating application.
 
 Typically, applications include a workflow or curation process which requires a final approval step before the uploaded work or item is published.
 
@@ -354,7 +351,7 @@ Typically, applications include a workflow or curation process which requires a 
 
 ### Metadata Update
 
-A `MetadataUpdate` Message **MUST** be sent when a minor modification is made to an item or work within the originating application. This can include for example spelling and grammatical changes to free text metadata text.
+A `MetadataUpdate` Message **MUST** be sent when a modification is made to an item or work within the originating application, and **MUST** include the entire digital object (i.e. it **MUST NOT** include only the changed fields / files).
 
 Typically, applications include a workflow or curation process which requires a final approval step before the modified work or item is published.
 
