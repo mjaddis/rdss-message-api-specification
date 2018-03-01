@@ -313,19 +313,25 @@ The following example Message payloads are provided in the [`messages/body/`](me
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
+### Message Identification
+
+Every dataset published by a producer **MUST** contain a unique `objectUuid` field. This field uniquely identifies a specific datatset under a specific version, and **MUST NOT** be duplicated when publishing subsequent versions of the same dataset.
+
 ## Object Versioning
 
 Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to significant fields and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
 
-A dataset **MUST** only generate a new version when a _significant field_ is altered. In the event that a new version is generated, a `Create` version of the appropriate Message **MUST** be sent. Modifications that do not result in a new version being generated **MUST** be communicated using the respective `Update` version of the appropriate Message.
+A dataset **MUST** generate a new version when any file or property of the dataset is altered, and in such circumstances the `Update` version of the appropriate Message is used to distribute the updated payload.
 
-At present, the following describes the exhaustive list of significant fields:
+It is up to the consuming application to decide what constitutes a major and a minor change to a dataset. For example, the following rules **MAY** be adopted by a consumer to determine what constitutes a major change:
 
 - A modification to the title of the dataset / deposit.
 - A modification to any part of a file or its associated metadata, such that the modification would cause a different checksum to be generated for that file.
 - A modification to a collection of files or its associated metadata, even if that modifies simply reorders existing files.
 
-Versioning is currently delivered in the form of a whole number, e.g. `1`, `2`, `3`, etc.
+In order to communicate a new version of a dataset to consuming applications, the producer **MUST** utilise the `objectRelatedIdentifier` field of the payload, with a relationship type of `isNewVersionOf` and a reference to the previous versions `objectUuid` value.
+
+When republishing a previously published dataset, a producer **MAY** also choose to utilise the `objectRelatedIdentifier` field with a relationship type of `isPreviousVersionOf`. This functionality may be used by consumers who underwent an outage, and are attempting to "catch up" with missed Messages.
 
 ## Message Triggers
 
