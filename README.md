@@ -319,11 +319,11 @@ Every dataset published by a producer **MUST** contain a unique `objectUuid` fie
 
 ## Object Versioning
 
-Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to significant fields and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
+Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to fields of that Message and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
 
 A dataset **MUST** generate a new version when any file or property of the dataset is altered, and in such circumstances the `Update` version of the appropriate Message is used to distribute the updated payload.
 
-It is up to the consuming application to decide what constitutes a major and a minor change to a dataset. For example, the following rules **MAY** be adopted by a consumer to determine what constitutes a major change:
+It is the decision of to the consuming application to decide what constitutes a major and a minor change to a dataset. For example, the following rules **MAY** be adopted by a consumer to determine what constitutes a major change:
 
 - A modification to the title of the dataset / deposit.
 - A modification to any part of a file or its associated metadata, such that the modification would cause a different checksum to be generated for that file.
