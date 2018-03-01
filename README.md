@@ -313,19 +313,29 @@ The following example Message payloads are provided in the [`messages/body/`](me
 
 In all instances where a response is required, the [`correlationId`](#correlationid) **MUST** be provided in the header of the Message and **MUST** match the [`messageId`](#messageid) provided in the original request.
 
-## Object Versioning
+## Digital Objects
 
-Digital objects embedded within a payload **MAY** have version data associated with them. Versioning allows both producers and consumers of Messages to identify changes to significant fields and thus allow those changes to be persisted and / or processed in addition to previous versions of that dataset.
+The following section applies to the management of digital objects, which form the core of metadata payloads.
 
-A dataset **MUST** only generate a new version when a _significant field_ is altered. In the event that a new version is generated, a `Create` version of the appropriate Message **MUST** be sent. Modifications that do not result in a new version being generated **MUST** be communicated using the respective `Update` version of the appropriate Message.
+### Digital Object Identification
 
-At present, the following describes the exhaustive list of significant fields:
+Every digital object published by a producer **MUST** contain a unique `objectUuid` field. This field uniquely identifies a specific digital object under a specific version, and **MUST NOT** be duplicated when publishing subsequent versions of the same digital object.
 
-- A modification to the title of the dataset / deposit.
+### Digital Object Versioning
+
+Digital objects **MAY** have a version associated with them. Versioning allows both producers and consumers of Messages to identify changes to the fields of a digital object and thus allow those changes to be persisted and / or processed in addition to previous versions of that digital object.
+
+A digital object **MUST** generate a new version when any file or property of the digital object is altered, and in such circumstances the `MetadataUpdate` type is used to distribute the updated digital object(s).
+
+It is the decision of to the consuming application to decide what constitutes a major and a minor change to a digital object. For example, the following rules **MAY** be adopted by a consumer to determine what constitutes a major change:
+
+- A modification to the title of the digital object / deposit.
 - A modification to any part of a file or its associated metadata, such that the modification would cause a different checksum to be generated for that file.
 - A modification to a collection of files or its associated metadata, even if that modifies simply reorders existing files.
 
-Versioning is currently delivered in the form of a whole number, e.g. `1`, `2`, `3`, etc.
+In order to communicate a new version of a digital object to consuming applications, the producer **MUST** utilise the `objectRelatedIdentifier` field of the payload, with a relationship type of `isNewVersionOf` and a reference to the previous versions `objectUuid` value.
+
+When republishing a previously published digital object, a producer **MAY** also choose to utilise the `objectRelatedIdentifier` field with a relationship type of `isPreviousVersionOf`. This functionality may be used by consumers who underwent an outage, and are attempting to "catch up" with missed Messages.
 
 ## Message Triggers
 
@@ -333,10 +343,7 @@ The following describes the expected behaviour of applications which publish Mes
 
 ### Metadata Create
 
-A `MetadataCreate` Message **MUST** be sent when either:
-
-- A new work or item is created within the originating application; or
-- A significant change to the work item is executed, such as changing the title or adding / removing files.
+A `MetadataCreate` Message **MUST** be sent when a new work or item is created within the originating application.
 
 Typically, applications include a workflow or curation process which requires a final approval step before the uploaded work or item is published.
 
@@ -344,7 +351,7 @@ Typically, applications include a workflow or curation process which requires a 
 
 ### Metadata Update
 
-A `MetadataUpdate` Message **MUST** be sent when a minor modification is made to an item or work within the originating application. This can include for example spelling and grammatical changes to free text metadata text.
+A `MetadataUpdate` Message **MUST** be sent when a modification is made to an item or work within the originating application, and **MUST** include the entire digital object (i.e. it **MUST NOT** include only the changed fields / files).
 
 Typically, applications include a workflow or curation process which requires a final approval step before the modified work or item is published.
 
