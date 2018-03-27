@@ -478,6 +478,7 @@ The following sections describe the error codes that **MUST** be utilised when a
 | `APPERRMET001` | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
 | `APPERRMET002` | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
 | `APPERRMET003` | Received a Metadata `READ` with a `datasetUuid` that does not exist.   |
+| `APPERRMET004` | Received an invalid checksum for a file provided within the payload.   |
 
 #### Vocabulary Error Codes
 
