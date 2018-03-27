@@ -11,16 +11,10 @@
             "personIdentifierType": 1
           }
         ],
-        "personEntitlement": [
-          1
-        ],
-        "personAffiliation": [
-          1
-        ],
-        "personGivenName": "string",
-        "personCn": "string",
-        "personSn": "string",
-        "personTelephoneNumber": "string",
+        "personHonorificPrefix": "string",
+        "personGivenNames": "string",
+        "personFamilyNames": "string",
+        "personHonorificSuffix": "string",
         "personMail": "person@net",
         "personOrganisationUnit": {
           "organisationUnitUuid": "28be7f16-0e70-461f-a2db-d9d7c64a8f17",
@@ -37,28 +31,26 @@
     }
   ],
   "objectDescription": "string",
-  "objectRights": [
-    {
-      "rightsStatement": [
-        "string"
-      ],
-      "rightsHolder": [
-        "string"
-      ],
-      "licence": [
-        {
-          "licenceName": "string",
-          "licenceIdentifier": "string"
-        }
-      ],
-      "access": [
-        {
-          "accessType": 1,
-          "accessStatement": "string"
-        }
-      ]
-    }
-  ],
+  "objectRights": {
+    "rightsStatement": [
+      "string"
+    ],
+    "rightsHolder": [
+      "string"
+    ],
+    "licence": [
+      {
+        "licenceName": "string",
+        "licenceIdentifier": "string"
+      }
+    ],
+    "access": [
+      {
+        "accessType": 1,
+        "accessStatement": "string"
+      }
+    ]
+  },
   "objectDate": [
     {
       "dateValue": "2002-10-02T10:00:00-05:00",
@@ -76,14 +68,15 @@
   "objectIdentifier": [
     {
       "identifierValue": "string",
-      "identifierType": 1,
-      "relationType": 1
+      "identifierType": 1
     }
   ],
   "objectRelatedIdentifier": [
     {
-      "identifierValue": "string",
-      "identifierType": 1,
+      "identifier": {
+        "identifierValue": "string",
+        "identifierType": 1
+      },
       "relationType": 1
     }
   ],
@@ -112,10 +105,7 @@
       "fileName": "string",
       "fileSize": 1,
       "fileLabel": "string",
-      "fileDateCreated": {
-        "dateValue": "2002-10-02T10:00:00-05:00",
-        "dateType": 1
-      },
+      "fileDateCreated": "2002-10-02T10:00:00-05:00",
       "fileRights": {
         "rightsStatement": [
           "string"
@@ -147,10 +137,7 @@
       "fileCompositionLevel": "string",
       "fileHasMimeType": true,
       "fileDateModified": [
-        {
-          "dateValue": "2002-10-02T10:00:00-05:00",
-          "dateType": 1
-        }
+        "2002-10-02T10:00:00-05:00"
       ],
       "filePuid": [
         "string"
@@ -165,10 +152,7 @@
       ],
       "fileUploadStatus": 1,
       "fileStorageStatus": 1,
-      "fileLastDownloaded": {
-        "dateValue": "2002-10-02T10:00:00-05:00",
-        "dateType": 1
-      },
+      "fileLastDownloaded": "2002-10-02T10:00:00-05:00",
       "fileTechnicalAttributes": [
         "string"
       ],
