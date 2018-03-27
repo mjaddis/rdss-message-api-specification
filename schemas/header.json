@@ -64,8 +64,7 @@
         }
       },
       "required": [
-        "publishedTimestamp",
-        "expirationTimestamp"
+        "publishedTimestamp"
       ],
       "additionalProperties": false
     },
