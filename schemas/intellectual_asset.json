@@ -15,7 +15,8 @@
           "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
         },
         "fileSize": {
-          "type": "integer"
+          "type": "integer",
+          "minimum": 0
         },
         "fileLabel": {
           "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"

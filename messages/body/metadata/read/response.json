@@ -41,7 +41,9 @@
     "licence": [
       {
         "licenceName": "string",
-        "licenceIdentifier": "string"
+        "licenceIdentifier": "string",
+        "licenseStartDate": "2018-01-01T00:00:00-00:00",
+        "licenseEndDate": "2018-12-31T23:59:59-00:00"
       }
     ],
     "access": [
@@ -116,7 +118,9 @@
         "licence": [
           {
             "licenceName": "string",
-            "licenceIdentifier": "string"
+            "licenceIdentifier": "string",
+            "licenseStartDate": "2018-01-01T00:00:00-00:00",
+            "licenseEndDate": "2018-12-31T23:59:59-00:00"
           }
         ],
         "access": [
