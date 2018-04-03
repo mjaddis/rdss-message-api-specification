@@ -37,7 +37,7 @@ Including application developers and vendors responsible for delivering code and
 #### Versioning
 
 - Specification version:&nbsp;&nbsp;`2.1.1-SNAPSHOT`
-- Data model version:&nbsp;&nbsp;&nbsp; [`2.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/2.0.0)
+- Data model version:&nbsp;&nbsp;&nbsp; [`3.0.0`](https://github.com/JiscRDSS/rdss-canonical-data-model/tree/3.0.0)
 
 Releases of this specification can be found under [Releases](https://github.com/JiscRDSS/rdss-message-api-docs/releases). Vendors **MUST** implement against a release - all other branches are considered in a constant state of flux and **MAY** change at any time.
 
@@ -478,6 +478,7 @@ The following sections describe the error codes that **MUST** be utilised when a
 | `APPERRMET001` | Received a Metadata `UPDATE` with a `datasetUuid` that does not exist. |
 | `APPERRMET002` | Received a Metadata `DELETE` with a `datasetUuid` that does not exist. |
 | `APPERRMET003` | Received a Metadata `READ` with a `datasetUuid` that does not exist.   |
+| `APPERRMET004` | Received an invalid checksum for a file provided within the payload.   |
 
 #### Vocabulary Error Codes
 
