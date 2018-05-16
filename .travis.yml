@@ -3,13 +3,6 @@ language: python
 python:
   - "3.6"
 
-addons:
-  apt:
-    sources:
-    - debian-sid
-    packages:
-    - shellcheck
-
 before_install:
   - sudo apt-get update -yqq
 
