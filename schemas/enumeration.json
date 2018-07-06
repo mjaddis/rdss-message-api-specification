@@ -271,7 +271,7 @@
         "website",
         "workflow",
         "equipment",
-	"archiveInformationPackage"
+	"informationPackage"
       ]
     },
     "storageStatus": {
