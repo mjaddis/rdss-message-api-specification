@@ -1,0 +1,122 @@
+{
+  "objectUuid": "5680e8e0-28a5-4b20-948e-fd0d08781e0b",
+  "objectTitle": "string",
+  "objectPersonRole": [
+    {
+      "person": {
+        "personUuid": "27811a4c-9cb5-4e6d-a069-5c19288fae58",
+        "personIdentifier": [
+          {
+            "personIdentifierValue": "string",
+            "personIdentifierType": 1
+          }
+        ],
+        "personHonorificPrefix": "string",
+        "personGivenNames": "string",
+        "personFamilyNames": "string",
+        "personHonorificSuffix": "string",
+        "personMail": "person@net",
+        "personOrganisationUnit": {
+          "organisationUnitUuid": "28be7f16-0e70-461f-a2db-d9d7c64a8f17",
+          "organisationUnitName": "string",
+          "organisation": {
+            "organisationJiscId": 1,
+            "organisationName": "string",
+            "organisationType": 1,
+            "organisationAddress": "string"
+          }
+        }
+      },
+      "role": 6
+    }
+  ],
+  "objectDescription": "string",
+  "objectRights": {
+    "rightsStatement": [
+      "string"
+    ],
+    "rightsHolder": [
+      "string"
+    ],
+    "licence": [
+      {
+        "licenceName": "string",
+        "licenceIdentifier": "string",
+        "licenseStartDate": "2018-01-01T00:00:00-00:00",
+        "licenseEndDate": "2018-12-31T23:59:59-00:00"
+      }
+    ],
+    "access": [
+      {
+        "accessType": 1,
+        "accessStatement": "string"
+      }
+    ]
+  },
+  "objectDate": [
+    {
+      "dateValue": "2002-10-02T10:00:00-05:00",
+      "dateType": 1
+    }
+  ],
+  "objectKeywords": [
+    "string"
+  ],
+  "objectCategory": [
+    "string"
+  ],
+  "objectResource": [
+    { 
+      "informationPackageType": "AIP",
+      "informationPackageContainerType": "zip",
+      "informationPackageDescription": "produced by Archivematica"
+    }
+  ],
+  "objectResourceType": 28,
+  "objectValue": 1,
+  "objectIdentifier": [
+    {
+      "identifierValue": "AIP_URL",
+      "identifierType": 18
+    },
+    {
+      "identifierValue": "AIP_UUID",
+      "identifierType": 20
+    }
+  ],
+  "objectRelatedIdentifier": [
+    {
+      "identifier": {
+        "identifierValue": "Original_Datatset_UUID",
+        "identifierType": 18
+      },
+      "relationType": 38
+    },
+    {
+      "identifier": {
+        "identifierValue": "Original_Datatset_DOI",
+        "identifierType": 4
+      },
+      "relationType": 38
+    }
+  ],
+  "objectOrganisationRole": [
+    {
+      "organisation": {
+        "organisationJiscId": 1,
+        "organisationName": "string",
+        "organisationType": 1,
+        "organisationAddress": "string"
+      },
+      "role": 1
+    }
+  ],
+  "objectPreservationEvent": [
+    {
+      "preservationEventValue": "string",
+      "preservationEventType": 19,
+      "preservationEventDetail": "string"
+    }
+  ]
+}
+
