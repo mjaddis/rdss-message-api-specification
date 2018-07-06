@@ -245,7 +245,8 @@
         "unknown",
         "website",
         "workflow",
-        "equipment"
+        "equipment",
+	"archiveInformationPackage"
       ]
     },
     "storageStatus": {

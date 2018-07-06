@@ -50,7 +50,7 @@
         "objectResourceType": {
           "type": "integer",
           "minimum": 1,
-          "maximum": 27
+          "maximum": 28
         },
         "objectValue": {
           "type": "integer",
