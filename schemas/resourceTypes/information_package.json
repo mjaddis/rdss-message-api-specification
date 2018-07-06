@@ -1,0 +1,43 @@
+{
+  "id": "https://www.jisc.ac.uk/rdss/schema/archive_information_package.json/#",
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "Information Package Resource Type",
+  "definitions": {
+    "informationPackageType": {
+      "type": "string",
+      "enum": [
+        "SIP",
+        "AIP",
+        "DIP"
+      ]
+    },
+    "informationPackageContainerType": {
+      "type": "string",
+      "enum": [
+        "zip",
+        "none"
+      ]
+    },
+    "informationPackageDescription": {
+      "type": "string"
+    }
+  },
+  "title": "Information Package",
+  "type": "object",
+  "properties": {
+    "informationPackageType": {
+      "$ref": "https://www.jisc.ac.uk/rdss/schema/archive_information_package.json/#/definitions/informationPackageType"
+    },
+    "informationPackageContainerType": {
+      "$ref": "https://www.jisc.ac.uk/rdss/schema/archive_information_package.json/#/definitions/informationPackageContainerType"
+    },
+    "informationPackageDescription": {
+      "$ref": "https://www.jisc.ac.uk/rdss/schema/archive_information_package.json/#/definitions/informationPackageDescription"
+    }
+  },
+  "required": [
+    "informationPackageType",
+    "informationPackageContainerType",
+    "informationPackageDescription"
+  ]
+}
