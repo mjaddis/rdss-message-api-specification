@@ -214,7 +214,8 @@
         "requires",
         "isRequiredBy",
         "hasParent",
-        "isParentOf"
+        "isParentOf",
+        "isAIPOf"
       ]
     },
     "resourceType": {
