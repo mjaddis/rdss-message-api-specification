@@ -47,6 +47,16 @@
             "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
+        "objectResource": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+               "$ref": "https://www.jisc.ac.uk/rdss/schema/archive_information_package.json/#"
+              }
+            ]
+          }
+        },
         "objectResourceType": {
           "type": "integer",
           "minimum": 1,
