@@ -62,7 +62,8 @@
         "SourceID",
         "UPC",
         "URL",
-        "URN"
+        "URN",
+        "UUID"
       ]
     },
     "messageClass": {
