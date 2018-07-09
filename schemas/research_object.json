@@ -47,12 +47,12 @@
             "$ref": "https://www.jisc.ac.uk/rdss/schema/types.json/#/definitions/nonEmptyString"
           }
         },
-        "objectResource": {
+        "objectResourceProfile": {
           "type": "array",
           "items": {
             "anyOf": [
               {
-               "$ref": "https://www.jisc.ac.uk/rdss/schema/archive_information_package.json/#"
+               "$ref": "https://www.jisc.ac.uk/rdss/schema/resource_profiles/information_package.json/#"
               }
             ]
           }

@@ -20,6 +20,6 @@ ajv validate -s messages/body/preservation/create/request_schema.json \
 -r schemas/enumeration.json \
 -r schemas/material_asset.json \
 -r schemas/intellectual_asset.json \
--r schemas/resourceTypes/information_package.json \
+-r schemas/resource_profiles/information_package.json \
 -d messages/body/preservation/create/request.json
 ```

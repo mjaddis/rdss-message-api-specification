@@ -65,7 +65,7 @@
   "objectCategory": [
     "string"
   ],
-  "objectResource": [
+  "objectResourceProfile": [
     { 
       "informationPackageType": "AIP",
       "informationPackageContainerType": "zip",
