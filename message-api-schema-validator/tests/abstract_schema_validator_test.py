@@ -34,7 +34,7 @@ class AbstractSchemaValidatorTest(TestCase):
             'https://www.jisc.ac.uk/rdss/schema/header.json/#',
             'schemas/header.json'
         ),
-	(
+        (
             'https://www.jisc.ac.uk/rdss/schema/resource_profiles/information_package.json/#',
             'schemas/resource_profiles/information_package.json'
         )

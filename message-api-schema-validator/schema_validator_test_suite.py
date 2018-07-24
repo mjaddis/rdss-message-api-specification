@@ -24,7 +24,7 @@ def suite():
     suite.addTest(MessageHeaderTest())
 
     suite.addTest(MessageTest())
-    
+
     suite.addTest(PreservationCreateRequestTest())
 
     return suite
